@@ -1,0 +1,73 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = GadgetHubWeb
+build_property.RootNamespace = GadgetHubWeb
+build_property.ProjectDir = C:\Users\ASUS Vivobook\OneDrive - MSFT\Higher Diploma\4TH SEM\Assignments\SOC\Downloads\st20315142_CSE5013_WRIT1\GadgetHub\GadgetHubWeb\GadgetHubWeb\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\ASUS Vivobook\OneDrive - MSFT\Higher Diploma\4TH SEM\Assignments\SOC\Downloads\st20315142_CSE5013_WRIT1\GadgetHub\GadgetHubWeb\GadgetHubWeb
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 8.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/AdminDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5EYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/Cart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2FydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/Checkout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hlY2tvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29udGFjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/OrderTracking.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJUcmFja2luZy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/ProductDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/Products.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ASUS Vivobook/OneDrive - MSFT/Higher Diploma/4TH SEM/Assignments/SOC/Downloads/st20315142_CSE5013_WRIT1/GadgetHub/GadgetHubWeb/GadgetHubWeb/Pages/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

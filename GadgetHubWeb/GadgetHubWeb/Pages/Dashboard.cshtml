@@ -1,0 +1,2382 @@
+@page
+@model GadgetHubWeb.Pages.DashboardModel
+@{
+    ViewData["Title"] = "Dashboard - GadgetHub";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>@ViewData["Title"]</title>
+    <!-- Cache Bust: @DateTime.Now.Ticks -->
+    <link rel="stylesheet" href="~/css/dashboard.css?v=@DateTime.Now.Ticks" />
+    <link rel="stylesheet" href="~/css/admin-sidebar.css?v=@DateTime.Now.Ticks" />
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="logo">
+            <img src="~/assets/logo.png" alt="GadgetHub Logo" />
+            <span>GadgetHub</span>
+        </div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav" id="nav">
+            <a href="/Index" title="Home - Go to main page">Home</a>
+            <a href="/Products" title="Products - Browse our product catalog">Products</a>
+            <a href="/Contact" title="Contact - Get in touch with us">Contact</a>
+            <a href="/Cart" class="cart-link" title="Shopping Cart - Review your selected items">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount" style="display: none;">0</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- User Sidebar -->
+    <div class="admin-sidebar" id="adminSidebar">
+        <!-- Profile Picture -->
+        <div class="sidebar-profile" id="sidebarProfile" onclick="closeSidebarAndRedirectHome()" style="cursor: pointer;" title="Profile">
+            <!-- Profile image will be dynamically generated here -->
+        </div>
+        
+        <nav class="sidebar-nav">
+            <!-- Dashboard Overview -->
+            <div class="sidebar-item active" onclick="showDashboardOverview()" data-label="Dashboard" title="Dashboard">
+                <i class="fas fa-home sidebar-icon"></i>
+            </div>
+
+            <!-- Orders -->
+            <div class="sidebar-item" onclick="openOrdersSection()" data-label="Orders" title="Orders">
+                <i class="fas fa-clipboard-list sidebar-icon"></i>
+            </div>
+
+            <!-- Order Tracking -->
+            <div class="sidebar-item" onclick="openOrderTracking()" data-label="Order Tracking" title="Order Tracking">
+                <i class="fas fa-box-open sidebar-icon"></i>
+            </div>
+
+            <!-- Notifications -->
+            <div class="sidebar-item" onclick="openNotifications()" data-label="Notifications" title="Notifications">
+                <i class="fas fa-bell sidebar-icon"></i>
+            </div>
+
+            <!-- Wishlist -->
+            <div class="sidebar-item" onclick="openWishlistSection()" data-label="Wishlist" title="Wishlist">
+                <i class="fas fa-heart sidebar-icon"></i>
+            </div>
+
+            <!-- Account Settings -->
+            <div class="sidebar-item" onclick="openAccountSettings()" data-label="Account" title="Settings">
+                <i class="fas fa-user-cog sidebar-icon"></i>
+            </div>
+
+
+            <!-- Logout -->
+            <div class="sidebar-item logout" onclick="logout()" data-label="Logout" title="Logout">
+                <i class="fas fa-sign-out-alt sidebar-icon"></i>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button class="mobile-sidebar-toggle" onclick="toggleSidebar()" title="Menu - Open navigation menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar Backdrop for Mobile -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+
+    <!-- User Dashboard Content -->
+    <div class="dashboard-page admin-dashboard">
+        <div class="container">
+            <div class="dashboard-content">
+
+                <!-- Dashboard Overview Section -->
+                <div class="dashboard-section" id="dashboardOverview" style="display: block;">
+                    <div class="dashboard-header">
+                        <div class="header-content">
+                            <div class="welcome-text">
+                                <h1>Welcome to Your Dashboard</h1>
+                                <p>Manage your account, orders, and preferences</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-content">
+
+            <!-- Success Message Banner (shown after registration) -->
+            <div class="success-banner" id="successBanner" style="display: none;">
+                <div class="success-content">
+                    <div class="success-icon">✓</div>
+                    <div class="success-text">
+                        <h3>Welcome to GadgetHub!</h3>
+                        <p>Your account has been created successfully. Start exploring our amazing gadgets!</p>
+                    </div>
+                    <button class="close-banner" onclick="closeSuccessBanner()">×</button>
+                </div>
+            </div>
+
+                        <div class="stats-row">
+                            <div class="stat-box">
+                                <div class="stat-amount" id="totalOrders">0</div>
+                                <div class="stat-text">Total Orders</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-amount" id="totalSpent">LKR 0</div>
+                                <div class="stat-text">Total Spent</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-amount" id="loyaltyPoints">0</div>
+                                <div class="stat-text">Loyalty Points</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-amount" id="activeOrders">0</div>
+                                <div class="stat-text">Active Orders</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Individual Dashboard Sections -->
+                    <!-- Orders Section -->
+                    <div class="dashboard-section" id="ordersSection" style="display: none;">
+                        <div class="section-header" onclick="goBackToDashboard()">
+                            <h2>Recent Orders</h2>
+                            <button class="close-section" onclick="closeDetailedSection()">�</button>
+                        </div>
+                        <div class="orders-list" id="recentOrders">
+                            <div class="no-orders">
+                                <p>No orders yet. <a href="/Products">Start shopping!</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Tracking Section -->
+                    <div class="dashboard-section" id="orderTrackingSection" style="display: none;">
+                        <div class="section-header" onclick="goBackToDashboard()">
+                            <h2><i class="fas fa-box-open"></i> Order Tracking</h2>
+                            <button class="close-section" onclick="closeDetailedSection()">×</button>
+                        </div>
+                        <div class="order-tracking-content">
+                            <div class="tracking-description">
+                                <p>Stay updated on your recent orders, including real-time status, estimated delivery dates, and comprehensive order details.</p>
+                            </div>
+                            <div class="tracking-interface">
+                                <div class="input-group">
+                                    <label for="trackingOrderNumber">Enter your order number:</label>
+                                    <div class="input-with-button">
+                                        <input type="text" id="trackingOrderNumber" class="form-control" placeholder="e.g., GH-20251019-C78583C3" />
+                                        <button class="btn btn-primary" onclick="trackOrderFromDashboard()">
+                                            <i class="fas fa-search"></i> Track Order
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Loading Spinner -->
+                            <div id="trackingLoadingSpinner" class="text-center" style="display: none;">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-3" style="color: #666666; font-size: 17px; font-weight: 400; letter-spacing: -0.01em;">Tracking your order...</p>
+                            </div>
+
+                            <!-- Tracking Results -->
+                            <div id="trackingResults" class="tracking-results" style="display: none;">
+                                <!-- Results will be populated here -->
+                            </div>
+
+                            <!-- Error Message -->
+                            <div id="trackingErrorMessage" class="alert alert-danger" style="display: none;">
+                                <i class="fas fa-exclamation-triangle"></i> <span id="trackingErrorText"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div class="dashboard-section" id="notificationsSection" style="display: none;">
+                        <div class="section-header" onclick="goBackToDashboard()">
+                            <h2><i class="fas fa-bell"></i> Notifications</h2>
+                            <button class="close-section" onclick="closeDetailedSection()">×</button>
+                        </div>
+                        <div class="notifications-content">
+                            <div class="notifications-list" id="notificationsList">
+                                <div class="loading-state">
+                                    <div class="loading-spinner"></div>
+                                    <p>Loading notifications...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wishlist Section -->
+                    <div class="dashboard-section" id="wishlistSection" style="display: none;">
+                        <div class="section-header" onclick="goBackToDashboard()">
+                            <h2>My Wishlist</h2>
+                            <button class="close-section" onclick="closeDetailedSection()">�</button>
+                        </div>
+                        <div class="wishlist-items" id="wishlistItems">
+                            <div class="no-items">
+                                <p>No items in wishlist yet. <a href="/Products">Browse products!</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Settings Section -->
+                    <div class="dashboard-section" id="accountSection" style="display: none;">
+                        <div class="section-header" onclick="goBackToDashboard()">
+                            <h2>Account Settings</h2>
+                            <button class="close-section" onclick="closeDetailedSection()">�</button>
+                        </div>
+                        <div class="settings-grid">
+                            <div class="setting-card" onclick="openPasswordModal()">
+                                <div class="setting-info">
+                                    <h3>Change Password</h3>
+                                    <p>Update your account password</p>
+                                </div>
+                            </div>
+                            <div class="setting-card delete-account" onclick="openDeleteAccountModal()">
+                                <div class="setting-info">
+                                    <h3>Delete Account</h3>
+                                    <p>Permanently delete your account and all data</p>
+                                </div>
+                            </div>
+                            <div class="setting-card" onclick="openAddressModal()">
+                                <div class="setting-info">
+                                    <h3>Addresses</h3>
+                                    <p>Manage shipping addresses</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="section-header" onclick="goBackToDashboard()">
+                            <button class="close-section" onclick="closeDetailedSection()">�</button>
+                    </div>
+
+                        <div class="section-header">
+                            <button class="close-section" onclick="closeDetailedSection()">�</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <!-- Edit Profile Slide-out Panel -->
+    <div class="edit-panel-overlay" id="editPanelOverlay" onclick="closeEditPanel()">
+        <div class="edit-panel" id="editPanel" onclick="arguments[0].stopPropagation()">
+            <div class="edit-panel-header">
+                <h2>Edit Profile</h2>
+                <button class="close-btn" onclick="closeEditPanel()">�</button>
+            </div>
+            <div class="edit-panel-content">
+                <!-- Success Message Container -->
+                <div id="successMessage" class="success-message" style="display: none;">
+                    <div class="success-content">
+                        <i class="fas fa-check-circle success-icon"></i>
+                        <span class="success-text"></span>
+                    </div>
+                </div>
+                
+                <form id="profileEditForm" class="edit-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editFirstName">First Name</label>
+                            <input type="text" id="editFirstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editLastName">Last Name</label>
+                            <input type="text" id="editLastName" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email Address</label>
+                        <input type="email" id="editEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhone">Phone Number</label>
+                        <input type="tel" id="editPhone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAddress">Address</label>
+                        <input type="text" id="editAddress" name="address" placeholder="Enter your address">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCity">City</label>
+                            <input type="text" id="editCity" name="city" placeholder="Enter your city">
+                        </div>
+                        <div class="form-group">
+                            <label for="editCountry">Country</label>
+                            <input type="text" id="editCountry" name="country" placeholder="Enter your country">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeEditPanel()">Cancel</button>
+                        <button type="submit" class="btn-save">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Change Modal -->
+    <div class="modal-overlay" id="passwordModal" onclick="closePasswordModal()">
+        <div class="modal-content" onclick="arguments[0].stopPropagation()">
+            <div class="modal-header">
+                <h2>Change Password</h2>
+                <button class="close-btn" onclick="closePasswordModal()">�</button>
+            </div>
+            <div class="modal-body">
+                <form id="passwordForm" class="password-form">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" name="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closePasswordModal()">Cancel</button>
+                        <button type="submit" class="btn-save">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Preferences Modal -->
+    <div class="modal-overlay" id="preferencesModal" onclick="closePreferencesModal()">
+        <div class="modal-content" onclick="arguments[0].stopPropagation()">
+            <div class="modal-header">
+                <h2>Account Preferences</h2>
+                <button class="close-btn" onclick="closePreferencesModal()">�</button>
+            </div>
+            <div class="modal-body">
+                <form id="preferencesForm" class="preferences-form">
+                    <div class="preference-section">
+                        <h3>Email Notifications</h3>
+                        <div class="preference-item">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="orderUpdates" checked>
+                                <span class="checkmark"></span>
+                                Order updates and shipping notifications
+                            </label>
+                        </div>
+                        <div class="preference-item">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="promotions" checked>
+                                <span class="checkmark"></span>
+                                Promotional offers and deals
+                            </label>
+                        </div>
+                        <div class="preference-item">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="newsletter">
+                                <span class="checkmark"></span>
+                                Newsletter and product updates
+                            </label>
+                        </div>
+                    </div>
+                    <div class="preference-section">
+                        <h3>Privacy Settings</h3>
+                        <div class="preference-item">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="profileVisibility" checked>
+                                <span class="checkmark"></span>
+                                Make profile visible to other users
+                            </label>
+                        </div>
+                        <div class="preference-item">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="dataSharing">
+                                <span class="checkmark"></span>
+                                Allow data sharing for personalized recommendations
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closePreferencesModal()">Cancel</button>
+                        <button type="submit" class="btn-save">Save Preferences</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Address Management Modal -->
+    <div class="modal-overlay" id="addressModal" onclick="closeAddressModal()">
+        <div class="modal-content" onclick="arguments[0].stopPropagation()">
+            <div class="modal-header">
+                <h2>Manage Addresses</h2>
+                <button class="close-btn" onclick="closeAddressModal()">�</button>
+            </div>
+            <div class="modal-body">
+                <div class="address-list" id="addressList">
+                    <div class="no-addresses">
+                        <p>No addresses saved yet.</p>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="openAddAddressModal()">Add New Address</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div class="modal-overlay" id="deleteAccountModal" onclick="closeDeleteAccountModal()">
+        <div class="modal-content delete-account-modal" onclick="arguments[0].stopPropagation()">
+            <div class="modal-header">
+                <h2>Delete Account</h2>
+                <button class="close-btn" onclick="closeDeleteAccountModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="warning-message">
+                    <div class="warning-icon">⚠️</div>
+                    <h3>This action cannot be undone!</h3>
+                    <p>Deleting your account will permanently remove:</p>
+                    <ul>
+                        <li>Your profile information</li>
+                        <li>All order history</li>
+                        <li>Saved addresses and preferences</li>
+                        <li>Account access and login credentials</li>
+                    </ul>
+                </div>
+                <form id="deleteAccountForm">
+                    <div class="form-group">
+                        <label for="deletePassword">Confirm your password to delete account:</label>
+                        <input type="password" id="deletePassword" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="deleteConfirmation">
+                            <input type="checkbox" id="deleteConfirmation" name="confirmation" required>
+                            I understand that this action is permanent and cannot be undone
+                        </label>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" onclick="closeDeleteAccountModal()">Cancel</button>
+                        <button type="submit" class="btn-danger">Delete Account</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showDashboardOverview() {
+            if (window.quickAccessMonitorId) {
+                clearInterval(window.quickAccessMonitorId);
+                window.quickAccessMonitorId = null;
+            }
+            
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            document.getElementById('dashboardOverview').style.display = 'block';
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector('.sidebar-item[data-label="Dashboard"]').classList.add('active');
+        }
+
+        function closeSidebarAndRedirectHome() {
+            window.location.href = '/Index';
+        }
+
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            
+            sidebar.classList.toggle('open');
+            backdrop.classList.toggle('open');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+            
+            sidebar.classList.remove('open');
+            backdrop.classList.remove('open');
+        }
+
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            await checkAuthentication();
+
+            const registrationSuccess = localStorage.getItem('registrationSuccess');
+            if (registrationSuccess === 'true') {
+                showSuccessBanner();
+                localStorage.removeItem('registrationSuccess');
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderSuccess = urlParams.get('orderSuccess');
+            const orderPlaced = localStorage.getItem('orderPlaced');
+
+            if (orderSuccess === 'true' || orderPlaced === 'true') {
+                localStorage.removeItem('orderPlaced');
+                refreshDashboardData();
+            } else {
+            loadDashboardData();
+            }
+
+            setupHamburgerMenu();
+        });
+
+        async function checkAuthentication() {
+            const sessionId = localStorage.getItem('sessionId');
+            const userData = localStorage.getItem('userData');
+
+            if (!sessionId || !userData) {
+                window.location.href = '/Login';
+                return;
+            }
+
+            const userLoggedIn = await isUserLoggedIn();
+            if (!userLoggedIn) {
+                window.location.href = '/Login';
+                return;
+            }
+            
+            try {
+                const user = JSON.parse(userData);
+                displayUserInfo(user);
+            } catch (error) {
+                console.error('Error parsing user data:', error);
+                localStorage.removeItem('sessionId');
+                localStorage.removeItem('userData');
+                window.location.href = '/Login';
+            }
+        }
+
+        function displayUserInfo(user) {
+            updateSidebarProfile(user);
+        }
+
+        function updateSidebarProfile(user) {
+            const sidebarProfile = document.getElementById('sidebarProfile');
+            if (sidebarProfile && user) {
+                const firstName = user.firstName || 'U';
+                const lastName = user.lastName || '';
+                const initials = (firstName.charAt(0) + (lastName.charAt(0) || '')).toUpperCase().substring(0, 2);
+                
+                sidebarProfile.innerHTML = `
+                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%); color: white; font-weight: 700; font-size: 16px; font-family: 'Inter', sans-serif;">
+                        ${initials}
+                    </div>
+                `;
+            }
+        }
+
+
+
+
+        async function loadDashboardData() {
+            await loadUserStats();
+            await loadRecentOrders();
+            loadWishlist();
+            await updateQuickAccessCounters();
+            updateCartCounter();
+
+            try {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                const customerId = userData.id;
+                
+                if (customerId) {
+                    const timestamp = new Date().getTime();
+                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const result = await response.json();
+                    if (result && Array.isArray(result)) {
+                        lastOrderCount = result.length;
+                    }
+                }
+            } catch (error) {
+                console.error('Error initializing order count:', error);
+            }
+        }
+
+        function updateCartCounter() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.getElementById('cartCount');
+            
+            if (cartCount) {
+                if (totalItems > 0) {
+                    cartCount.textContent = totalItems;
+                    cartCount.style.display = 'inline-block';
+                } else {
+                    cartCount.style.display = 'none';
+                }
+            }
+        }
+
+        async function refreshDashboardData() {
+            await loadDashboardData();
+        }
+
+        let lastOrderCount = 0;
+        async function checkForNewOrders() {
+            try {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                const customerId = userData.id;
+                
+                if (customerId) {
+                    const timestamp = new Date().getTime();
+                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const result = await response.json();
+
+                    if (result && Array.isArray(result) && result.length !== lastOrderCount) {
+                        lastOrderCount = result.length;
+                        await refreshDashboardData();
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking for new orders:', error);
+            }
+        }
+
+        setInterval(checkForNewOrders, 30000);
+
+        async function loadUserStats() {
+            try {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                const customerId = userData.id;
+
+                if (customerId) {
+                    const timestamp = new Date().getTime();
+                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const result = await response.json();
+
+                    if (result && Array.isArray(result) && result.length > 0) {
+                        const orders = result;
+                        const totalOrders = orders.length;
+
+
+                        const totalSpent = orders.reduce((sum, order) => {
+                            let amount = parseFloat(order.totalAmount) || 0;
+
+                            if (amount === 0 && order.orderItems && order.orderItems.length > 0) {
+                                const itemsTotal = order.orderItems.reduce((itemSum, item) => {
+                                    const itemTotal = parseFloat(item.totalPrice) || 0;
+                                    return itemSum + itemTotal;
+                                }, 0);
+                                amount = itemsTotal;
+                            }
+
+                            return sum + amount;
+                        }, 0);
+
+
+                        const activeOrders = orders.filter(order =>
+                            ['pending', 'processing', 'shipped'].includes(order.status)
+                        ).length;
+
+                        const loyaltyPoints = Math.floor(totalSpent / 1000); // 1 point per LKR 1000 spent
+
+
+                        document.getElementById('totalOrders').textContent = totalOrders.toString();
+                        document.getElementById('totalSpent').textContent = `LKR ${isNaN(totalSpent) ? '0' : totalSpent.toLocaleString()}`;
+                        document.getElementById('loyaltyPoints').textContent = isNaN(loyaltyPoints) ? '0' : loyaltyPoints.toString();
+                        document.getElementById('activeOrders').textContent = activeOrders.toString();
+                        return;
+                    } else {
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user stats from database:', error);
+            }
+            try {
+                const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+                if (orderHistory.length > 0) {
+                    const totalOrders = orderHistory.length;
+                    const totalSpent = orderHistory.reduce((sum, order) => {
+                        const amount = parseFloat(order.totalAmount) || 0;
+                        return sum + amount;
+                    }, 0);
+                    const activeOrders = orderHistory.filter(order =>
+                        ['pending', 'processing', 'shipped'].includes(order.status)
+                    ).length;
+                    const loyaltyPoints = Math.floor(totalSpent / 1000);
+
+
+                    document.getElementById('totalOrders').textContent = totalOrders.toString();
+                    document.getElementById('totalSpent').textContent = `LKR ${isNaN(totalSpent) ? '0' : totalSpent.toLocaleString()}`;
+                    document.getElementById('loyaltyPoints').textContent = isNaN(loyaltyPoints) ? '0' : loyaltyPoints.toString();
+                    document.getElementById('activeOrders').textContent = activeOrders.toString();
+                    return;
+                }
+            } catch (localStorageError) {
+                console.error('Error loading from localStorage:', localStorageError);
+            }
+
+            document.getElementById('totalOrders').textContent = '0';
+            document.getElementById('totalSpent').textContent = 'LKR 0';
+            document.getElementById('loyaltyPoints').textContent = '0';
+            document.getElementById('activeOrders').textContent = '0';
+        }
+
+        async function loadRecentOrders() {
+            const recentOrdersContainer = document.getElementById('recentOrders');
+            if (!recentOrdersContainer) {
+                console.error('recentOrders container not found!');
+                return;
+            }
+
+            try {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                const customerId = userData.id;
+                
+                if (customerId) {
+                    
+                    try {
+                        const testResponse = await fetch(`https://localhost:7091/api/Order/all`);
+                        if (!testResponse.ok) {
+                            throw new Error('API is not accessible');
+                        }
+                    } catch (apiError) {
+                        throw new Error('GadgetHubAPI is not running or not accessible');
+                    }
+                    
+                    const timestamp = new Date().getTime();
+                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    
+                    if (!response.ok) {
+                        console.error('API request failed:', response.status, response.statusText);
+                        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const result = await response.json();
+
+
+                    if (result && Array.isArray(result) && result.length > 0) {
+                        const recentOrders = result.slice(0, 3);
+
+                        const htmlContent = recentOrders.map(order => {
+                            
+                            const orderTotal = parseFloat(order.totalAmount) || 0;
+                            const orderItems = order.orderItems || [];
+
+                            return `
+                                <div class="order-item" data-status="${order.status}">
+                                    <div class="order-header">
+                                        <div class="order-info">
+                                            <h4>Order #${order.orderNumber}</h4>
+                                            <p class="order-date">${new Date(order.orderDate).toLocaleDateString()}</p>
+                                        </div>
+                                        <div class="order-status">
+                                            <span class="status-badge ${order.status}">${order.status.toUpperCase()}</span>
+                                        </div>
+                                    </div>
+                                    <div class="order-details">
+                                        <div class="order-items">
+                                            ${orderItems.map(item => `
+                                                <div class="order-item-detail">
+                                                    <div class="item-info">
+                                                        <h5>${item.productName}</h5>
+                                                        <p>Quantity: ${item.quantity}</p>
+                                                    </div>
+                                                    <div class="item-price">LKR ${(parseFloat(item.totalPrice) || 0).toLocaleString()}</div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        <div class="order-summary">
+                                            <div class="order-total">
+                                                <strong>Total: LKR ${orderTotal.toLocaleString()}</strong>
+                                            </div>
+                                            <div class="order-actions">
+                                                <button class="btn-secondary" onclick="viewOrderDetails('${order.orderNumber}')">View Details</button>
+                                                <button class="btn-primary" onclick="reorderItems('${order.orderNumber}')">Reorder</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                        
+                        recentOrdersContainer.innerHTML = htmlContent;
+                        
+                        return;
+                    } else {
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading orders from database:', error);
+            }
+
+            const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+
+            if (orderHistory.length > 0) {
+                const recentOrders = orderHistory.slice(0, 3);
+                recentOrdersContainer.innerHTML = recentOrders.map(order => `
+                    <div class="order-item" data-status="${order.status}">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h4>Order #${order.orderNumber}</h4>
+                                <p class="order-date">${new Date(order.date).toLocaleDateString()}</p>
+                            </div>
+                            <div class="order-status">
+                                <span class="status-badge ${order.status}">${order.status}</span>
+                            </div>
+                        </div>
+                        <div class="order-details">
+                            <div class="order-items">
+                                ${order.items.map(item => `
+                                    <div class="order-item-detail">
+                                        <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'">
+                                        <div class="item-info">
+                                            <h5>${item.name}</h5>
+                                            <p>Quantity: ${item.quantity}</p>
+                                        </div>
+                                        <div class="item-price">LKR ${(item.price * item.quantity).toLocaleString()}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div class="order-summary">
+                                <div class="order-total">
+                                    <strong>Total: LKR ${order.total.toLocaleString()}</strong>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn-secondary" onclick="viewOrderDetails('${order.orderNumber}')">View Details</button>
+                                    <button class="btn-primary" onclick="reorderItems('${order.orderNumber}')">Reorder</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                recentOrdersContainer.innerHTML = `
+                    <div class="no-orders">
+                        <p>No orders yet. <a href="/Products">Start shopping!</a></p>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadAllOrders() {
+            console.log('🚀 loadAllOrders() function called');
+            const allOrdersContainer = document.getElementById('recentOrders');
+            
+            console.log('Container element found:', !!allOrdersContainer);
+            if (allOrdersContainer) {
+                console.log('Container details:', {
+                    id: allOrdersContainer.id,
+                    className: allOrdersContainer.className,
+                    parentElement: allOrdersContainer.parentElement?.id,
+                    offsetWidth: allOrdersContainer.offsetWidth,
+                    offsetHeight: allOrdersContainer.offsetHeight
+                });
+            }
+            
+            if (!allOrdersContainer) {
+                console.error('Orders container not found!');
+                return;
+            }
+
+            allOrdersContainer.innerHTML = `
+                <div class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading your orders...</p>
+                </div>
+            `;
+
+            try {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                const customerId = userData.id;
+
+                if (customerId) {
+                    console.log('Loading all orders for customer ID:', customerId);
+                    
+                    const timestamp = new Date().getTime();
+                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    
+                    if (!response.ok) {
+                        throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    console.log('All orders API response:', result);
+
+                    if (result && Array.isArray(result) && result.length > 0) {
+                        console.log('Processing orders for display...');
+                        console.log('Number of orders to display:', result.length);
+                        
+                        const htmlContent = result.map(order => {
+                            console.log('Processing order:', order.orderNumber);
+                            const orderTotal = parseFloat(order.totalAmount) || 0;
+                            const orderItems = order.orderItems || [];
+                            
+                            console.log('Order details:', {
+                                orderNumber: order.orderNumber,
+                                totalAmount: orderTotal,
+                                items: orderItems.length,
+                                status: order.status
+                            });
+
+                            return `
+                                <div class="order-item" data-status="${order.status}">
+                                    <div class="order-header">
+                                        <div class="order-info">
+                                            <h4>Order #${order.orderNumber}</h4>
+                                            <p class="order-date">${new Date(order.orderDate).toLocaleDateString()}</p>
+                                        </div>
+                                        <div class="order-status">
+                                            <span class="status-badge ${order.status}">${order.status.toUpperCase()}</span>
+                                        </div>
+                                    </div>
+                                    <div class="order-details">
+                                        <div class="order-items">
+                                            ${orderItems.map(item => `
+                                                <div class="order-item-detail">
+                                                    <div class="item-info">
+                                                        <h5>${item.productName}</h5>
+                                                        <p>Quantity: ${item.quantity}</p>
+                                                    </div>
+                                                    <div class="item-price">LKR ${(parseFloat(item.totalPrice) || 0).toLocaleString()}</div>
+                                                </div>
+                                            `).join('')}
+                                        </div>
+                                        <div class="order-summary">
+                                            <div class="order-total">
+                                                <strong>Total: LKR ${orderTotal.toLocaleString()}</strong>
+                                            </div>
+                                            <div class="order-actions">
+                                                <button class="btn-secondary" onclick="viewOrderDetails('${order.orderNumber}')">View Details</button>
+                                                <button class="btn-primary" onclick="reorderItems('${order.orderNumber}')">Reorder</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                        
+                        console.log('Generated HTML length:', htmlContent.length);
+                        console.log('First 500 characters of HTML:', htmlContent.substring(0, 500));
+                        
+                        allOrdersContainer.innerHTML = htmlContent;
+                        
+                        console.log('Container innerHTML length after assignment:', allOrdersContainer.innerHTML.length);
+                        console.log('Container has children:', allOrdersContainer.children.length);
+                        console.log('Container is visible:', allOrdersContainer.offsetWidth > 0 && allOrdersContainer.offsetHeight > 0);
+                        
+                        console.log('Orders loaded successfully');
+                    } else {
+                        allOrdersContainer.innerHTML = `
+                            <div class="no-orders">
+                                <i class="fas fa-shopping-bag"></i>
+                                <h3>No Orders Found</h3>
+                                <p>You haven't placed any orders yet.</p>
+                                <a href="/Products" class="btn-primary">Start Shopping</a>
+                            </div>
+                        `;
+                    }
+                } else {
+                    allOrdersContainer.innerHTML = `
+                        <div class="no-orders">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Unable to Load Orders</h3>
+                            <p>Please log in again to view your orders.</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading all orders:', error);
+                allOrdersContainer.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Error Loading Orders</h3>
+                        <p>There was a problem loading your orders. Please try again.</p>
+                        <button onclick="loadAllOrders()" class="btn-primary">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadNotifications() {
+            try {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                const customerId = userData.id;
+                
+                if (!customerId) {
+                    document.getElementById('notificationsList').innerHTML = `
+                        <div class="no-notifications">
+                            <i class="fas fa-bell-slash"></i>
+                            <p>Please log in to view notifications</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}`);
+                const orders = await response.json();
+                
+                displayNotifications(orders);
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+                document.getElementById('notificationsList').innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>Error Loading Notifications</h3>
+                        <p>There was a problem loading your notifications. Please try again.</p>
+                        <button onclick="loadNotifications()" class="btn-primary">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        function displayNotifications(orders) {
+            const notificationsContainer = document.getElementById('notificationsList');
+            
+            if (!orders || orders.length === 0) {
+                notificationsContainer.innerHTML = `
+                    <div class="no-notifications">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>No notifications yet</p>
+                        <p>You'll receive updates about your orders here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let notificationsHtml = '';
+            
+            orders.forEach(order => {
+                const orderDate = new Date(order.orderDate).toLocaleDateString();
+                const status = order.status.toLowerCase();
+                
+                let notificationClass = 'notification-info';
+                let icon = 'fas fa-info-circle';
+                let message = '';
+                
+                switch(status) {
+                    case 'processing':
+                        notificationClass = 'notification-warning';
+                        icon = 'fas fa-clock';
+                        message = `Your order ${order.orderNumber} is being processed`;
+                        break;
+                    case 'confirmed':
+                        notificationClass = 'notification-success';
+                        icon = 'fas fa-check-circle';
+                        message = `Your order ${order.orderNumber} has been confirmed`;
+                        break;
+                    case 'shipped':
+                        notificationClass = 'notification-info';
+                        icon = 'fas fa-truck';
+                        message = `Your order ${order.orderNumber} has been shipped`;
+                        break;
+                    case 'delivered':
+                        notificationClass = 'notification-success';
+                        icon = 'fas fa-check-double';
+                        message = `Your order ${order.orderNumber} has been delivered`;
+                        break;
+                }
+                
+                notificationsHtml += `
+                    <div class="notification-item ${notificationClass}">
+                        <div class="notification-icon">
+                            <i class="${icon}"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h6>${message}</h6>
+                            <small class="text-muted">${order.orderNumber}</small>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            notificationsContainer.innerHTML = notificationsHtml;
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/Index';
+        }
+
+        function showSuccessBanner() {
+            const banner = document.getElementById('successBanner');
+            if (banner) {
+                banner.style.display = 'block';
+                banner.style.animation = 'slideDown 0.5s ease-out';
+                
+                setTimeout(() => {
+                    closeSuccessBanner();
+                }, 5000);
+            }
+        }
+
+        function closeSuccessBanner() {
+            const banner = document.getElementById('successBanner');
+            if (banner) {
+                banner.style.animation = 'slideUp 0.3s ease-in';
+                setTimeout(() => {
+                    banner.style.display = 'none';
+                }, 300);
+            }
+        }
+
+
+        function closeEditPanel() {
+            const overlay = document.getElementById('editPanelOverlay');
+            const panel = document.getElementById('editPanel');
+
+            overlay.classList.remove('active');
+            panel.classList.remove('active');
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+
+        function showSuccess(message) {
+            const successMessage = document.getElementById('successMessage');
+            const successText = successMessage.querySelector('.success-text');
+            successText.textContent = message;
+            successMessage.style.display = 'block';
+
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        document.getElementById('profileEditForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            userData.firstName = data.firstName;
+            userData.lastName = data.lastName;
+            userData.email = data.email;
+            userData.phone = data.phone;
+            userData.address = data.address;
+            userData.city = data.city;
+            userData.country = data.country;
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+
+            showSuccess('Profile updated!');
+
+            setTimeout(() => {
+                closeEditPanel();
+            }, 1500);
+        });
+
+        function setupHamburgerMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+
+            nav.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!hamburger.contains(e.target) && !nav.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+        }
+
+        // Load wishlist items
+        function loadWishlist() {
+            const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+            const wishlistContainer = document.getElementById('wishlistItems');
+
+            if (wishlistItems.length > 0) {
+                wishlistContainer.innerHTML = wishlistItems.map(item => `
+                    <div class="wishlist-item">
+                        <div class="item-image">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="product-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                ${item.name}
+                            </div>
+                        </div>
+                        <div class="item-info">
+                            <h4>${item.name}</h4>
+                            <p class="price">LKR ${item.price.toLocaleString()}</p>
+                        </div>
+                        <div class="item-actions">
+                            <button class="btn-primary" onclick="addToCartFromWishlist(${item.id})">
+                                <i class="fas fa-shopping-cart"></i> Add to Cart
+                            </button>
+                            <button class="btn-remove" onclick="removeFromWishlist(${item.id})">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                wishlistContainer.innerHTML = `
+                    <div class="no-items">
+                        <div class="no-items-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>Your Wishlist is Empty</h3>
+                        <p>Start adding products you love to your wishlist!</p>
+                        <a href="/Products" class="btn btn-primary">
+                            <i class="fas fa-shopping-bag"></i> Browse Products
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        function addToCartFromWishlist(productId) {
+            try {
+                // Get wishlist items
+                const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+                const product = wishlistItems.find(item => item.id === productId);
+                
+                if (!product) {
+                    console.error('Product not found in wishlist');
+                    return;
+                }
+
+                // Get current cart items
+                const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                
+                // Check if item already in cart
+                const existingItem = cartItems.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cartItems.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        quantity: 1,
+                        image: product.image,
+                        distributorName: product.distributorName || 'GadgetHub'
+                    });
+                }
+
+                // Save updated cart
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                
+                // Update cart counter
+                updateCartCounter();
+                
+                // Show success message
+                showSuccessMessage(`${product.name} added to cart!`);
+                
+                console.log('Product added to cart from wishlist:', product.name);
+            } catch (error) {
+                console.error('Error adding to cart from wishlist:', error);
+            }
+        }
+
+        function removeFromWishlist(productId) {
+            try {
+                // Get wishlist items
+                const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+                
+                // Remove item from wishlist
+                const updatedWishlist = wishlistItems.filter(item => item.id !== productId);
+                
+                // Save updated wishlist
+                localStorage.setItem('wishlistItems', JSON.stringify(updatedWishlist));
+                
+                // Reload wishlist display
+                loadWishlist();
+                
+                // Show success message
+                const product = wishlistItems.find(item => item.id === productId);
+                if (product) {
+                    showSuccessMessage(`${product.name} removed from wishlist`);
+                }
+                
+                console.log('Product removed from wishlist:', productId);
+            } catch (error) {
+                console.error('Error removing from wishlist:', error);
+            }
+        }
+
+        function addToWishlist(productId, productName, productPrice, productImage, distributorName = 'GadgetHub') {
+            try {
+                // Get current wishlist
+                const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+                
+                // Check if item already in wishlist
+                const existingItem = wishlistItems.find(item => item.id === productId);
+                if (existingItem) {
+                    showSuccessMessage(`${productName} is already in your wishlist`);
+                    return;
+                }
+
+                // Add to wishlist
+                wishlistItems.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    distributorName: distributorName,
+                    addedDate: new Date().toISOString()
+                });
+
+                // Save wishlist
+                localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+                
+                // Show success message
+                showSuccessMessage(`${productName} added to wishlist!`);
+                
+                console.log('Product added to wishlist:', productName);
+            } catch (error) {
+                console.error('Error adding to wishlist:', error);
+            }
+        }
+
+        function showSuccessMessage(message) {
+            // Create temporary success message
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success-message';
+            successDiv.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #28a745;
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 6px;
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                    z-index: 10000;
+                    font-weight: 500;
+                ">
+                    <i class="fas fa-check-circle"></i> ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(successDiv);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                if (successDiv.parentNode) {
+                    successDiv.parentNode.removeChild(successDiv);
+                }
+            }, 3000);
+        }
+
+        // Global function to add product to wishlist (can be called from any page)
+        window.addToWishlist = function(productId, productName, productPrice, productImage, distributorName = 'GadgetHub') {
+            addToWishlist(productId, productName, productPrice, productImage, distributorName);
+        };
+
+        // Global function to check if product is in wishlist
+        window.isInWishlist = function(productId) {
+            const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+            return wishlistItems.some(item => item.id === productId);
+        };
+
+
+        // Modal functions for account settings
+        function openPasswordModal() {
+            document.getElementById('passwordModal').style.display = 'flex';
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').style.display = 'none';
+            document.getElementById('passwordForm').reset();
+        }
+
+        function openDeleteAccountModal() {
+            document.getElementById('deleteAccountModal').style.display = 'flex';
+        }
+
+        function closeDeleteAccountModal() {
+            document.getElementById('deleteAccountModal').style.display = 'none';
+            document.getElementById('deleteAccountForm').reset();
+        }
+
+        // Handle delete account form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteAccountForm = document.getElementById('deleteAccountForm');
+            if (deleteAccountForm) {
+                deleteAccountForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const password = document.getElementById('deletePassword').value;
+                    const confirmation = document.getElementById('deleteConfirmation').checked;
+                    
+                    if (!confirmation) {
+                        // Please confirm that you understand this action is permanent
+                        return;
+                    }
+                    
+                    if (!password) {
+                        // Please enter your password to confirm account deletion
+                        return;
+                    }
+                    
+                    // Double confirmation
+                    // Are you absolutely sure you want to delete your account? This action cannot be undone!
+                    // Proceeding with account deletion
+                    
+                    try {
+                        const sessionId = localStorage.getItem('sessionId');
+                        if (!sessionId) {
+                            // Session not found. Please log in again
+                            return;
+                        }
+                        
+                        // Delete account functionality not implemented yet
+                        // For now, just logout the user
+                        // Delete account feature not available yet. Logging out instead.
+                        logout();
+                        return;
+                    } catch (error) {
+                        console.error('Error in delete account:', error);
+                        // An error occurred. Please try again.
+                    }
+                });
+            }
+        });
+
+        function openAddressModal() {
+            document.getElementById('addressModal').style.display = 'flex';
+        }
+
+        function closeAddressModal() {
+            document.getElementById('addressModal').style.display = 'none';
+        }
+
+        // Password form submission
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            if (data.newPassword !== data.confirmPassword) {
+                // New passwords do not match!
+                return;
+            }
+
+            // Simulate password update
+            // Password updated successfully!
+            closePasswordModal();
+        });
+
+
+        // Wishlist functions
+        function addToCartFromWishlist(productId) {
+            try {
+                // Get wishlist items
+                const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+                
+                // Find the item to add to cart
+                const item = wishlistItems.find(item => item.id === productId);
+                
+                if (!item) {
+                    console.error('Item not found in wishlist');
+                    showToast('Item not found in wishlist', 'error');
+                    return;
+                }
+
+                // Get current cart items
+                const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                
+                // Check if item already exists in cart
+                const existingItem = cartItems.find(cartItem => cartItem.id === productId);
+                
+                if (existingItem) {
+                    // Update quantity
+                    existingItem.quantity += 1;
+                } else {
+                    // Add new item to cart
+                    cartItems.push({
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: 1,
+                        image: item.image,
+                        distributorName: item.distributorName || 'GadgetHub'
+                    });
+                }
+                
+                // Save updated cart
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                
+                // Show success message
+                showToast(`${item.name} added to cart!`, 'success');
+                
+                // Update cart counter if it exists
+                updateCartCounter();
+                
+            } catch (error) {
+                console.error('Error adding item to cart:', error);
+                showToast('Error adding item to cart. Please try again.', 'error');
+            }
+        }
+
+        // Update cart counter function
+        function updateCartCounter() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.getElementById('cartCount');
+            
+            if (cartCount) {
+                if (totalItems > 0) {
+                    cartCount.textContent = totalItems;
+                    cartCount.style.display = 'inline-block';
+                } else {
+                    cartCount.style.display = 'none';
+                }
+            }
+        }
+
+        // Toast notification function
+        function showToast(message, type = 'success') {
+            // Remove existing toasts
+            const existingToasts = document.querySelectorAll('.toast-notification');
+            existingToasts.forEach(toast => toast.remove());
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+
+            // Add styles
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#28a745' : '#dc3545'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                font-weight: 500;
+                font-size: 14px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                animation: slideInRight 0.3s ease;
+                max-width: 300px;
+            `;
+
+            // Add animation styles
+            const style = document.createElement('style');
+            style.textContent = `
+                @@keyframes slideInRight {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @@keyframes slideOutRight {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            if (!document.querySelector('style[data-toast-styles]')) {
+                style.setAttribute('data-toast-styles', 'true');
+                document.head.appendChild(style);
+            }
+
+            document.body.appendChild(toast);
+
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        function removeFromWishlist(productId) {
+            const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+            const updatedWishlist = wishlistItems.filter(item => item.id !== productId);
+            localStorage.setItem('wishlistItems', JSON.stringify(updatedWishlist));
+            loadWishlist();
+            updateQuickAccessCounters();
+        }
+
+        // Quick Access Functions
+        async function updateQuickAccessCounters() {
+            // Try to get orders count from database first
+            let ordersCount = 0;
+
+            try {
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                const customerId = userData.id;
+                
+                if (customerId) {
+                    const timestamp = new Date().getTime();
+                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const result = await response.json();
+                    if (result && Array.isArray(result)) {
+                        ordersCount = result.length;
+                        console.log('Database orders count:', ordersCount);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading orders from database:', error);
+            }
+
+            // If database fails, use localStorage
+            if (ordersCount === 0) {
+                const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+                ordersCount = orderHistory.length;
+                console.log('localStorage orders count:', ordersCount);
+            }
+
+            // Update wishlist count
+            const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+
+
+            // Update user data
+
+
+            console.log('Updated quick access counters:');
+            console.log('  Orders:', ordersCount);
+            console.log('  Wishlist:', wishlistItems.length);
+        }
+
+        function openOrdersSection() {
+            console.log('🎯 Opening Orders Section...');
+            
+            // Ensure orders section exists before proceeding
+            let ordersSection = document.getElementById('ordersSection');
+            if (!ordersSection) {
+                console.log('Orders section missing, recreating...');
+                // Find a suitable parent element
+                let mainContent = document.querySelector('.main-content') || 
+                                 document.querySelector('.dashboard-container') || 
+                                 document.querySelector('main') || 
+                                 document.body;
+                
+                if (mainContent) {
+                    ordersSection = document.createElement('div');
+                    ordersSection.id = 'ordersSection';
+                    ordersSection.className = 'dashboard-section';
+                    ordersSection.innerHTML = `
+                        <div class="section-header">
+                            <h2>Orders</h2>
+                        </div>
+                        <div class="orders-list" id="recentOrders">
+                            <div class="loading-state">
+                                <div class="loading-spinner"></div>
+                                <p>Loading your orders...</p>
+                            </div>
+                        </div>
+                    `;
+                    mainContent.appendChild(ordersSection);
+                    console.log('Orders section created successfully');
+                }
+            }
+            
+            // Hide all sections first (but protect orders section)
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                if (section.id !== 'ordersSection') {
+                section.style.display = 'none';
+                }
+            });
+            
+            // Simply hide Quick Access section
+            const quickAccessSection = document.getElementById('quickAccessSection');
+            if (quickAccessSection) {
+                quickAccessSection.style.display = 'none';
+                console.log('Quick Access section hidden');
+            }
+            
+            // Hide dashboard overview to ensure no quick access cards show
+            const dashboardOverview = document.getElementById('dashboardOverview');
+            if (dashboardOverview) {
+                dashboardOverview.style.display = 'none';
+                console.log('Dashboard overview hidden');
+            }
+            
+            // Clear any existing monitor first
+            if (window.quickAccessMonitorId) {
+                clearInterval(window.quickAccessMonitorId);
+                window.quickAccessMonitorId = null;
+            }
+            
+            // Show orders section (we know it exists now)
+            ordersSection = document.getElementById('ordersSection');
+            ordersSection.style.display = 'block';
+            
+            console.log('Orders section displayed');
+            console.log('Orders section dimensions:', {
+                width: ordersSection.offsetWidth,
+                height: ordersSection.offsetHeight,
+                display: window.getComputedStyle(ordersSection).display
+            });
+            
+            // Update active sidebar item
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            const ordersSidebarItem = document.querySelector('.sidebar-item[data-label="Orders"]');
+            if (ordersSidebarItem) {
+                ordersSidebarItem.classList.add('active');
+            } else {
+                console.error('Orders sidebar item not found!');
+            }
+            
+            loadAllOrders();
+        }
+
+        function openWishlistSection() {
+            // Hide all sections first
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show wishlist section
+            document.getElementById('wishlistSection').style.display = 'block';
+            
+            // Update active sidebar item
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector('.sidebar-item[data-label="Wishlist"]').classList.add('active');
+            
+            // Load wishlist items
+            loadWishlist();
+        }
+
+        function openOrderTracking() {
+            // Hide all sections first
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show order tracking section
+            document.getElementById('orderTrackingSection').style.display = 'block';
+            
+            // Update active sidebar item
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector('.sidebar-item[data-label="Order Tracking"]').classList.add('active');
+            
+            // Clear previous results
+            hideTrackingResults();
+            hideTrackingError();
+        }
+
+        function openNotifications() {
+            // Hide all sections first
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show notifications section
+            document.getElementById('notificationsSection').style.display = 'block';
+            
+            // Update active sidebar item
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector('.sidebar-item[data-label="Notifications"]').classList.add('active');
+            
+            // Load notifications
+            loadNotifications();
+        }
+
+        function openAccountSettings() {
+            // Hide all sections first
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show account section
+            document.getElementById('accountSection').style.display = 'block';
+            
+            // Update active sidebar item
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector('.sidebar-item[data-label="Account"]').classList.add('active');
+        }
+
+
+
+
+
+        function viewOrderDetails(orderNumber) {
+            console.log('Viewing order details for:', orderNumber);
+            // Open order tracking section with the order number
+            openOrderTrackingSection();
+            // Pre-fill the tracking form with the order number
+            setTimeout(() => {
+                const trackingInput = document.getElementById('trackingOrderNumber');
+                if (trackingInput) {
+                    trackingInput.value = orderNumber;
+                }
+            }, 100);
+        }
+
+        function reorderItems(orderNumber) {
+            console.log('Reordering items for:', orderNumber);
+            try {
+                // Get order details from localStorage or API
+                const orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+                const order = orderHistory.find(o => o.orderNumber === orderNumber);
+                
+                if (!order) {
+                    showToast('Order details not found. Please try again.', 'error');
+                    return;
+                }
+
+                // Add items to cart
+                const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+                
+                order.items.forEach(item => {
+                    // Check if item already in cart
+                    const existingItem = cartItems.find(cartItem => cartItem.id === item.id);
+                    if (existingItem) {
+                        existingItem.quantity += item.quantity;
+                    } else {
+                        cartItems.push({
+                            id: item.id,
+                            name: item.name,
+                            price: item.price,
+                            quantity: item.quantity,
+                            image: item.image,
+                            distributorName: item.distributorName || 'GadgetHub'
+                        });
+                    }
+                });
+
+                // Save updated cart
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                
+                // Show success message
+                showToast(`Items from order ${orderNumber} have been added to your cart!`, 'success');
+                
+                // Redirect to cart
+                window.location.href = '/Cart';
+            } catch (error) {
+                console.error('Error reordering items:', error);
+                showToast('Error adding items to cart. Please try again.', 'error');
+            }
+        }
+
+        // Order Tracking Functions
+        async function trackOrderFromDashboard() {
+            const orderNumber = document.getElementById('trackingOrderNumber').value.trim();
+            
+            if (!orderNumber) {
+                showTrackingError('Please enter your order number to track your package.');
+                return;
+            }
+
+            // Show loading spinner
+            showTrackingLoading(true);
+            hideTrackingResults();
+            hideTrackingError();
+
+            try {
+                // First check for customer notifications (order confirmations)
+                const notificationResponse = await fetch(`https://localhost:7091/api/QuotationManagement/customer-notifications/${orderNumber}`);
+                let hasNotifications = false;
+                
+                if (notificationResponse.ok) {
+                    const notificationData = await notificationResponse.json();
+                    if (notificationData.success) {
+                        hasNotifications = true;
+                    }
+                }
+
+                // Then get order tracking details
+                const response = await fetch(`https://localhost:7091/api/QuotationManagement/order-tracking/${orderNumber}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    displayTrackingResultsInDashboard(data, hasNotifications);
+                } else if (response.status === 404) {
+                    showTrackingError('Order not found. Please verify your order number and try again.');
+                } else {
+                    showTrackingError('Unable to retrieve order information. Please try again later.');
+                }
+            } catch (error) {
+                console.error('Error tracking order:', error);
+                showTrackingError('Connection error. Please check your internet connection and try again.');
+            } finally {
+                showTrackingLoading(false);
+            }
+        }
+
+        function displayTrackingResultsInDashboard(data, hasNotifications = false) {
+            const resultsContainer = document.getElementById('trackingResults');
+            
+            let html = '';
+            
+            if (hasNotifications) {
+                html += `
+                    <div class="alert alert-success mb-3">
+                        <i class="fas fa-check-circle"></i> Your order has been confirmed and is being prepared for shipment!
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="alert alert-info mb-3">
+                        <i class="fas fa-clock"></i> Your order is currently being processed. We will confirm the details and update the status shortly.
+                    </div>
+                `;
+            }
+
+            // Order Summary
+            html += `
+                <div class="card mb-3">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-check-circle"></i> Order Summary
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Order Number:</strong> ${data.orderNumber}</p>
+                                <p><strong>Order Date:</strong> ${data.orderDate}</p>
+                                <p><strong>Total Amount:</strong> LKR ${data.totalAmount.toLocaleString()}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Status:</strong> <span class="badge bg-success">${data.status}</span></p>
+                                <p><strong>Customer:</strong> ${data.customerName}</p>
+                                <p><strong>Email:</strong> ${data.customerEmail}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Delivery Information
+            html += `
+                <div class="card mb-3">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-shipping-fast"></i> Delivery Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Estimated Delivery:</strong> ${data.estimatedDeliveryDate}</p>
+                                <p><strong>Delivery Time:</strong> ${data.estimatedDeliveryDays} days</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Status:</strong> <span class="badge bg-info">Processing</span></p>
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> ${data.message}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Order Items Information
+            if (data.deliveryInfo && data.deliveryInfo.length > 0) {
+                html += `
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">
+                                <i class="fas fa-shopping-bag"></i> Order Items
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                `;
+                
+                data.deliveryInfo.forEach(item => {
+                    html += `
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <strong>${item.productName}</strong>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <span class="badge bg-secondary">Qty: ${item.quantity}</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <small class="text-muted">Unit Price: LKR ${item.unitPrice.toLocaleString()}</small>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>Total: LKR ${item.totalPrice.toLocaleString()}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                        </div>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">
+                                <i class="fas fa-shopping-bag"></i> Order Items
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted">Order items information will be available once processing is complete.</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            resultsContainer.innerHTML = html;
+            showTrackingResults();
+        }
+
+        function showTrackingLoading(show) {
+            document.getElementById('trackingLoadingSpinner').style.display = show ? 'block' : 'none';
+        }
+
+        function showTrackingResults() {
+            document.getElementById('trackingResults').style.display = 'block';
+        }
+
+        function hideTrackingResults() {
+            document.getElementById('trackingResults').style.display = 'none';
+        }
+
+        function showTrackingError(message) {
+            document.getElementById('trackingErrorText').textContent = message;
+            document.getElementById('trackingErrorMessage').style.display = 'block';
+        }
+
+        function hideTrackingError() {
+            document.getElementById('trackingErrorMessage').style.display = 'none';
+        }
+    </script>
+
+    <script src="~/js/auth.js?v=@DateTime.Now.Ticks"></script>
+
+    <style>
+        /* Apple-inspired Order Tracking Styles */
+        .order-tracking-content {
+            padding: 40px;
+            background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tracking-description {
+            background: rgba(0, 0, 0, 0.02);
+            padding: 32px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+        }
+        
+        .tracking-description p {
+            margin: 0;
+            font-size: 21px;
+            color: #1d1d1f;
+            font-weight: 400;
+            line-height: 1.4;
+            letter-spacing: -0.02em;
+        }
+        
+        .tracking-interface {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .input-group {
+            margin-bottom: 24px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 16px;
+            font-weight: 400;
+            color: #1d1d1f;
+            font-size: 17px;
+            letter-spacing: -0.01em;
+        }
+        
+        .input-with-button {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .input-with-button .form-control {
+            flex: 1;
+            padding: 16px 20px;
+            border: 1px solid #d2d2d7;
+            border-radius: 12px;
+            font-size: 17px;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            color: #1d1d1f;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+        
+        .input-with-button .form-control:focus {
+            border-color: #1a1a1a;
+            box-shadow: 0 0 0 4px rgba(26, 26, 26, 0.1);
+            outline: none;
+            transform: none;
+        }
+        
+        .input-with-button .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 400;
+            background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+            border: none;
+            color: white;
+            transition: all 0.2s ease;
+            box-shadow: none;
+            font-size: 17px;
+            letter-spacing: -0.01em;
+        }
+        
+        .input-with-button .btn:hover {
+            background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .tracking-results {
+            margin-top: 40px;
+        }
+        
+        .tracking-results .card {
+            border: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+            background: #ffffff;
+        }
+        
+        .tracking-results .card:hover {
+            transform: none;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+        }
+        
+        .tracking-results .card-header {
+            border-radius: 0 !important;
+            padding: 24px 32px;
+            font-weight: 400;
+            font-size: 17px;
+            letter-spacing: -0.01em;
+            background: rgba(0, 0, 0, 0.02);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .tracking-results .card-body {
+            padding: 32px;
+        }
+        
+        /* Apple-inspired Card Header Colors */
+        .tracking-results .bg-success {
+            background: rgba(0, 0, 0, 0.02) !important;
+            color: #1d1d1f !important;
+        }
+        
+        .tracking-results .bg-info {
+            background: rgba(0, 0, 0, 0.02) !important;
+            color: #1d1d1f !important;
+        }
+        
+        .tracking-results .bg-primary {
+            background: rgba(0, 0, 0, 0.02) !important;
+            color: #1d1d1f !important;
+        }
+        
+        .tracking-results .bg-warning {
+            background: rgba(0, 0, 0, 0.02) !important;
+            color: #1d1d1f !important;
+        }
+        
+        .tracking-results .badge {
+            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+        
+        .tracking-results .badge.bg-success {
+            background-color: #28a745 !important;
+            color: white !important;
+        }
+        
+        .tracking-results .badge.bg-info {
+            background-color: #666666 !important;
+            color: white !important;
+        }
+        
+        .tracking-results .badge.bg-secondary {
+            background-color: #666666 !important;
+            color: white !important;
+        }
+        
+        .spinner-border {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-width: 3px;
+            border-color: #1a1a1a;
+            border-right-color: transparent;
+        }
+        
+        .alert {
+            border: none;
+            border-radius: 16px;
+            padding: 24px 32px;
+            font-weight: 400;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            font-size: 17px;
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+        }
+        
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            color: #1d1d1f;
+            border: 1px solid rgba(40, 167, 69, 0.2);
+        }
+        
+        .alert-info {
+            background: rgba(26, 26, 26, 0.1);
+            color: #1d1d1f;
+            border: 1px solid rgba(26, 26, 26, 0.2);
+        }
+        
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            color: #1d1d1f;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+        }
+        
+        .text-muted {
+            color: #666666 !important;
+        }
+        
+        /* Apple-inspired Typography */
+        .tracking-results p, .tracking-results .card-body p {
+            color: #1d1d1f;
+            font-size: 17px;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+        
+        .tracking-results strong {
+            color: #1d1d1f;
+            font-weight: 600;
+        }
+        
+        .mb-3 {
+            margin-bottom: 1rem !important;
+        }
+        
+        .mb-2 {
+            margin-bottom: 0.5rem !important;
+        }
+        
+        .mt-2 {
+            margin-top: 0.5rem !important;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        
+        .col-md-3, .col-md-6 {
+            position: relative;
+            width: 100%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        
+        @@media (min-width: 768px) {
+            .col-md-3 {
+                flex: 0 0 25%;
+                max-width: 25%;
+            }
+            .col-md-6 {
+                flex: 0 0 50%;
+                max-width: 50%;
+            }
+        }
+    </style>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GadgetHub</h3>
+                <p>Your gateway to the latest technology. Discover, compare, and shop the best gadgets from trusted sources.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/Products">Products</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About Us</a></li>
+                    <li><a href="/Support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GadgetHub. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

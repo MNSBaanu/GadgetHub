@@ -1,0 +1,291 @@
+@page
+@model GadgetHubWeb.Pages.ContactModel
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - GadgetHub</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" />
+    <link rel="stylesheet" href="~/css/contact.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Auth Script -->
+    <script src="~/js/auth.js"></script>
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="logo">
+            <img src="~/assets/logo.png" alt="GadgetHub Logo" />
+            <span>GadgetHub</span>
+        </div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav" id="nav">
+            <a href="/Index">Home</a>
+            <a href="/Products">Products</a>
+            <a href="/Contact">Contact</a>
+            <a href="/Cart" class="cart-link">
+                <i class="fas fa-shopping-cart" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+            <a href="/Login" class="login-link" id="loginLink">
+                <i class="fas fa-user-circle" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+            
+            <!-- User Profile Navigation -->
+            <div class="user-profile-nav" id="userProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/Dashboard" class="user-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="userAvatar">
+                    <span class="avatar-initials" id="avatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">U</span>
+                </a>
+            </div>
+            
+            <!-- Admin Profile Navigation -->
+            <div class="admin-profile-nav" id="adminProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/AdminDashboard" class="admin-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="adminAvatar">
+                    <span class="avatar-initials" id="adminAvatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">A</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contact Page Content -->
+    <section class="contact-page">
+        <div class="container">
+            <h1>How can we help you today?</h1>
+            
+            @if (TempData["Message"] != null)
+            {
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span>@TempData["Message"]</span>
+                </div>
+            }
+
+            <!-- GadgetHub Support Services -->
+            <div class="help-services">
+                <div class="help-card">
+                    <div class="help-card-header">
+                        <span class="service-badge">PRODUCT INQUIRY</span>
+                    </div>
+                    <div class="help-card-content">
+                        <h3>Find the perfect gadget for you.</h3>
+                        <p>Get personalized product recommendations and check availability for the latest gadgets.</p>
+                    </div>
+                    <div class="help-card-image">
+                        <img src="~/assets/contact/product-inquiry.jpg" alt="Product Inquiry" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-card-header">
+                        <span class="service-badge">CUSTOMER SUPPORT</span>
+                    </div>
+                    <div class="help-card-content">
+                        <h3>General questions and support.</h3>
+                        <p>Get help with your account, orders, or any questions about our products and services.</p>
+                    </div>
+                    <div class="help-card-image">
+                        <img src="~/assets/contact/customer-support.jpg" alt="Customer Support" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-card-header">
+                        <span class="service-badge">ACCOUNT HELP</span>
+                    </div>
+                    <div class="help-card-content">
+                        <h3>Account and billing support.</h3>
+                        <p>Get help with your account settings, billing questions, or password resets.</p>
+                    </div>
+                    <div class="help-card-image">
+                        <img src="~/assets/contact/account-help.jpg" alt="Account Help" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-card">
+                    <div class="help-card-header">
+                        <span class="service-badge">BUSINESS INQUIRIES</span>
+                    </div>
+                    <div class="help-card-content">
+                        <h3>Business and partnership inquiries.</h3>
+                        <p>Interested in working with GadgetHub or have business-related questions?</p>
+                    </div>
+                    <div class="help-card-image">
+                        <img src="~/assets/contact/business-inquiries.jpg" alt="Business Inquiries" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-placeholder">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="contact-info-section">
+                <h2>Get in Touch</h2>
+                <div class="contact-info-grid">
+                    <div class="contact-info-card">
+                        <h3>Email Us</h3>
+                        <p>support@gadgethub.lk</p>
+                        <p>info@gadgethub.lk</p>
+                    </div>
+                    
+                    <div class="contact-info-card">
+                        <h3>Call Us</h3>
+                        <p>+94 81 234 5678</p>
+                        <p>+94 77 123 4567</p>
+                    </div>
+                    
+                    <div class="contact-info-card">
+                        <h3>Visit Us</h3>
+                        <p>123 Dalada Veediya</p>
+                        <p>Kandy, Sri Lanka</p>
+                    </div>
+                    
+                    <div class="contact-info-card">
+                        <h3>Business Hours</h3>
+                        <p>Mon - Fri: 9:00 AM - 6:00 PM</p>
+                        <p>Sat: 9:00 AM - 4:00 PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GadgetHub</h3>
+                <p>Your gateway to the latest technology. Discover, compare, and shop the best gadgets from trusted distributors.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/Products">Products</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About Us</a></li>
+                    <li><a href="/Support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GadgetHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+
+            // Close menu when clicking on a link
+            nav.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!hamburger.contains(e.target) && !nav.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+
+            // Contact card buttons - removed old alert handlers
+        });
+
+    </script>
+
+    <script>
+        // Update profile icon to round profile image for admin
+        function updateProfileIcon() {
+            const profileLink = document.querySelector('.login-link');
+            if (profileLink) {
+                const img = profileLink.querySelector('img');
+                if (img) {
+                    // Check if admin is logged in
+                    const adminSession = localStorage.getItem('adminSession');
+                    if (adminSession) {
+                        // Create a round profile image with admin initials
+                        const adminUser = JSON.parse(localStorage.getItem('adminUser')) || {};
+                        const adminName = adminUser.name || 'Admin';
+                        const initials = adminName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                        
+                        // Create a round profile image
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 32;
+                        canvas.height = 32;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Draw round background
+                        ctx.fillStyle = '#666666'; // Ash color for admin
+                        ctx.beginPath();
+                        ctx.arc(16, 16, 16, 0, 2 * Math.PI);
+                        ctx.fill();
+                        
+                        // Draw initials
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = 'bold 12px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(initials, 16, 16);
+                        
+                        // Replace the image with the canvas
+                        img.src = canvas.toDataURL();
+                        img.alt = 'Admin Profile';
+                        img.style.borderRadius = '50%';
+                        img.style.border = '2px solid #666666';
+                        
+                        // Update link to go to admin dashboard
+                        profileLink.href = '/AdminDashboard';
+                        profileLink.title = 'Admin Profile';
+                    }
+                }
+            }
+        }
+
+        // Initialize authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update navigation based on login status
+            updateNavigation();
+        });
+    </script>
+</body>
+</html>

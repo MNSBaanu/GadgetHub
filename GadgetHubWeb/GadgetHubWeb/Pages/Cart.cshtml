@@ -1,0 +1,485 @@
+@page
+@model GadgetHubWeb.Pages.CartModel
+@{
+    ViewData["Title"] = "Shopping Cart - GadgetHub";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/cart.css" />
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="logo">
+            <img src="~/assets/logo.png" alt="GadgetHub Logo" />
+            <span>GadgetHub</span>
+        </div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav" id="nav">
+            <a href="/Index">Home</a>
+            <a href="/Products">Products</a>
+            <a href="/Contact">Contact</a>
+            <a href="/Cart" class="cart-link">
+                <i class="fas fa-shopping-cart" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+            <a href="/Login" class="login-link" id="loginLink">
+                <i class="fas fa-user-circle" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+            
+            <!-- User Profile Navigation -->
+            <div class="user-profile-nav" id="userProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/Dashboard" class="user-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="userAvatar">
+                    <span class="avatar-initials" id="avatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">U</span>
+                </a>
+            </div>
+            
+            <!-- Admin Profile Navigation -->
+            <div class="admin-profile-nav" id="adminProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/AdminDashboard" class="admin-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="adminAvatar">
+                    <span class="avatar-initials" id="adminAvatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">A</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Cart Page Content -->
+    <div class="cart-page">
+        <div class="container">
+            <h1 id="cartTitle" style="display: none;">Shopping Cart</h1>
+            <p class="page-description" id="cartDescription" style="display: none;">Review your selected items and proceed to checkout</p>
+
+            <!-- Cart Content -->
+            <div class="cart-content">
+                <!-- Cart Items -->
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be loaded dynamically -->
+                </div>
+
+                <!-- Empty Cart Message -->
+                <div class="empty-cart" id="emptyCart" style="display: none;">
+                    <div class="empty-cart-content">
+                        <i class="fas fa-shopping-cart empty-cart-icon" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></i>
+                        <h2>Your cart is empty</h2>
+                        <p>Add some amazing gadgets to get started!</p>
+                        <a href="/Products" class="btn-primary">Start Shopping</a>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="cart-summary" id="cartSummary" style="display: none;">
+                    <div class="summary-card">
+                        <div class="select-all-section">
+                            <label class="select-all-label">
+                                <input type="checkbox" id="selectAll" checked onchange="selectAllItems()">
+                                <span>Select All Items for Checkout</span>
+                            </label>
+                        </div>
+                        <h3>Order Summary</h3>
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">LKR 0</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total:</span>
+                            <span id="total">LKR 0</span>
+                        </div>
+                        <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                        <a href="/Products" class="continue-shopping">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GadgetHub</h3>
+                <p>Your gateway to the latest technology. Discover, compare, and shop the best gadgets from trusted distributors.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/Products">Products</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About Us</a></li>
+                    <li><a href="/Support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GadgetHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+
+            // Close menu when clicking on a link
+            nav.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!hamburger.contains(e.target) && !nav.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+        });
+
+        // Load cart items from localStorage
+        function loadCartItems() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const cartItemsContainer = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartSummary = document.getElementById('cartSummary');
+            const cartTitle = document.getElementById('cartTitle');
+            const cartDescription = document.getElementById('cartDescription');
+
+            if (cartItems.length === 0) {
+                cartItemsContainer.style.display = 'none';
+                emptyCart.style.display = 'block';
+                cartSummary.style.display = 'none';
+                cartTitle.style.display = 'none';
+                cartDescription.style.display = 'none';
+                return;
+            }
+
+            cartItemsContainer.style.display = 'block';
+            emptyCart.style.display = 'none';
+            cartSummary.style.display = 'block';
+            cartTitle.style.display = 'block';
+            cartDescription.style.display = 'block';
+
+            cartItemsContainer.innerHTML = '';
+            let subtotal = 0;
+
+            cartItems.forEach((item, index) => {
+                const itemTotal = (Number(item.price) || 0) * (Number(item.quantity) || 1);
+                subtotal += itemTotal;
+
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="item-select">
+                        <input type="checkbox" id="selectItem${index}" checked onchange="updateCheckoutButton()">
+                    </div>
+                    <div class="item-image">
+                        <img src="${item.image || '/assets/products/placeholder.jpg'}" alt="${item.name}" onerror="this.src='/assets/products/placeholder.jpg'">
+                    </div>
+                    <div class="item-info">
+                        <h3 class="item-title">${item.name || ''}</h3>
+                        <p class="item-category">${(item.category || '').toString().toUpperCase()}</p>
+                        <p class="item-description">${item.description || ''}</p>
+                        <div class="quantity-section">
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">-</button>
+                            <span class="quantity">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                            <span class="item-total">LKR ${itemTotal.toLocaleString()}</span>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+            });
+
+            updateCartSummary(subtotal);
+            updateCheckoutButton();
+        }
+
+        // Update quantity
+        function updateQuantity(index, change) {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            cartItems[index].quantity += change;
+            
+            if (cartItems[index].quantity <= 0) {
+                cartItems.splice(index, 1);
+            }
+            
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            loadCartItems();
+        }
+
+        // Remove item from cart
+        function removeItem(index) {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            cartItems.splice(index, 1);
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            loadCartItems();
+        }
+
+        // Update cart summary
+        function updateCartSummary(subtotal) {
+            // No shipping or tax - just use subtotal as total
+            const total = subtotal;
+
+            document.getElementById('subtotal').textContent = `LKR ${subtotal.toLocaleString()}`;
+            document.getElementById('total').textContent = `LKR ${total.toLocaleString()}`;
+            
+            // Store calculated totals in localStorage for checkout page
+            const cartTotals = {
+                subtotal: subtotal,
+                shipping: 0,
+                tax: 0,
+                total: total
+            };
+            localStorage.setItem('cartTotals', JSON.stringify(cartTotals));
+        }
+
+        // Proceed to checkout
+        async function proceedToCheckout() {
+            // Check if admin is logged in
+            if (isAdminLoggedIn()) {
+                alert('Admin users cannot place orders. Please log out and use a customer account to place orders.');
+                return;
+            }
+            
+            // Check if user is logged in
+            const userSession = localStorage.getItem('sessionId');
+            if (!userSession) {
+                window.location.href = '/Login';
+                return;
+            }
+            
+            // For regular users, do server validation
+            if (userSession) {
+                // For regular users, do server validation
+                const userLoggedIn = await isUserLoggedIn();
+                if (!userLoggedIn) {
+                    window.location.href = '/Login';
+                    return;
+                }
+            }
+            
+            // Get selected items for checkout
+            const selectedItems = getSelectedItems();
+            
+            if (selectedItems.length === 0) {
+                alert('Please select at least one item to checkout');
+                return;
+            }
+            
+            // Store selected items for checkout
+            localStorage.setItem('checkoutItems', JSON.stringify(selectedItems));
+            
+            // Calculate totals for selected items
+            let subtotal = 0;
+            selectedItems.forEach(item => {
+                subtotal += item.price * item.quantity;
+            });
+            
+            // No shipping or tax - just use subtotal as total
+            const total = subtotal;
+            
+            // Store checkout totals
+            const checkoutTotals = {
+                subtotal: subtotal,
+                shipping: 0,
+                tax: 0,
+                total: total
+            };
+            localStorage.setItem('checkoutTotals', JSON.stringify(checkoutTotals));
+            
+            // Redirect to checkout page
+            window.location.href = '/Checkout';
+        }
+
+        // Get selected items for checkout
+        function getSelectedItems() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const selectedItems = [];
+            
+            cartItems.forEach((item, index) => {
+                const checkbox = document.getElementById(`selectItem${index}`);
+                if (checkbox && checkbox.checked) {
+                    selectedItems.push(item);
+                }
+            });
+            
+            return selectedItems;
+        }
+
+        // Select all items
+        function selectAllItems() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const selectAllCheckbox = document.getElementById('selectAll');
+            
+            cartItems.forEach((item, index) => {
+                const checkbox = document.getElementById(`selectItem${index}`);
+                if (checkbox) {
+                    checkbox.checked = selectAllCheckbox.checked;
+                }
+            });
+            
+            updateCheckoutButton();
+        }
+
+        // Update checkout button state
+        function updateCheckoutButton() {
+            const selectedItems = getSelectedItems();
+            const checkoutBtn = document.querySelector('.checkout-btn');
+            
+            if (selectedItems.length === 0) {
+                checkoutBtn.disabled = true;
+                checkoutBtn.textContent = 'Select Items to Checkout';
+            } else {
+                checkoutBtn.disabled = false;
+                checkoutBtn.textContent = `Proceed to Checkout (${selectedItems.length} items)`;
+            }
+        }
+
+        // Function to check if user is logged in
+        function checkUserLoginStatus() {
+            // Check localStorage for session ID
+            const sessionId = localStorage.getItem('sessionId');
+            return sessionId !== null;
+        }
+
+        // Check authentication and load cart items when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Cart page loaded, initializing navigation...');
+            
+            // Update navigation first
+            updateNavigation();
+            
+            // Check if either user or admin is logged in
+            const userSession = localStorage.getItem('sessionId');
+            const adminSession = localStorage.getItem('adminSession');
+            
+            if (!userSession && !adminSession) {
+                console.log('❌ No session found, redirecting to login');
+                window.location.href = '/Login';
+                return;
+            }
+            
+            // If admin is logged in, disable checkout functionality
+            if (adminSession) {
+                console.log('✅ Admin session found, loading cart items but disabling checkout');
+                loadCartItems();
+                
+                // Disable checkout button for admin
+                const checkoutBtn = document.querySelector('.checkout-btn');
+                if (checkoutBtn) {
+                    checkoutBtn.disabled = true;
+                    checkoutBtn.textContent = 'Admin Cannot Place Orders';
+                    checkoutBtn.style.backgroundColor = '#ccc';
+                    checkoutBtn.style.cursor = 'not-allowed';
+                }
+                
+                // Show admin notice
+                const checkoutSection = document.querySelector('.checkout-section');
+                if (checkoutSection) {
+                    const adminNotice = document.createElement('div');
+                    adminNotice.className = 'admin-notice';
+                    adminNotice.innerHTML = '<i class="fas fa-info-circle"></i> Admin users cannot place orders. Please log out and use a customer account.';
+                    adminNotice.style.cssText = 'background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 12px; border-radius: 6px; margin-top: 10px; font-size: 14px; display: flex; align-items: center; gap: 8px;';
+                    checkoutSection.appendChild(adminNotice);
+                }
+                return;
+            }
+            
+            // For regular users, do server validation
+            if (userSession) {
+                const userLoggedIn = await isUserLoggedIn();
+                if (!userLoggedIn) {
+                    console.log('❌ User session invalid, redirecting to login');
+                    window.location.href = '/Login';
+                    return;
+                }
+                console.log('✅ User session valid, loading cart items');
+                loadCartItems();
+            }
+        });
+    </script>
+
+    <script>
+        // Update profile icon to round profile image for admin
+        function updateProfileIcon() {
+            const profileLink = document.querySelector('.login-link');
+            if (profileLink) {
+                const img = profileLink.querySelector('img');
+                if (img) {
+                    // Check if admin is logged in
+                    const adminSession = localStorage.getItem('adminSession');
+                    if (adminSession) {
+                        // Create a round profile image with admin initials
+                        const adminUser = JSON.parse(localStorage.getItem('adminUser')) || {};
+                        const adminName = adminUser.name || 'Admin';
+                        const initials = adminName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                        
+                        // Create a round profile image
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 32;
+                        canvas.height = 32;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Draw round background
+                        ctx.fillStyle = '#8b5cf6'; // Purple color for admin
+                        ctx.beginPath();
+                        ctx.arc(16, 16, 16, 0, 2 * Math.PI);
+                        ctx.fill();
+                        
+                        // Draw initials
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = 'bold 12px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(initials, 16, 16);
+                        
+                        // Replace the image with the canvas
+                        img.src = canvas.toDataURL();
+                        img.alt = 'Admin Profile';
+                        img.style.borderRadius = '50%';
+                        img.style.border = '2px solid #8b5cf6';
+                        
+                        // Update link to go to admin dashboard
+                        profileLink.href = '/AdminDashboard';
+                        profileLink.title = 'Admin Profile';
+                    }
+                }
+            }
+        }
+
+    </script>
+
+    <!-- Auth Script - Load at end of body -->
+    <script src="~/js/auth.js"></script>
+</body>
+</html>
