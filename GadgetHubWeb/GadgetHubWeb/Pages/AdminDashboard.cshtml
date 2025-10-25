@@ -1,0 +1,1442 @@
+@page
+@model GadgetHubWeb.Pages.AdminDashboardModel
+@{
+    ViewData["Title"] = "Admin Dashboard - GadgetHub";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>@ViewData["Title"] - @DateTime.Now.Ticks</title>
+    <!-- Cache Bust: @DateTime.Now.Ticks -->
+    <link rel="stylesheet" href="~/css/admin-dashboard.css?v=@DateTime.Now.Ticks" />
+    <link rel="stylesheet" href="~/css/admin-sidebar.css?v=@DateTime.Now.Ticks" />
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="logo">
+            <img src="~/assets/logo.png" alt="GadgetHub Logo" />
+            <span>GadgetHub</span>
+        </div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav" id="nav">
+            <a href="/Index" title="Home - Go to main page">Home</a>
+            <a href="/Products" title="Products - Browse our product catalog">Products</a>
+            <a href="/Contact" title="Contact - Get in touch with us">Contact</a>
+            <a href="/Cart" class="cart-link" title="Shopping Cart - Review your selected items">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount" style="display: none;">0</span>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Pinterest-Style Sidebar -->
+    <div class="admin-sidebar" id="adminSidebar">
+        <div class="sidebar-profile" id="sidebarProfile" onclick="closeSidebarAndRedirectHome()" style="cursor: pointer;" title="Admin Profile - Click to go to home page">
+            <!-- Admin profile image will be dynamically generated here -->
+        </div>
+        
+        <nav class="sidebar-nav">
+            <!-- Dashboard Overview -->
+            <div class="sidebar-item active" onclick="openHomeSection()" data-label="Dashboard" title="Dashboard">
+                <i class="fas fa-home sidebar-icon"></i>
+            </div>
+
+            <!-- Products Management -->
+            <div class="sidebar-item" onclick="openProductsSection()" data-label="Products" title="Products Management">
+                <i class="fas fa-box sidebar-icon"></i>
+            </div>
+
+            <!-- Orders Management -->
+            <div class="sidebar-item" onclick="openOrdersSection()" data-label="Orders" title="Orders Management">
+                <i class="fas fa-clipboard-list sidebar-icon"></i>
+            </div>
+
+            <!-- Customers Management -->
+            <div class="sidebar-item" onclick="openCustomersSection()" data-label="Customers" title="Customers Management">
+                <i class="fas fa-users sidebar-icon"></i>
+            </div>
+
+            <!-- Quotations Management -->
+            <div class="sidebar-item" onclick="openQuotationsSection()" data-label="Quotations" title="Quotations Management">
+                <i class="fas fa-file-invoice-dollar sidebar-icon"></i>
+            </div>
+
+
+            <!-- Logout -->
+            <div class="sidebar-item logout" onclick="logout()" data-label="Logout" title="Logout">
+                <i class="fas fa-sign-out-alt sidebar-icon"></i>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Admin Dashboard Content -->
+    <div class="dashboard-page admin-dashboard">
+        <div class="container">
+
+            <div class="dashboard-content">
+                <!-- Admin Overview Section -->
+                <div class="dashboard-section" id="overviewSection" style="display: block;">
+                    <div class="welcome-section">
+                        <h1>Welcome to Admin Dashboard</h1>
+                        <p>Manage your e-commerce platform, orders, customers, and analytics</p>
+                    </div>
+                    
+                    <!-- Admin Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3 id="totalOrders">0</h3>
+                                <p>Total Orders</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3 id="totalRevenue">LKR 0</h3>
+                                <p>Total Revenue</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3 id="totalCustomers">0</h3>
+                                <p>Total Customers</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <h3 id="totalProducts">0</h3>
+                                <p>Total Products</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Admin Sections -->
+                <div class="dashboard-section" id="ordersSection" style="display: none;">
+                    <div class="section-header">
+                        <h2>Order Management</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" onclick="refreshOrders()">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="orders-content">
+                        <div class="orders-list" id="ordersList">
+                            <!-- Orders will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-section" id="customersSection" style="display: none;">
+                    <div class="section-header">
+                        <h2>Customer Management</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" onclick="refreshCustomers()">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="customers-content">
+                        <div class="customers-list" id="customersList">
+                            <!-- Customers will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-section" id="productsSection" style="display: none;">
+                    <div class="section-header">
+                        <h2>Product Management</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" onclick="refreshProducts()">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh
+                            </button>
+                        </div>
+                    </div>
+                    <div class="products-content">
+                        <div class="products-list" id="productsList">
+                            <!-- Products will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-section" id="quotationsSection" style="display: none;">
+                    <div class="section-header">
+                        <h2>Quotation Management</h2>
+                        <div class="section-actions">
+                            <div class="filter-buttons">
+                                <button class="btn btn-outline" onclick="filterQuotations('all')" id="filterAll">All</button>
+                                <button class="btn btn-outline" onclick="filterQuotations('pending')" id="filterPending">Pending</button>
+                                <button class="btn btn-outline" onclick="filterQuotations('confirmed')" id="filterConfirmed">Confirmed</button>
+                            </div>
+                            <button class="btn btn-primary" onclick="refreshQuotations()">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh
+                            </button>
+                            <button class="btn btn-info" onclick="autoSelectBestQuotations()">
+                                <i class="fas fa-magic"></i>
+                                Auto Select Best
+                            </button>
+                            <button class="btn btn-success" onclick="processSelectedQuotations()">
+                                <i class="fas fa-check"></i>
+                                Process Selected
+                            </button>
+                        </div>
+                    </div>
+                    <div class="quotations-content">
+                        <div class="quotations-list" id="quotationsList">
+                            <!-- Quotations will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="dashboard-section" id="settingsSection" style="display: none;">
+                    <div class="section-header">
+                        <h2>System Settings</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-primary" onclick="saveSettings()">
+                                <i class="fas fa-save"></i>
+                                Save Settings
+                            </button>
+                        </div>
+                    </div>
+                    <div class="settings-content">
+                        <div class="settings-grid">
+                            <div class="settings-card">
+                                <h3>General Settings</h3>
+                                <div class="setting-item">
+                                    <label>Site Name</label>
+                                    <input type="text" id="siteName" value="GadgetHub" />
+                                </div>
+                                <div class="setting-item">
+                                    <label>Admin Email</label>
+                                    <input type="email" id="adminEmail" value="admin@gadgethub.com" />
+                                </div>
+                            </div>
+                            <div class="settings-card">
+                                <h3>Security Settings</h3>
+                                <div class="setting-item">
+                                    <label>Session Timeout (minutes)</label>
+                                    <input type="number" id="sessionTimeout" value="30" />
+                                </div>
+                                <div class="setting-item">
+                                    <label>Enable Two-Factor Auth</label>
+                                    <input type="checkbox" id="twoFactorAuth" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GadgetHub</h3>
+                <p>Your gateway to the latest technology. Discover, compare, and shop the best gadgets from trusted distributors.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/Products">Products</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About Us</a></li>
+                    <li><a href="/Support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GadgetHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Admin Profile Edit Panel -->
+    <div class="edit-panel-overlay" id="adminEditPanelOverlay" onclick="closeAdminEditPanel()">
+        <div class="edit-panel" id="adminEditPanel" onclick="event.stopPropagation()">
+            <div class="edit-panel-header">
+                <h2>Edit Admin Profile</h2>
+                <button class="close-btn" onclick="closeAdminEditPanel()">×</button>
+            </div>
+            <div class="edit-panel-content">
+                <form id="adminProfileEditForm" class="edit-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editAdminName">Admin Name</label>
+                            <input type="text" id="editAdminName" name="adminName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editAdminEmail">Email Address</label>
+                            <input type="email" id="editAdminEmail" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAdminRole">Role</label>
+                        <input type="text" id="editAdminRole" name="role" value="Administrator" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAdminDepartment">Department</label>
+                        <input type="text" id="editAdminDepartment" name="department" placeholder="Enter department">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAdminPhone">Phone Number</label>
+                        <input type="tel" id="editAdminPhone" name="phone" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAdminNotes">Admin Notes</label>
+                        <textarea id="editAdminNotes" name="notes" placeholder="Enter any admin notes or preferences" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeAdminEditPanel()">Cancel</button>
+                        <button type="submit" class="btn-save">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 'overview';
+        let adminData = {
+            orders: [],
+            customers: [],
+            products: [],
+            analytics: {}
+        };
+        
+        function toggleSidebar() {
+            const sidebar = document.getElementById('adminSidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('open');
+            }
+        }
+        
+        function updateSidebarActiveState(section) {
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const activeItem = document.querySelector(`[onclick*="${section}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active');
+            }
+        }
+        
+        function hideAllSections() {
+            document.querySelectorAll('.dashboard-section').forEach(section => {
+                section.style.display = 'none';
+            });
+        }
+        
+        function openHomeSection() {
+            hideAllSections();
+            const overviewSection = document.getElementById('overviewSection');
+            if (overviewSection) {
+                overviewSection.style.display = 'block';
+            }
+            currentSection = 'overview';
+            updateSidebarActiveState('openHomeSection');
+        }
+        
+        function openProductsSection() {
+            hideAllSections();
+            document.getElementById('productsSection').style.display = 'block';
+            currentSection = 'products';
+            updateSidebarActiveState('openProductsSection');
+        }
+        
+        function openOrdersSection() {
+            hideAllSections();
+            document.getElementById('ordersSection').style.display = 'block';
+            currentSection = 'orders';
+            updateSidebarActiveState('openOrdersSection');
+        }
+        
+        function openCustomersSection() {
+            hideAllSections();
+            document.getElementById('customersSection').style.display = 'block';
+            currentSection = 'customers';
+            updateSidebarActiveState('openCustomersSection');
+        }
+        
+        function openQuotationsSection() {
+            hideAllSections();
+            document.getElementById('quotationsSection').style.display = 'block';
+            currentSection = 'quotations';
+            updateSidebarActiveState('openQuotationsSection');
+            loadQuotations();
+        }
+        
+
+        document.getElementById('adminProfileEditForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
+            adminUser.name = data.adminName;
+            adminUser.email = data.email;
+            adminUser.role = data.role;
+            adminUser.department = data.department;
+            adminUser.phone = data.phone;
+            adminUser.notes = data.notes;
+            localStorage.setItem('adminUser', JSON.stringify(adminUser));
+
+            updateProfileIcon();
+
+            closeAdminEditPanel();
+
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAdminAuthentication();
+            setupHamburgerMenu();
+            loadAdminDashboardData();
+            updateProfileIcon();
+            generateAdminProfileImage();
+            
+            openHomeSection();
+        });
+
+        function generateAdminProfileImage() {
+            const profileContainer = document.getElementById('sidebarProfile');
+            if (!profileContainer) return;
+
+            const avatar = document.createElement('div');
+            avatar.style.cssText = `
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-size: 24px;
+                font-weight: bold;
+                font-family: 'Inter', sans-serif;
+                border: 3px solid #1a1a1a;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                margin: 0 auto;
+            `;
+            avatar.textContent = 'A';
+            avatar.title = 'Admin Profile';
+
+            profileContainer.innerHTML = '';
+            profileContainer.appendChild(avatar);
+        }
+
+        function closeSidebarAndRedirectHome() {
+            window.location.href = '/Index';
+        }
+
+        function setupHamburgerMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', function() {
+                    hamburger.classList.toggle('active');
+                    nav.classList.toggle('active');
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!hamburger.contains(e.target) && !nav.contains(e.target)) {
+                        hamburger.classList.remove('active');
+                        nav.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Check admin authentication
+        async function checkAdminAuthentication() {
+            const adminSession = localStorage.getItem('adminSession');
+            if (!adminSession) {
+                window.location.href = '/Login';
+                return;
+            }
+
+            try {
+                // Authentication removed - just show demo message
+                return;
+                
+                const response = await fetch('/api/admin/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ sessionId: adminSession })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Invalid session');
+                }
+            } catch (error) {
+                console.error('Admin authentication failed:', error);
+                localStorage.removeItem('adminSession');
+                localStorage.removeItem('adminUser');
+                window.location.href = '/Login';
+            }
+        }
+
+        // Load admin dashboard data
+        async function loadAdminDashboardData() {
+            try {
+                await Promise.all([
+                    loadAdminStats(),
+                    loadOrders(),
+                    loadCustomers(),
+                    loadProducts()
+                ]);
+            } catch (error) {
+                console.error('Error loading admin dashboard data:', error);
+            }
+        }
+
+        // Load admin statistics
+        async function loadAdminStats() {
+            try {
+                // Try to get real data from API
+                const [ordersResponse, customersResponse, productsResponse] = await Promise.allSettled([
+                    fetch('https://localhost:7091/api/Order/all'),
+                    fetch('https://localhost:7091/api/Customer'),
+                    fetch('https://localhost:7091/api/Product')
+                ]);
+
+                let totalOrders = 0;
+                let totalRevenue = 0;
+                let totalCustomers = 0;
+                let totalProducts = 0;
+
+                // Process orders
+                if (ordersResponse.status === 'fulfilled') {
+                    const orders = await ordersResponse.value.json();
+                    if (Array.isArray(orders)) {
+                        totalOrders = orders.length;
+                        totalRevenue = orders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+                    }
+                }
+
+                // Process customers
+                if (customersResponse.status === 'fulfilled') {
+                    const customers = await customersResponse.value.json();
+                    if (Array.isArray(customers)) {
+                        totalCustomers = customers.length;
+                    }
+                }
+
+                // Process products
+                if (productsResponse.status === 'fulfilled') {
+                    const products = await productsResponse.value.json();
+                    if (Array.isArray(products)) {
+                        totalProducts = products.length;
+                    }
+                }
+
+                // Update the stats display
+                document.getElementById('totalOrders').textContent = totalOrders;
+                document.getElementById('totalRevenue').textContent = `LKR ${totalRevenue.toLocaleString()}`;
+                document.getElementById('totalCustomers').textContent = totalCustomers;
+                document.getElementById('totalProducts').textContent = totalProducts;
+
+            } catch (error) {
+                console.error('Error loading admin stats:', error);
+                // Show demo data if API fails
+                document.getElementById('totalOrders').textContent = '25';
+                document.getElementById('totalRevenue').textContent = 'LKR 50,000';
+                document.getElementById('totalCustomers').textContent = '15';
+                document.getElementById('totalProducts').textContent = '100';
+            }
+        }
+
+        // Load orders
+        async function loadOrders() {
+            try {
+                console.log('🔍 ADMIN: Trying to load orders from API...');
+                
+                // First try the simple test endpoint
+                const testResponse = await fetch('https://localhost:7091/api/Order/simple');
+                if (testResponse.ok) {
+                    const testData = await testResponse.json();
+                    console.log('✅ ADMIN: Simple test endpoint works:', testData);
+                    
+                    // If simple works, try the full endpoint
+                    const response = await fetch('https://localhost:7091/api/Order/all');
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('✅ ADMIN: Full endpoint works:', data);
+                        
+                        if (data && Array.isArray(data)) {
+                            adminData.orders = data.map(order => ({
+                                orderId: order.orderNumber,
+                                customerName: order.customerName,
+                                totalAmount: order.totalAmount,
+                                status: order.status,
+                                orderDate: order.orderDate
+                            }));
+                            displayOrders(adminData.orders);
+                            return;
+                        }
+                    } else {
+                        console.log('⚠️ ADMIN: Full endpoint failed, using simple test data');
+                        // Use the simple test data
+                        adminData.orders = testData.map(order => ({
+                            orderId: order.orderNumber,
+                            customerName: order.customerName,
+                            totalAmount: order.totalAmount,
+                            status: order.status,
+                            orderDate: order.orderDate
+                        }));
+                        displayOrders(adminData.orders);
+                        return;
+                    }
+                }
+                
+                // Fallback to demo data
+                console.log('⚠️ ADMIN: API not working, using demo data');
+                adminData.orders = [
+                    {
+                        orderId: 'GH-2025-001',
+                        customerName: 'Demo Customer',
+                        totalAmount: 1500,
+                        status: 'Confirmed',
+                        orderDate: new Date()
+                    }
+                ];
+                displayOrders(adminData.orders);
+                
+            } catch (error) {
+                console.error('💥 ADMIN: Error loading orders:', error);
+                // Show demo data instead
+                adminData.orders = [
+                    {
+                        orderId: 'GH-2025-001',
+                        customerName: 'Demo Customer',
+                        totalAmount: 1500,
+                        status: 'Confirmed',
+                        orderDate: new Date()
+                    }
+                ];
+                displayOrders(adminData.orders);
+            }
+        }
+
+        // Load completed orders with selected quotations
+        async function loadCompletedOrdersWithQuotations() {
+            try {
+                console.log('🔍 ADMIN: Loading completed orders with quotations...');
+                
+                const response = await fetch('https://localhost:7091/api/QuotationManagement/completed-orders/selected-quotations');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ ADMIN: Quotations endpoint works:', data);
+                    
+                    if (data && Array.isArray(data)) {
+                        displayCompletedOrdersWithQuotations(data);
+                    } else {
+                        console.log('ℹ️ ADMIN: No quotations data, showing empty state');
+                        displayCompletedOrdersWithQuotations([]);
+                    }
+                } else {
+                    console.log('⚠️ ADMIN: Quotations endpoint failed, showing empty state');
+                    displayCompletedOrdersWithQuotations([]);
+                }
+            } catch (error) {
+                console.error('💥 ADMIN: Error loading completed orders with quotations:', error);
+                // Show empty state
+                displayCompletedOrdersWithQuotations([]);
+            }
+        }
+
+        // Load customers
+        async function loadCustomers() {
+            try {
+                // Loading customers from API
+                const response = await fetch('https://localhost:7091/api/Customer');
+                const data = await response.json();
+                
+                if (data && Array.isArray(data)) {
+                    adminData.customers = data.map(customer => ({
+                        id: customer.id,
+                        firstName: customer.firstName,
+                        lastName: customer.lastName,
+                        email: customer.email,
+                        phone: customer.phone || 'N/A',
+                        createdDate: customer.createdDate,
+                        lastLoginDate: customer.lastLogin
+                    }));
+                    displayCustomers(adminData.customers);
+                }
+            } catch (error) {
+                console.error('Error loading customers:', error);
+                // Show demo data instead
+                adminData.customers = [
+                    {
+                        id: 1,
+                        firstName: 'Demo',
+                        lastName: 'Customer',
+                        email: 'demo@example.com',
+                        phone: 'N/A',
+                        createdDate: new Date(),
+                        lastLoginDate: new Date()
+                    }
+                ];
+                displayCustomers(adminData.customers);
+            }
+        }
+
+        // Load products with distributor comparison
+        async function loadProducts() {
+            try {
+                // Loading product comparison from API
+                const response = await fetch('https://localhost:7091/api/Product');
+                const data = await response.json();
+                
+                if (data && Array.isArray(data)) {
+                    // Group products by productId to show all distributor options
+                    const productGroups = {};
+                    data.forEach(product => {
+                        if (!productGroups[product.productId]) {
+                            productGroups[product.productId] = [];
+                        }
+                        productGroups[product.productId].push({
+                            id: product.productId,
+                            productId: product.productId,
+                            name: product.name,
+                            price: product.price,
+                            originalPrice: product.originalPrice,
+                            category: product.category || 'Electronics',
+                            brand: product.distributorName || 'GadgetHub',
+                            distributor: product.distributorName || 'Unknown',
+                            score: product.score || 0,
+                            isBest: product.isBestChoice || false,
+                            stock: product.stock || 0,
+                            deliveryTime: product.deliveryTime || 0,
+                            description: product.description || '',
+                            imageUrl: product.imageUrl || '',
+                            whyBest: product.whyBest || ''
+                        });
+                    });
+                    
+                    adminData.products = productGroups;
+                    displayProductComparison(adminData.products);
+                }
+            } catch (error) {
+                console.error('Error loading product comparison:', error);
+                // Show demo comparison data instead
+                adminData.products = {
+                    'PROD-001': [
+                        {
+                            id: 1,
+                            productId: 'PROD-001',
+                            name: 'iPhone 15 Pro',
+                            price: 287500,
+                            originalPrice: 250000,
+                            category: 'Electronics',
+                            brand: 'Apple',
+                            distributor: 'ElectroCom',
+                            score: 85.5,
+                            isBest: true,
+                            stock: 15,
+                            deliveryTime: 2,
+                            whyBest: 'Best price and fastest delivery'
+                        },
+                        {
+                            id: 2,
+                            productId: 'PROD-001',
+                            name: 'iPhone 15 Pro',
+                            price: 299000,
+                            originalPrice: 260000,
+                            category: 'Electronics',
+                            brand: 'Apple',
+                            distributor: 'GadgetCentral',
+                            score: 78.2,
+                            isBest: false,
+                            stock: 8,
+                            deliveryTime: 3,
+                            whyBest: ''
+                        },
+                        {
+                            id: 3,
+                            productId: 'PROD-001',
+                            name: 'iPhone 15 Pro',
+                            price: 310500,
+                            originalPrice: 270000,
+                            category: 'Electronics',
+                            brand: 'Apple',
+                            distributor: 'TechWorld',
+                            score: 72.1,
+                            isBest: false,
+                            stock: 5,
+                            deliveryTime: 4,
+                            whyBest: ''
+                        }
+                    ]
+                };
+                displayProductComparison(adminData.products);
+            }
+        }
+
+
+        // Display orders
+        function displayOrders(orders) {
+            const ordersList = document.getElementById('ordersList');
+            if (!ordersList) return;
+
+            if (orders.length === 0) {
+                ordersList.innerHTML = '<p class="no-data">No orders found</p>';
+                return;
+            }
+
+            ordersList.innerHTML = orders.map(order => `
+                <div class="order-item">
+                    <div class="order-info">
+                        <h4>Order #${order.orderId}</h4>
+                        <p>Customer: ${order.customerName}</p>
+                        <p>Total: LKR ${order.totalAmount.toLocaleString()}</p>
+                        <p>Status: <span class="status-badge ${order.status.toLowerCase()}">${order.status}</span></p>
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn btn-sm btn-primary" onclick="viewOrderDetails('${order.orderId}')">View Details</button>
+                        <button class="btn btn-sm btn-secondary" onclick="updateOrderStatus('${order.orderId}')">Update Status</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Display completed orders with selected quotations
+        function displayCompletedOrdersWithQuotations(completedOrders) {
+            const ordersList = document.getElementById('ordersList');
+            if (!ordersList) return;
+
+            if (completedOrders.length === 0) {
+                ordersList.innerHTML = '<p class="no-data">No completed orders with quotations found</p>';
+                return;
+            }
+
+            ordersList.innerHTML = completedOrders.map(order => `
+                <div class="order-item completed-order">
+                    <div class="order-info">
+                        <h4>Order #${order.orderNumber}</h4>
+                        <p>Customer: ${order.customerName}</p>
+                        <p>Total: LKR ${order.totalAmount.toLocaleString()}</p>
+                        <p>Status: <span class="status-badge ${order.status.toLowerCase()}">${order.status}</span></p>
+                        <p>Date: ${new Date(order.orderDate).toLocaleDateString()}</p>
+                    </div>
+                    <div class="selected-quotations">
+                        <h5>Selected Quotations:</h5>
+                        ${order.selectedQuotations.map(quotation => `
+                            <div class="quotation-item">
+                                <div class="quotation-info">
+                                    <span class="product-name">${quotation.productName}</span>
+                                    <span class="distributor-name">${quotation.distributorName}</span>
+                                    <span class="delivery-time">${quotation.estimatedDeliveryDays} days</span>
+                                </div>
+                                <div class="quotation-price">
+                                    <span class="unit-price">LKR ${quotation.unitPrice.toLocaleString()}</span>
+                                    <span class="total-price">Total: LKR ${quotation.totalPrice.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn btn-sm btn-primary" onclick="viewOrderDetails('${order.orderNumber}')">View Details</button>
+                        <button class="btn btn-sm btn-success" onclick="viewSelectedQuotations('${order.orderId}')">View Quotations</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Display customers
+        function displayCustomers(customers) {
+            const customersList = document.getElementById('customersList');
+            if (!customersList) return;
+
+            if (customers.length === 0) {
+                customersList.innerHTML = '<p class="no-data">No customers found</p>';
+                return;
+            }
+
+            customersList.innerHTML = customers.map(customer => `
+                <div class="customer-item">
+                    <div class="customer-info">
+                        <h4>${customer.firstName} ${customer.lastName}</h4>
+                        <p>Email: ${customer.email}</p>
+                        <p>Phone: ${customer.phone || 'N/A'}</p>
+                        <p>Member since: ${new Date(customer.createdDate).toLocaleDateString()}</p>
+                    </div>
+                    <div class="customer-actions">
+                        <button class="btn btn-sm btn-primary" onclick="viewCustomerDetails('${customer.id}')">View Details</button>
+                        <button class="btn btn-sm btn-secondary" onclick="editCustomer('${customer.id}')">Edit</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Display product comparison
+        function displayProductComparison(productGroups) {
+            const productsList = document.getElementById('productsList');
+            if (!productsList) return;
+
+            if (Object.keys(productGroups).length === 0) {
+                productsList.innerHTML = '<p class="no-data">No products found</p>';
+                return;
+            }
+
+            // Display each product group with all distributor options
+            productsList.innerHTML = Object.values(productGroups).map(productGroup => {
+                const firstProduct = productGroup[0];
+                const bestProduct = productGroup.find(p => p.isBest) || productGroup[0];
+                
+                return `
+                    <div class="product-comparison-card">
+                        <div class="product-header">
+                            <h3>${firstProduct.name}</h3>
+                            <div class="product-category">${firstProduct.category} • ${firstProduct.brand}</div>
+                        </div>
+                        
+                        <div class="distributor-comparison">
+                            ${productGroup.map(product => `
+                                <div class="distributor-option ${product.isBest ? 'best-option' : ''}">
+                                    <div class="distributor-header">
+                                        <span class="distributor-name">${product.distributor}</span>
+                                        ${product.isBest ? '<span class="best-badge">⭐ BEST</span>' : ''}
+                                    </div>
+                                    <div class="price-info">
+                                        <div class="current-price">LKR ${product.price.toLocaleString()}</div>
+                                        <div class="original-price">Original: LKR ${product.originalPrice.toLocaleString()}</div>
+                                        <div class="markup">+20% markup</div>
+                                    </div>
+                                    <div class="score-info">
+                                        <div class="score">Score: ${product.score}</div>
+                                        <div class="stock">Stock: ${product.stock}</div>
+                                        <div class="delivery">Delivery: ${product.deliveryTime} days</div>
+                                    </div>
+                                    ${product.whyBest ? `<div class="why-best">Why Best: ${product.whyBest}</div>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="comparison-summary">
+                            <div class="summary-item">
+                                <span class="label">Best Choice:</span>
+                                <span class="value">${bestProduct.distributor} (Score: ${bestProduct.score})</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Price Range:</span>
+                                <span class="value">LKR ${Math.min(...productGroup.map(p => p.originalPrice)).toLocaleString()} - LKR ${Math.max(...productGroup.map(p => p.originalPrice)).toLocaleString()}</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Total Options:</span>
+                                <span class="value">${productGroup.length} distributors</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+
+        function openOrdersSection() {
+            hideAllSections();
+            document.getElementById('ordersSection').style.display = 'block';
+            currentSection = 'orders';
+            // Load both regular orders and completed orders with quotations
+            loadOrders();
+            loadCompletedOrdersWithQuotations();
+        }
+
+        function openCustomersSection() {
+            hideAllSections();
+            document.getElementById('customersSection').style.display = 'block';
+            currentSection = 'customers';
+        }
+
+        function openProductsSection() {
+            hideAllSections();
+            document.getElementById('productsSection').style.display = 'block';
+            currentSection = 'products';
+        }
+
+        function openAnalyticsSection() {
+            hideAllSections();
+            document.getElementById('analyticsSection').style.display = 'block';
+            currentSection = 'analytics';
+        }
+
+        function openSettingsSection() {
+            hideAllSections();
+            document.getElementById('settingsSection').style.display = 'block';
+            currentSection = 'settings';
+        }
+
+
+        // Refresh functions
+        function refreshOrders() {
+            loadOrders();
+        }
+
+        function refreshCustomers() {
+            loadCustomers();
+        }
+
+        function refreshProducts() {
+            loadProducts();
+        }
+
+        function refreshQuotations() {
+            loadQuotations();
+        }
+
+        // Load quotations with real distributor details
+        async function loadQuotations() {
+            try {
+                // Loading quotations from API
+                const response = await fetch('https://localhost:7091/api/QuotationManagement/quotations');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                // console.log('Received quotations data:', data); // Removed to prevent HTML logging
+                
+                if (data && Array.isArray(data)) {
+                    displayQuotations(data);
+                } else {
+                    // No quotations data received
+                    displayQuotations([]);
+                }
+            } catch (error) {
+                console.error('Error loading quotations:', error);
+                // Show empty state instead of demo data
+                displayQuotations([]);
+            }
+        }
+
+        // Global variable to store all quotations for filtering
+        let allQuotations = [];
+
+        // Display quotations with distributor comparison
+        function displayQuotations(quotations, filter = 'all') {
+            const quotationsList = document.getElementById('quotationsList');
+            if (!quotationsList) return;
+
+            // Store all quotations globally for filtering
+            allQuotations = quotations;
+
+            if (quotations.length === 0) {
+                quotationsList.innerHTML = `
+                    <div class="no-data-container">
+                        <div class="no-data-icon">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3>No Quotations Available</h3>
+                        <p>There are currently no quotations to review. Quotations will appear here when customers place orders and distributors respond with pricing.</p>
+                        <button class="btn btn-primary" onclick="refreshQuotations()">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Filter quotations based on status
+            let filteredQuotations = quotations;
+            if (filter === 'pending') {
+                filteredQuotations = quotations.filter(q => 
+                    q.quotations.some(quote => quote.status === 'Received' || quote.status === 'Pending')
+                );
+            } else if (filter === 'confirmed') {
+                filteredQuotations = quotations.filter(q => 
+                    q.quotations.some(quote => quote.status === 'Confirmed' || quote.status === 'Selected')
+                );
+            }
+
+            quotationsList.innerHTML = filteredQuotations.map(quotation => {
+                const isConfirmed = quotation.quotations.some(quote => quote.status === 'Confirmed' || quote.status === 'Selected');
+                const cardClass = isConfirmed ? 'quotation-comparison-card confirmed' : 'quotation-comparison-card pending';
+                
+                return `
+                    <div class="${cardClass}">
+                        <div class="quotation-header">
+                            <h3>${quotation.productName}</h3>
+                            <div class="quotation-details">
+                                <span class="quantity">Quantity: ${quotation.quantity}</span>
+                                <span class="order-id">Order ID: ${quotation.orderId}</span>
+                                ${isConfirmed ? '<span class="status-indicator confirmed"><i class="fas fa-check-circle"></i> Confirmed</span>' : '<span class="status-indicator pending"><i class="fas fa-clock"></i> Pending</span>'}
+                            </div>
+                        </div>
+                        
+                        <div class="distributor-comparison">
+                            ${quotation.quotations.map(quote => `
+                                <div class="distributor-option ${quote.status === 'Selected' || quote.status === 'Confirmed' ? 'selected' : ''}" 
+                                     data-distributor="${quote.distributorName}" 
+                                     data-quotation-id="${quote.quotationId}">
+                                    <div class="distributor-header">
+                                        <span class="distributor-name">${quote.distributorName}</span>
+                                        ${!isConfirmed ? `<input type="radio" name="quotation-${quotation.id}" 
+                                               value="${quote.distributorName}" 
+                                               ${quote.status === 'Selected' ? 'checked' : ''}
+                                               onchange="selectDistributor('${quote.quotationId}', '${quote.distributorName}')">` : ''}
+                                    </div>
+                                    <div class="price-info">
+                                        <div class="unit-price">LKR ${quote.unitPrice.toLocaleString()}</div>
+                                        <div class="total-price">Total: LKR ${quote.totalPrice.toLocaleString()}</div>
+                                    </div>
+                                    <div class="availability-info">
+                                        <div class="stock">Stock: ${quote.availableStock} units</div>
+                                        <div class="delivery">Delivery: ${quote.estimatedDeliveryDays} days</div>
+                                    </div>
+                                    <div class="status-badge ${quote.status.toLowerCase().replace(' ', '-')}">${quote.status}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Filter quotations function
+        function filterQuotations(filter) {
+            // Update button states
+            document.querySelectorAll('.filter-buttons .btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`filter${filter.charAt(0).toUpperCase() + filter.slice(1)}`).classList.add('active');
+            
+            // Display filtered quotations
+            displayQuotations(allQuotations, filter);
+        }
+
+        // Select distributor for quotation
+        function selectDistributor(quotationId, distributorName) {
+            // Selected distributor for quotation
+            
+            // Update visual selection
+            const quotationCard = document.querySelector(`[data-quotation-id="${quotationId}"]`);
+            if (quotationCard) {
+                // Remove selected class from all options
+                quotationCard.querySelectorAll('.distributor-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // Add selected class to chosen option
+                const selectedOption = quotationCard.querySelector(`[data-distributor="${distributorName}"]`);
+                if (selectedOption) {
+                    selectedOption.classList.add('selected');
+                }
+            }
+        }
+
+        // Process selected quotations
+        async function processSelectedQuotations() {
+            const selectedQuotations = [];
+            
+            // Collect all selected quotations
+            document.querySelectorAll('.quotation-comparison-card').forEach(card => {
+                const selectedRadio = card.querySelector('input[type="radio"]:checked');
+                if (selectedRadio) {
+                    const quotationId = selectedRadio.closest('.distributor-option').getAttribute('data-quotation-id');
+                    const distributorName = selectedRadio.value;
+                    
+                    selectedQuotations.push({
+                        QuotationId: parseInt(quotationId),
+                        DistributorName: distributorName
+                    });
+                }
+            });
+
+            if (selectedQuotations.length === 0) {
+                // Please select at least one distributor for each quotation
+                return;
+            }
+
+            try {
+                // console.log('Processing selected quotations:', selectedQuotations); // Removed to prevent HTML logging
+                
+                // Send selected quotations to API
+                const response = await fetch('https://localhost:7091/api/QuotationManagement/process-selected', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ SelectedQuotations: selectedQuotations })
+                });
+
+                if (response.ok) {
+                    // Selected quotations processed successfully
+                    loadQuotations(); // Refresh the list
+                } else {
+                    // Error processing quotations
+                }
+            } catch (error) {
+                console.error('Error processing quotations:', error);
+                // Error processing quotations
+            }
+        }
+
+        function refreshQuotations() {
+            loadQuotations();
+        }
+
+        // Auto select best quotations based on scoring algorithm
+        // Calculate quotation score using simple price and stock comparison (same as products page)
+        function calculateQuotationScore(price, stock, delivery, allPrices, allStocks, allDeliveries) {
+            // Simple scoring: Only compare price and stock (like products page)
+            // Price weight: 60%, Stock weight: 40%
+            
+            // Price score (0-100): Lower prices get higher scores
+            const minPrice = Math.min(...allPrices);
+            const maxPrice = Math.max(...allPrices);
+            const priceScore = maxPrice === minPrice ? 100 : Math.max(0, ((maxPrice - price) / (maxPrice - minPrice)) * 100);
+            
+            // Stock score (0-100): More stock gets higher scores
+            const minStock = Math.min(...allStocks);
+            const maxStock = Math.max(...allStocks);
+            const stockScore = maxStock === minStock ? 100 : Math.max(0, ((stock - minStock) / (maxStock - minStock)) * 100);
+            
+            // Simple weighted score: Price 60%, Stock 40%
+            const weightedScore = (priceScore * 0.6) + (stockScore * 0.4);
+            
+            return Math.round(weightedScore * 100) / 100; // Round to 2 decimal places
+        }
+
+        function autoSelectBestQuotations() {
+            const quotationCards = document.querySelectorAll('.quotation-comparison-card');
+            
+            if (quotationCards.length === 0) {
+                // No quotations available to auto-select
+                return;
+            }
+
+            let autoSelectedCount = 0;
+            
+            quotationCards.forEach(card => {
+                const distributorOptions = card.querySelectorAll('.distributor-option');
+                let bestOption = null;
+                let bestScore = -1;
+                
+                // Calculate score for each distributor option using the SAME algorithm as backend
+                const allPrices = Array.from(distributorOptions).map(option => 
+                    parseFloat(option.querySelector('.unit-price')?.textContent?.replace(/[^\d.]/g, '') || '0')
+                );
+                const allStocks = Array.from(distributorOptions).map(option => 
+                    parseInt(option.querySelector('.stock')?.textContent?.replace(/[^\d]/g, '') || '0')
+                );
+                const allDeliveries = Array.from(distributorOptions).map(option => 
+                    parseInt(option.querySelector('.delivery')?.textContent?.replace(/[^\d]/g, '') || '0')
+                );
+                
+                distributorOptions.forEach(option => {
+                    const price = parseFloat(option.querySelector('.unit-price')?.textContent?.replace(/[^\d.]/g, '') || '0');
+                    const stock = parseInt(option.querySelector('.stock')?.textContent?.replace(/[^\d]/g, '') || '0');
+                    const delivery = parseInt(option.querySelector('.delivery')?.textContent?.replace(/[^\d]/g, '') || '0');
+                    const distributorName = option.querySelector('.distributor-name')?.textContent?.trim() || 'Unknown';
+                    
+                    // Calculate score using the EXACT same algorithm as backend
+                    const totalScore = calculateQuotationScore(price, stock, delivery, allPrices, allStocks, allDeliveries);
+                    
+                    const priceRange = Math.max(...allPrices) - Math.min(...allPrices);
+                    const stockRange = Math.max(...allStocks) - Math.min(...allStocks);
+                    const priceScore = priceRange === 0 ? 100 : ((Math.max(...allPrices) - price) / priceRange * 100).toFixed(1);
+                    const stockScore = stockRange === 0 ? 100 : ((stock - Math.min(...allStocks)) / stockRange * 100).toFixed(1);
+                    
+                    console.log(`🎯 ${distributorName}: Price=${price}, Stock=${stock}, Score=${totalScore} (Price Score: ${priceScore}, Stock Score: ${stockScore})`);
+                    
+                    if (totalScore > bestScore) {
+                        bestScore = totalScore;
+                        bestOption = option;
+                    }
+                });
+                
+                console.log(`✅ Best option selected with score: ${bestScore}`);
+                
+                // Select the best option
+                if (bestOption) {
+                    const radioButton = bestOption.querySelector('input[type="radio"]');
+                    if (radioButton) {
+                        radioButton.checked = true;
+                        autoSelectedCount++;
+                        
+                        // Add visual feedback
+                        bestOption.classList.add('auto-selected');
+                        setTimeout(() => {
+                            bestOption.classList.remove('auto-selected');
+                        }, 2000);
+                    }
+                }
+            });
+            
+            // Auto-selection completed silently
+            // Auto-selected the best quotations
+        }
+
+
+        // Update profile icon to round profile image
+        function updateProfileIcon() {
+            const profileLink = document.querySelector('.login-link');
+            if (profileLink) {
+                const img = profileLink.querySelector('img');
+                if (img) {
+                    // Create a round profile image with admin initials
+                    const adminUser = JSON.parse(localStorage.getItem('adminUser')) || {};
+                    const adminName = adminUser.name || 'Admin';
+                    const initials = adminName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                    
+                    // Create a round profile image
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 32;
+                    canvas.height = 32;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Draw round background
+                    ctx.fillStyle = '#8b5cf6'; // Purple color for admin
+                    ctx.beginPath();
+                    ctx.arc(16, 16, 16, 0, 2 * Math.PI);
+                    ctx.fill();
+                    
+                    // Draw initials
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 12px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(initials, 16, 16);
+                    
+                    // Replace the image with the canvas
+                    img.src = canvas.toDataURL();
+                    img.alt = 'Admin Profile';
+                    img.style.borderRadius = '50%';
+                    img.style.border = '2px solid #8b5cf6';
+                }
+            }
+        }
+
+        // Admin profile
+        function showAdminProfile() {
+            toggleAdminEditMode();
+        }
+        
+        function toggleAdminEditMode() {
+            const overlay = document.getElementById('adminEditPanelOverlay');
+            const panel = document.getElementById('adminEditPanel');
+
+            // Populate form with current admin data
+            const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
+            document.getElementById('editAdminName').value = adminUser.name || 'System Administrator';
+            document.getElementById('editAdminEmail').value = adminUser.email || 'admin@gadgethub.com';
+            document.getElementById('editAdminRole').value = adminUser.role || 'Administrator';
+            document.getElementById('editAdminDepartment').value = adminUser.department || '';
+            document.getElementById('editAdminPhone').value = adminUser.phone || '';
+            document.getElementById('editAdminNotes').value = adminUser.notes || '';
+
+            // Show overlay and panel
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                overlay.classList.add('active');
+                panel.classList.add('active');
+            }, 10);
+        }
+
+        function closeAdminEditPanel() {
+            const overlay = document.getElementById('adminEditPanelOverlay');
+            const panel = document.getElementById('adminEditPanel');
+
+            overlay.classList.remove('active');
+            panel.classList.remove('active');
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+
+        async function logout() {
+            try {
+                const adminSession = localStorage.getItem('adminSession');
+                if (adminSession) {
+                    await fetch('/api/admin/logout', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ sessionId: adminSession })
+                    });
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+            } finally {
+                localStorage.removeItem('adminSession');
+                localStorage.removeItem('adminUser');
+                window.location.href = '/Login';
+            }
+        }
+
+        function viewOrderDetails(orderId) {
+            // View order details
+        }
+
+        function updateOrderStatus(orderId) {
+            // Update order status
+        }
+
+        function viewCustomerDetails(customerId) {
+            // View customer details
+        }
+
+        function editCustomer(customerId) {
+            // Edit customer
+        }
+
+        function viewProductDetails(productId) {
+            // View product details
+        }
+
+        function editProduct(productId) {
+            // Edit product
+        }
+
+        function openGeneralSettings() {
+            // Open general settings
+        }
+
+        function openSecuritySettings() {
+            // Open security settings
+        }
+
+        function saveSettings() {
+            // Settings saved successfully
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+@page
+@model GadgetHubWeb.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - GadgetHub</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/index.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Auth Script -->
+    <script src="~/js/auth.js"></script>
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="logo">
+            <img src="~/assets/logo.png" alt="GadgetHub Logo" />
+            <span>GadgetHub</span>
+        </div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav" id="nav">
+            <a href="/Index">Home</a>
+            <a href="/Products">Products</a>
+            <a href="/Contact">Contact</a>
+            <a href="/Cart" class="cart-link">
+                <i class="fas fa-shopping-cart" style="font-size: 20px; color: #1a1a1a;"></i>
+            </a>
+            <a href="/Login" class="login-link" id="loginLink">
+                <i class="fas fa-user-circle" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+            
+            <!-- User Profile Navigation -->
+            <div class="user-profile-nav" id="userProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/Dashboard" class="user-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="userAvatar">
+                    <span class="avatar-initials" id="avatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">U</span>
+                </a>
+            </div>
+            
+            <!-- Admin Profile Navigation -->
+            <div class="admin-profile-nav" id="adminProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/AdminDashboard" class="admin-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="adminAvatar">
+                    <span class="avatar-initials" id="adminAvatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">A</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Your One-Stop Hub for Apple Products</h1>
+            <p>Discover the latest Apple gadgets at unbeatable prices. Stay ahead with premium Apple technology!</p>
+            <a href="/Products" class="btn">Shop Products</a>
+        </div>
+    </section>
+
+    <!-- Featured Products Section - Images Only -->
+    <section class="featured-products-apple">
+        <div class="apple-grid-container">
+            <div class="apple-product-card" style="background-image: url('/assets/products/ad1.jpg');">
+            </div>
+            
+            <div class="apple-product-card" style="background-image: url('/assets/products/ad2.jpg');">
+            </div>
+            
+            <div class="apple-product-card" style="background-image: url('/assets/products/ad3.jpg');">
+            </div>
+            
+            <div class="apple-product-card" style="background-image: url('/assets/products/ad4.jpg');">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Preview -->
+    <section class="about-preview">
+        <h3 class="values-heading">About GadgetHub</h3>
+        <h2 class="values-headline">Your gateway to<br>the future.</h2>
+        <p class="values-text">
+            <span class="values-lead">Our values lead the way.</span> GadgetHub was designed to help you discover the latest Apple products at unbeatable prices. Our platform connects you with trusted Apple distributors to ensure authentic quality, security, and the best Apple shopping experience.
+        </p>
+    </section>
+
+    <!-- About Image -->
+    <section class="about-image-section">
+        <img src="/assets/products/about.png" alt="About GadgetHub" class="about-full-width-image">
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose-apple">
+        <h2>The GadgetHub difference.<br>Even more reasons to shop Apple with us.</h2>
+        <div class="why-grid-apple">
+            <div class="why-card-apple">
+                <div class="card-icon blue">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <h3>Compare Apple prices from <span class="highlight blue">multiple distributors</span>.</h3>
+                <p>Get the best Apple deal every time.</p>
+            </div>
+            <div class="why-card-apple">
+                <div class="card-icon green">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h3>Fast Apple delivery from <span class="highlight green">trusted partners</span>.</h3>
+                <p>Quick and reliable Apple shipping.</p>
+            </div>
+            <div class="why-card-apple">
+                <div class="card-icon purple">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Authentic Apple <span class="highlight purple">guaranteed</span>.</h3>
+                <p>All Apple products verified by trusted distributors.</p>
+            </div>
+            <div class="why-card-apple">
+                <div class="card-icon orange">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Secure Apple shopping <span class="highlight orange">experience</span>.</h3>
+                <p>Your data and payments are protected.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GadgetHub</h3>
+                <p>Your gateway to the latest Apple products. Discover, compare, and shop authentic Apple devices from trusted distributors.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/Products">Products</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About Us</a></li>
+                    <li><a href="/Support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GadgetHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="~/js/auth.js"></script>
+    <script>
+
+
+        // Hamburger menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+
+            // Close menu when clicking on a link
+            nav.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!hamburger.contains(e.target) && !nav.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+        // Update profile icon to round profile image for admin
+        function updateProfileIcon() {
+            const profileLink = document.querySelector('.login-link');
+            if (profileLink) {
+                const img = profileLink.querySelector('img');
+                if (img) {
+                    // Check if admin is logged in
+                    const adminSession = localStorage.getItem('adminSession');
+                    if (adminSession) {
+                        // Create a round profile image with admin initials
+                        const adminUser = JSON.parse(localStorage.getItem('adminUser')) || {};
+                        const adminName = adminUser.name || 'Admin';
+                        const initials = adminName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                        
+                        // Create a round profile image
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 32;
+                        canvas.height = 32;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Draw round background
+                        ctx.fillStyle = '#8b5cf6'; // Purple color for admin
+                        ctx.beginPath();
+                        ctx.arc(16, 16, 16, 0, 2 * Math.PI);
+                        ctx.fill();
+                        
+                        // Draw initials
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = 'bold 12px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(initials, 16, 16);
+                        
+                        // Replace the image with the canvas
+                        img.src = canvas.toDataURL();
+                        img.alt = 'Admin Profile';
+                        img.style.borderRadius = '50%';
+                        img.style.border = '2px solid #8b5cf6';
+                        
+                        // Update link to go to admin dashboard
+                        profileLink.href = '/AdminDashboard';
+                        profileLink.title = 'Admin Profile';
+                    }
+                }
+            }
+        }
+
+        // Check admin login status and update navigation
+        function checkAdminLoginStatus() {
+            const adminSession = localStorage.getItem('adminSession');
+            const userSession = localStorage.getItem('sessionId');
+            
+            const adminProfileNav = document.getElementById('adminProfileNav');
+            const loginLink = document.getElementById('loginLink');
+            
+            if (adminSession) {
+                // Admin is logged in
+                if (adminProfileNav) adminProfileNav.style.display = 'flex';
+                if (loginLink) loginLink.style.display = 'none';
+                
+                // Update admin avatar initials
+                const adminUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
+                const adminInitials = adminUser.name ? adminUser.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) : 'A';
+                const adminAvatarInitials = document.getElementById('adminAvatarInitials');
+                if (adminAvatarInitials) {
+                    adminAvatarInitials.textContent = adminInitials;
+                }
+            } else if (userSession) {
+                // Regular user is logged in
+                if (adminProfileNav) adminProfileNav.style.display = 'none';
+                if (loginLink) loginLink.style.display = 'block';
+            } else {
+                // No one is logged in
+                if (adminProfileNav) adminProfileNav.style.display = 'none';
+                if (loginLink) loginLink.style.display = 'block';
+            }
+        }
+
+        // Initialize authentication on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update navigation based on login status
+            updateNavigation();
+        });
+    </script>
+</body>
+</html>

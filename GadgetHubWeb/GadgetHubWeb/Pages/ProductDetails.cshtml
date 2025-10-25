@@ -1,0 +1,995 @@
+@page
+@model GadgetHubWeb.Pages.ProductDetailsModel
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - GadgetHub</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/product-details.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="logo">
+            <img src="~/assets/logo.png" alt="GadgetHub Logo" />
+            <span>GadgetHub</span>
+        </div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav" id="nav">
+            <a href="/Index">Home</a>
+            <a href="/Products">Products</a>
+            <a href="/Contact">Contact</a>
+            <a href="/Cart" class="cart-link">
+                <i class="fas fa-shopping-cart" style="font-size: 24px; color: #1a1a1a;"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
+            <a href="/Login" class="login-link">
+                <i class="fas fa-user-circle" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="container">
+            <a href="/Index">Home</a>
+            <span>/</span>
+            <a href="/Products">Products</a>
+            <span>/</span>
+            <span id="breadcrumbProductName">Product Details</span>
+        </div>
+    </div>
+
+
+    <!-- Product Details Page -->
+    <section class="product-details-page">
+        <div class="container">
+            <div class="product-details-grid">
+                <!-- Product Image Section -->
+                <div class="product-image-section">
+                    <div class="product-images">
+                    <div class="main-image">
+                        <img id="productMainImage" src="" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="image-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%); align-items: center; justify-content: center; color: #666; font-size: 2rem; font-weight: 600;">
+                            <span id="placeholderProductName">Product Image</span>
+                            </div>
+                        </div>
+                        <div class="image-carousel">
+                            <div class="carousel-dots">
+                                <span class="dot active" data-index="0"></span>
+                                <span class="dot" data-index="1"></span>
+                                <span class="dot" data-index="2"></span>
+                                <span class="dot" data-index="3"></span>
+                                <span class="dot" data-index="4"></span>
+                            </div>
+                            <p class="finishes-text">Available in 5 finishes</p>
+                            <div class="color-swatches">
+                                <div class="color-swatch active" data-color="purple" style="background: #d1b3ff;"></div>
+                                <div class="color-swatch" data-color="green" style="background: #a8e6a3;"></div>
+                                <div class="color-swatch" data-color="blue" style="background: #a3d5f7;"></div>
+                                <div class="color-swatch" data-color="black" style="background: #1a1a1a;"></div>
+                                <div class="color-swatch" data-color="white" style="background: #ffffff; border: 1px solid #ddd;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Information Section -->
+                <div class="product-info-section">
+                    <div class="product-header">
+                        <span class="new-badge">NEW</span>
+                        <h1 id="productTitle">Product Name</h1>
+                        <div class="product-price">
+                            <span class="price-text">From <span id="productPrice">LKR 0</span> or <span class="installment">LKR 0/mo. for 24 mo.*</span></span>
+                            </div>
+                        <div class="buy-button-container">
+                            <button class="buy-button" id="buyNowBtn">Buy</button>
+                        </div>
+                    </div>
+
+                    <!-- Key Features Section -->
+                    <div class="key-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                    </div>
+                            <div class="feature-content">
+                                <h4>Display</h4>
+                                <p>6.3-inch display with ProMotion up to 120Hz.¹ Ceramic Shield 2 front with 3x better scratch resistance. Aluminum and glass design.</p>
+                    </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Front Camera</h4>
+                                <p>18MP Center Stage front camera. Flexible ways to frame your shot. Smarter group selfies, Dual Capture video for simultaneous front and rear recording, and more.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-camera-retro"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Rear Camera</h4>
+                                <p>Capture super-high-resolution shots by default with the 48MP Dual Fusion camera system, featuring 2x optical-quality zoom.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-microchip"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Chip</h4>
+                                <p>A19 chip with 5-core GPU. Powers everything you do on iPhone.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-battery-full"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Battery</h4>
+                                <p>All-day battery life with up to 30 hours of video playback.²</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fab fa-apple"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Operating System</h4>
+                                <p>iOS 26 and Apple Intelligence. New look. Smarter features.³</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="explore-link">
+                        <a href="#" class="explore-further">Explore iPhone 17 further ></a>
+                        </div>
+                        </div>
+                    </div>
+
+            <!-- Purchase Incentives Section -->
+            <div class="purchase-incentives">
+                <div class="incentive-item">
+                    <div class="incentive-icon">
+                        <i class="fas fa-shipping-fast"></i>
+                    </div>
+                    <div class="incentive-content">
+                        <h4>Fast Delivery</h4>
+                        <p>Get your Apple products delivered quickly through our trusted distributor network. Free shipping on orders over Rs. 100,000.</p>
+                    </div>
+                            </div>
+                <div class="incentive-item">
+                    <div class="incentive-icon">
+                        <i class="fas fa-shield-alt"></i>
+                            </div>
+                    <div class="incentive-content">
+                        <h4>Authentic Products</h4>
+                        <p>Shop with confidence knowing all our Apple products are 100% authentic and sourced from authorized distributors.</p>
+                            </div>
+                        </div>
+                <div class="incentive-item">
+                    <div class="incentive-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div class="incentive-content">
+                        <h4>Expert Support</h4>
+                        <p>Get personalized assistance from our tech experts to find the perfect Apple product for your needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GadgetHub</h3>
+                <p>Your gateway to the latest technology. Discover, compare, and shop the best gadgets from trusted distributors.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/Products">Products</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About Us</a></li>
+                    <li><a href="/Support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+        <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+        <p>&copy; 2025 GadgetHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let currentProduct = null;
+
+        // Load product details when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProductDetails();
+            setupEventListeners();
+            updateCartCounter();
+        });
+
+        // Function to load product details from URL parameters
+        function loadProductDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (productId) {
+                // Try GadgetHub API first
+                fetch(`https://localhost:7091/api/product/${productId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(product => {
+                        currentProduct = product;
+                        displayProductDetails(product);
+                    })
+                    .catch(error => {
+                        console.error('GadgetHub API error:', error);
+                        // Fallback to distributor APIs
+                        fetchFromDistributors(productId);
+                    });
+            } else {
+                displayError();
+            }
+        }
+
+        // Function to fetch product from distributor APIs
+        function fetchFromDistributors(productId) {
+            const distributorApis = [
+                'https://localhost:7077/api/product',
+                'https://localhost:7102/api/product', 
+                'https://localhost:7007/api/product'
+            ];
+            
+            const distributorNames = ['ElectroCom', 'TechWorld', 'GadgetCentral'];
+            const deliveryTimes = [3, 5, 4]; // days
+            
+            Promise.allSettled(
+                distributorApis.map(api => fetch(api).then(response => response.json()))
+            ).then(results => {
+                let allProducts = [];
+                
+                results.forEach((result, index) => {
+                    if (result.status === 'fulfilled' && result.value) {
+                        const products = result.value;
+                        const product = products.find(p => p.id == productId);
+                        
+                        if (product) {
+                            allProducts.push({
+                                productId: product.id,
+                                name: product.name,
+                                description: product.description,
+                                price: product.price * 1.20, // Apply 20% markup for display
+                                originalPrice: product.price, // Keep original price for scoring
+                                category: product.category,
+                                stock: product.stock,
+                                distributorName: distributorNames[index],
+                                deliveryTime: deliveryTimes[index],
+                                imageUrl: generateProductImageUrl(product.category, product.name)
+                            });
+                        }
+                    }
+                });
+                
+                // Use same scoring logic as ProductService
+                const bestProduct = selectBestProduct(allProducts);
+                
+                if (bestProduct) {
+                    currentProduct = bestProduct;
+                    displayProductDetails(bestProduct);
+                } else {
+                    displayError();
+                }
+            }).catch(error => {
+                console.error('Error fetching from distributors:', error);
+                displayError();
+            });
+        }
+
+        // Function to select best product using same scoring logic as ProductService
+        function selectBestProduct(products) {
+            if (!products || products.length === 0) return null;
+            if (products.length === 1) return products[0];
+
+            // Calculate scores for each product
+            const scoredProducts = products.map(product => {
+                const score = calculateProductScore(product.originalPrice, product.stock, product.deliveryTime);
+                const priceScore = calculatePriceScore(product.originalPrice, products.map(p => p.originalPrice));
+                const stockScore = calculateStockScore(product.stock);
+                const deliveryScore = calculateDeliveryScore(product.deliveryTime, products.map(p => p.deliveryTime));
+                
+                return {
+                    ...product,
+                    score: score,
+                    priceScore: priceScore,
+                    stockScore: stockScore,
+                    deliveryScore: deliveryScore
+                };
+            });
+
+            // Return product with highest score
+            return scoredProducts.sort((a, b) => b.score - a.score)[0];
+        }
+
+        // Scoring functions (same as ProductService)
+        function calculateProductScore(price, stock, deliveryTime) {
+            const priceWeight = 0.4;    // 40% weight for price
+            const stockWeight = 0.3;    // 30% weight for stock
+            const deliveryWeight = 0.3;  // 30% weight for delivery
+
+            const priceScore = calculatePriceScore(price, [price]);
+            const stockScore = calculateStockScore(stock);
+            const deliveryScore = calculateDeliveryScore(deliveryTime, [deliveryTime]);
+
+            return (priceScore * priceWeight) + (stockScore * stockWeight) + (deliveryScore * deliveryWeight);
+        }
+
+        function calculatePriceScore(price, allPrices) {
+            const minPrice = Math.min(...allPrices);
+            const maxPrice = Math.max(...allPrices);
+            if (maxPrice === minPrice) return 100;
+            return Math.round(100 * (1 - (price - minPrice) / (maxPrice - minPrice)));
+        }
+
+        function calculateStockScore(stock) {
+            if (stock >= 100) return 100;
+            if (stock >= 50) return 80;
+            if (stock >= 20) return 60;
+            if (stock >= 10) return 40;
+            if (stock >= 5) return 20;
+            return 0;
+        }
+
+        function calculateDeliveryScore(deliveryTime, allDeliveryTimes) {
+            const minDelivery = Math.min(...allDeliveryTimes);
+            const maxDelivery = Math.max(...allDeliveryTimes);
+            if (maxDelivery === minDelivery) return 100;
+            return Math.round(100 * (1 - (deliveryTime - minDelivery) / (maxDelivery - minDelivery)));
+        }
+
+        // Function to display product details
+        function displayProductDetails(product) {
+            // Set product image with fallback
+            const productImage = document.getElementById('productMainImage');
+            const placeholder = document.querySelector('.image-placeholder');
+            
+            // Generate image URL if not provided
+            let imageUrl = product.imageUrl;
+            if (!imageUrl || imageUrl === '') {
+                imageUrl = generateProductImageUrl(product.category, product.name);
+            }
+            
+            if (imageUrl && imageUrl !== '') {
+                productImage.src = imageUrl;
+                productImage.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                productImage.style.display = 'none';
+                placeholder.style.display = 'flex';
+                document.getElementById('placeholderProductName').textContent = product.name;
+            }
+            
+            document.getElementById('breadcrumbProductName').textContent = product.name;
+            document.getElementById('productTitle').textContent = product.name;
+            
+            // Update price with installment calculation
+            const installmentPrice = Math.round(product.price / 24);
+            document.getElementById('productPrice').textContent = `LKR ${product.price.toLocaleString()}`;
+            document.querySelector('.installment').textContent = `LKR ${installmentPrice.toLocaleString()}/mo. for 24 mo.*`;
+
+            // Update product-specific features
+            updateProductFeatures(product);
+
+            // Set up action buttons
+            document.getElementById('buyNowBtn').onclick = function() {
+                buyNow(product.productId, product.distributorName, 1);
+            };
+        }
+
+        // Function to update product-specific features
+        function updateProductFeatures(product) {
+            const features = getProductFeatures(product);
+            
+            // Update feature items
+            const featureItems = document.querySelectorAll('.feature-item');
+            featureItems.forEach((item, index) => {
+                if (features[index]) {
+                    const icon = item.querySelector('.feature-icon i');
+                    const title = item.querySelector('.feature-content h4');
+                    const description = item.querySelector('.feature-content p');
+                    
+                    icon.className = features[index].icon;
+                    title.textContent = features[index].title;
+                    description.textContent = features[index].description;
+                }
+            });
+
+            // Update explore link
+            const exploreLink = document.querySelector('.explore-further');
+            exploreLink.textContent = `Explore ${product.name} further >`;
+        }
+
+        // Function to get product-specific features
+        function getProductFeatures(product) {
+            const category = product.category.toLowerCase();
+            const name = product.name.toLowerCase();
+            
+            // iPhone features
+            if (category.includes('iphone') || name.includes('iphone')) {
+                return [
+                    {
+                        icon: 'fas fa-mobile-alt',
+                        title: 'Display',
+                        description: '6.3-inch display with ProMotion up to 120Hz.¹ Ceramic Shield 2 front with 3x better scratch resistance. Aluminum and glass design.'
+                    },
+                    {
+                        icon: 'fas fa-camera',
+                        title: 'Front Camera',
+                        description: '18MP Center Stage front camera. Flexible ways to frame your shot. Smarter group selfies, Dual Capture video for simultaneous front and rear recording, and more.'
+                    },
+                    {
+                        icon: 'fas fa-camera-retro',
+                        title: 'Rear Camera',
+                        description: 'Capture super-high-resolution shots by default with the 48MP Dual Fusion camera system, featuring 2x optical-quality zoom.'
+                    },
+                    {
+                        icon: 'fas fa-microchip',
+                        title: 'Chip',
+                        description: 'A19 chip with 5-core GPU. Powers everything you do on iPhone.'
+                    },
+                    {
+                        icon: 'fas fa-battery-full',
+                        title: 'Battery',
+                        description: 'All-day battery life with up to 30 hours of video playback.²'
+                    },
+                    {
+                        icon: 'fab fa-apple',
+                        title: 'Operating System',
+                        description: 'iOS 26 and Apple Intelligence. New look. Smarter features.³'
+                    }
+                ];
+            }
+            
+            // MacBook features
+            else if (category.includes('mac') || name.includes('macbook')) {
+                return [
+                    {
+                        icon: 'fas fa-laptop',
+                        title: 'Display',
+                        description: 'Liquid Retina XDR display with ProMotion up to 120Hz. P3 wide color gamut and True Tone technology.'
+                    },
+                    {
+                        icon: 'fas fa-microchip',
+                        title: 'Chip',
+                        description: 'M3 Pro or M3 Max chip with up to 12-core CPU and 40-core GPU. Incredible performance for professional workflows.'
+                    },
+                    {
+                        icon: 'fas fa-memory',
+                        title: 'Memory',
+                        description: 'Up to 128GB unified memory. Fast, efficient, and powerful for the most demanding tasks.'
+                    },
+                    {
+                        icon: 'fas fa-hdd',
+                        title: 'Storage',
+                        description: 'Up to 8TB SSD storage. Lightning-fast read and write speeds for professional applications.'
+                    },
+                    {
+                        icon: 'fas fa-battery-full',
+                        title: 'Battery',
+                        description: 'Up to 22 hours of battery life. All-day power for your most intensive work.'
+                    },
+                    {
+                        icon: 'fas fa-keyboard',
+                        title: 'Keyboard',
+                        description: 'Magic Keyboard with Touch ID. Backlit keys and comfortable typing experience.'
+                    }
+                ];
+            }
+            
+            // iPad features
+            else if (category.includes('ipad') || name.includes('ipad')) {
+                return [
+                    {
+                        icon: 'fas fa-tablet-alt',
+                        title: 'Display',
+                        description: 'Liquid Retina display with ProMotion up to 120Hz. P3 wide color gamut and True Tone technology.'
+                    },
+                    {
+                        icon: 'fas fa-microchip',
+                        title: 'Chip',
+                        description: 'M2 chip with 8-core CPU and 10-core GPU. Desktop-class performance in a tablet.'
+                    },
+                    {
+                        icon: 'fas fa-camera',
+                        title: 'Cameras',
+                        description: '12MP Wide camera and 10MP Ultra Wide camera. Center Stage for video calls and FaceTime.'
+                    },
+                    {
+                        icon: 'fas fa-pencil-alt',
+                        title: 'Apple Pencil',
+                        description: 'Apple Pencil (2nd generation) support. Precision drawing and note-taking capabilities.'
+                    },
+                    {
+                        icon: 'fas fa-keyboard',
+                        title: 'Magic Keyboard',
+                        description: 'Magic Keyboard compatibility. Transform your iPad into a laptop experience.'
+                    },
+                    {
+                        icon: 'fab fa-apple',
+                        title: 'iPadOS',
+                        description: 'iPadOS with powerful multitasking, Stage Manager, and desktop-class apps.'
+                    }
+                ];
+            }
+            
+            // Apple Watch features
+            else if (category.includes('watch') || name.includes('watch')) {
+                return [
+                    {
+                        icon: 'fas fa-clock',
+                        title: 'Display',
+                        description: 'Always-On Retina display. Up to 2000 nits brightness for outdoor visibility.'
+                    },
+                    {
+                        icon: 'fas fa-heartbeat',
+                        title: 'Health',
+                        description: 'Advanced health monitoring with ECG, blood oxygen, and heart rate tracking.'
+                    },
+                    {
+                        icon: 'fas fa-running',
+                        title: 'Fitness',
+                        description: 'Comprehensive fitness tracking with automatic workout detection and coaching.'
+                    },
+                    {
+                        icon: 'fas fa-shield-alt',
+                        title: 'Durability',
+                        description: 'Water resistant to 50 meters. Swim tracking and water sports compatibility.'
+                    },
+                    {
+                        icon: 'fas fa-battery-full',
+                        title: 'Battery',
+                        description: 'All-day battery life with up to 18 hours of use. Fast charging capabilities.'
+                    },
+                    {
+                        icon: 'fab fa-apple',
+                        title: 'watchOS',
+                        description: 'watchOS with advanced health features, fitness tracking, and seamless iPhone integration.'
+                    }
+                ];
+            }
+            
+            // AirPods features
+            else if (category.includes('airpods') || name.includes('airpods')) {
+                return [
+                    {
+                        icon: 'fas fa-headphones',
+                        title: 'Audio',
+                        description: 'Adaptive Audio with Personalized Spatial Audio. Dynamic head tracking for immersive sound.'
+                    },
+                    {
+                        icon: 'fas fa-volume-up',
+                        title: 'Active Noise Cancellation',
+                        description: 'Industry-leading Active Noise Cancellation. Transparency mode for awareness of surroundings.'
+                    },
+                    {
+                        icon: 'fas fa-microphone',
+                        title: 'Microphones',
+                        description: 'Beamforming microphones with wind noise reduction. Crystal-clear call quality.'
+                    },
+                    {
+                        icon: 'fas fa-battery-full',
+                        title: 'Battery',
+                        description: 'Up to 6 hours of listening time with Active Noise Cancellation. Up to 30 hours with case.'
+                    },
+                    {
+                        icon: 'fas fa-magic',
+                        title: 'Smart Features',
+                        description: 'Automatic switching between devices. Siri voice control and hands-free access.'
+                    },
+                    {
+                        icon: 'fas fa-shield-alt',
+                        title: 'Durability',
+                        description: 'Sweat and water resistant. IPX4 rating for active lifestyles.'
+                    }
+                ];
+            }
+            
+            // Apple TV features
+            else if (category.includes('tv') || name.includes('apple tv')) {
+                return [
+                    {
+                        icon: 'fas fa-tv',
+                        title: '4K Display',
+                        description: '4K HDR with Dolby Vision. Stunning picture quality with up to 60fps.'
+                    },
+                    {
+                        icon: 'fas fa-microchip',
+                        title: 'A15 Bionic Chip',
+                        description: 'A15 Bionic chip for smooth performance. Fast app loading and seamless navigation.'
+                    },
+                    {
+                        icon: 'fas fa-wifi',
+                        title: 'Connectivity',
+                        description: 'Wi-Fi 6 and Gigabit Ethernet. Fast, reliable streaming and downloads.'
+                    },
+                    {
+                        icon: 'fas fa-gamepad',
+                        title: 'Gaming',
+                        description: 'Apple Arcade support. Play console-quality games with your iPhone as a controller.'
+                    },
+                    {
+                        icon: 'fas fa-music',
+                        title: 'Audio',
+                        description: 'Dolby Atmos support. Immersive surround sound for movies and music.'
+                    },
+                    {
+                        icon: 'fab fa-apple',
+                        title: 'tvOS',
+                        description: 'tvOS with access to thousands of apps, games, and streaming services.'
+                    }
+                ];
+            }
+            
+            // Accessories features
+            else if (category.includes('accessories') || category.includes('accessory')) {
+                return [
+                    {
+                        icon: 'fas fa-keyboard',
+                        title: 'Compatibility',
+                        description: 'Compatible with iPad Pro, iPad Air, and iPad. Seamless integration with your device.'
+                    },
+                    {
+                        icon: 'fas fa-battery-full',
+                        title: 'Battery',
+                        description: 'Long-lasting battery life. Charges your device while you work.'
+                    },
+                    {
+                        icon: 'fas fa-shield-alt',
+                        title: 'Protection',
+                        description: 'Premium materials and construction. Built to last with your device.'
+                    },
+                    {
+                        icon: 'fas fa-magic',
+                        title: 'Smart Features',
+                        description: 'Automatic pairing and setup. Works instantly with your Apple device.'
+                    },
+                    {
+                        icon: 'fas fa-palette',
+                        title: 'Design',
+                        description: 'Sleek, minimalist design. Matches your device perfectly.'
+                    },
+                    {
+                        icon: 'fas fa-tools',
+                        title: 'Functionality',
+                        description: 'Enhanced productivity and creativity. Designed to maximize your device potential.'
+                    }
+                ];
+            }
+            
+            // Default features for unknown products
+            else {
+                return [
+                    {
+                        icon: 'fas fa-star',
+                        title: 'Quality',
+                        description: 'Premium quality materials and construction. Built to last with attention to detail.'
+                    },
+                    {
+                        icon: 'fas fa-shield-alt',
+                        title: 'Warranty',
+                        description: '1 Year Official Warranty included. Peace of mind with your purchase.'
+                    },
+                    {
+                        icon: 'fas fa-shipping-fast',
+                        title: 'Shipping',
+                        description: 'Free Islandwide Delivery. Fast and secure shipping to your doorstep.'
+                    },
+                    {
+                        icon: 'fas fa-undo',
+                        title: 'Returns',
+                        description: '14 Days Return Guarantee. Easy returns if you\'re not satisfied.'
+                    },
+                    {
+                        icon: 'fas fa-headset',
+                        title: 'Support',
+                        description: '24/7 Customer Support. We\'re here to help with any questions.'
+                    },
+                    {
+                        icon: 'fas fa-award',
+                        title: 'Authenticity',
+                        description: '100% Authentic Apple Products. Guaranteed genuine with official warranty.'
+                    }
+                ];
+            }
+        }
+
+        // Function to generate product image URL
+        function generateProductImageUrl(category, productName) {
+            // Map product names to actual image files
+            const imageMap = {
+                'iPhone 15 Pro Max': '/assets/products/iphone-15-pro-max.jpg',
+                'iPhone 15 Pro': '/assets/products/iphone-15-pro.jpg',
+                'iPhone 15': '/assets/products/iphone-15.jpg',
+                'MacBook Pro 16-inch M3 Max': '/assets/products/macbook-pro-16.jpg',
+                'MacBook Pro 14-inch M3': '/assets/products/macbook-pro-14.jpg',
+                'MacBook Air 15-inch M2': '/assets/products/macbook-air-15.jpg',
+                'iPad Pro 12.9-inch M2': '/assets/products/ipad-pro-12-9.jpg',
+                'iPad Pro 11-inch M2': '/assets/products/ipad-pro-11.jpg',
+                'iPad Air 10.9-inch M1': '/assets/products/ipad-air.jpg',
+                'Apple Watch Series 9': '/assets/products/apple-watch-series-9.jpg',
+                'Apple Watch SE 2nd Gen': '/assets/products/apple-watch-se.jpg',
+                'Apple Watch Ultra 2': '/assets/products/apple-watch-ultra.jpg',
+                'AirPods Pro 2nd Gen': '/assets/products/airpods-pro.jpg',
+                'AirPods 3rd Gen': '/assets/products/airpods-3.jpg',
+                'AirPods Max': '/assets/products/airpods-max.jpg',
+                'Apple TV 4K 3rd Gen': '/assets/products/apple-tv-4k-3rd.jpg',
+                'Apple TV HD': '/assets/products/apple-tv-hd.jpg',
+                'Apple TV 4K 2nd Gen': '/assets/products/apple-tv-4k-2nd.jpg',
+                'Magic Keyboard for iPad Pro': '/assets/products/magic-keyboard.jpg',
+                'Apple Pencil 2nd Gen': '/assets/products/apple-pencil.jpg',
+                'MagSafe Charger': '/assets/products/magsafe-charger.jpg'
+            };
+            
+            return imageMap[productName] || '/assets/products/placeholder.jpg';
+        }
+
+        // Function to display error
+        function displayError() {
+            document.getElementById('productTitle').textContent = 'Product Not Found';
+            document.getElementById('productDescription').textContent = 'The requested product could not be found.';
+        }
+
+        // Quantity control functions
+        function increaseQuantity() {
+            const quantityInput = document.getElementById('quantityInput');
+            const currentValue = parseInt(quantityInput.value);
+            const maxValue = parseInt(quantityInput.max);
+            
+            if (currentValue < maxValue) {
+                quantityInput.value = currentValue + 1;
+                updateTotalPriceFromProduct();
+            }
+        }
+
+        function decreaseQuantity() {
+            const quantityInput = document.getElementById('quantityInput');
+            const currentValue = parseInt(quantityInput.value);
+            const minValue = parseInt(quantityInput.min);
+            
+            if (currentValue > minValue) {
+                quantityInput.value = currentValue - 1;
+                updateTotalPriceFromProduct();
+            }
+        }
+
+        function updateTotalPrice(unitPrice) {
+            const quantity = parseInt(document.getElementById('quantityInput').value);
+            const total = unitPrice * quantity;
+            document.getElementById('totalPrice').textContent = `LKR ${total.toLocaleString()}`;
+        }
+
+        function updateTotalPriceFromProduct() {
+            if (currentProduct) {
+                updateTotalPrice(currentProduct.price);
+            }
+        }
+
+        // Action functions
+        function addToCart(productId, distributorName, quantity) {
+            // Get product data from current product
+            const product = currentProduct;
+            if (!product) {
+                alert('Product data not available');
+                return;
+            }
+            
+            // Create cart item object
+            const cartItem = {
+                id: productId,
+                name: product.name,
+                price: product.price,
+                category: product.category,
+                description: product.description,
+                image: product.image,
+                distributorName: distributorName,
+                quantity: quantity
+            };
+            
+            // Get existing cart items from localStorage
+            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            
+            // Check if product already exists in cart
+            const existingItemIndex = cartItems.findIndex(item => 
+                item.id === productId && item.distributorName === distributorName
+            );
+            
+            if (existingItemIndex > -1) {
+                // Update quantity if item already exists
+                cartItems[existingItemIndex].quantity += quantity;
+            } else {
+                // Add new item to cart
+                cartItems.push(cartItem);
+            }
+            
+            // Save updated cart to localStorage
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            
+            // Calculate and store totals
+            let subtotal = 0;
+            cartItems.forEach(item => {
+                subtotal += item.price * item.quantity;
+            });
+            
+            const shipping = subtotal > 100000 ? 0 : 1000;
+            const tax = subtotal * 0.08;
+            const total = subtotal + shipping + tax;
+            
+            const cartTotals = {
+                subtotal: subtotal,
+                shipping: shipping,
+                tax: tax,
+                total: total
+            };
+            localStorage.setItem('cartTotals', JSON.stringify(cartTotals));
+            
+            // Update cart counter
+            updateCartCounter();
+            
+            // Redirect to cart page
+            window.location.href = '/Cart';
+        }
+
+        function buyNow(productId, distributorName, quantity) {
+            // Get product data from current product
+            const product = currentProduct;
+            if (!product) {
+                alert('Product data not available');
+                return;
+            }
+            
+            // Create cart item object
+            const cartItem = {
+                id: productId,
+                name: product.name,
+                price: product.price,
+                category: product.category,
+                description: product.description,
+                image: product.image,
+                distributorName: distributorName,
+                quantity: quantity
+            };
+            
+            // Clear existing cart and add only this item
+            const cartItems = [cartItem];
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            
+            // Calculate totals for this single item
+            const subtotal = product.price * quantity;
+            const shipping = subtotal > 100000 ? 0 : 1000;
+            const tax = subtotal * 0.08;
+            const total = subtotal + shipping + tax;
+            
+            const cartTotals = {
+                subtotal: subtotal,
+                shipping: shipping,
+                tax: tax,
+                total: total
+            };
+            localStorage.setItem('cartTotals', JSON.stringify(cartTotals));
+            
+            // Update cart counter
+            updateCartCounter();
+            
+            // Redirect directly to checkout
+            window.location.href = '/Checkout';
+        }
+
+
+        // Function to update cart counter
+        function updateCartCounter() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.getElementById('cartCount');
+            
+            if (cartCount) {
+                if (totalItems > 0) {
+                    cartCount.textContent = totalItems;
+                    cartCount.style.display = 'inline-block';
+                } else {
+                    cartCount.style.display = 'none';
+                }
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Hamburger menu functionality
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', function() {
+                    nav.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
+            }
+
+            // Improve sticky image behavior
+            const productImageSection = document.querySelector('.product-image-section');
+            if (productImageSection) {
+                window.addEventListener('scroll', function() {
+                    const rect = productImageSection.getBoundingClientRect();
+                    const headerHeight = 80; // Approximate header height
+                    
+                    if (rect.top <= headerHeight) {
+                        productImageSection.style.top = headerHeight + 'px';
+                    } else {
+                        productImageSection.style.top = '6rem';
+                    }
+                });
+            }
+
+            // Color swatch functionality
+            const colorSwatches = document.querySelectorAll('.color-swatch');
+            colorSwatches.forEach(swatch => {
+                swatch.addEventListener('click', function() {
+                    // Remove active class from all swatches
+                    colorSwatches.forEach(s => s.classList.remove('active'));
+                    // Add active class to clicked swatch
+                    this.classList.add('active');
+                });
+            });
+
+            // Carousel dots functionality
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    // Remove active class from all dots
+                    dots.forEach(d => d.classList.remove('active'));
+                    // Add active class to clicked dot
+                    this.classList.add('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

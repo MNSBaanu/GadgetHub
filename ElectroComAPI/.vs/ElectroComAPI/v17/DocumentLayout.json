@@ -1,0 +1,149 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|c:\\users\\asus vivobook\\onedrive - msft\\higher diploma\\4th sem\\assignments\\soc\\downloads\\st20315142_cse5013_writ1\\gadgethub\\electrocomapi\\electrocomapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|solutionrelative:electrocomapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|c:\\users\\asus vivobook\\onedrive - msft\\higher diploma\\4th sem\\assignments\\soc\\downloads\\st20315142_cse5013_writ1\\gadgethub\\electrocomapi\\electrocomapi\\data\\productrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|solutionrelative:electrocomapi\\data\\productrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|c:\\users\\asus vivobook\\onedrive - msft\\higher diploma\\4th sem\\assignments\\soc\\downloads\\st20315142_cse5013_writ1\\gadgethub\\electrocomapi\\electrocomapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|solutionrelative:electrocomapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|c:\\users\\asus vivobook\\onedrive - msft\\higher diploma\\4th sem\\assignments\\soc\\downloads\\st20315142_cse5013_writ1\\gadgethub\\electrocomapi\\electrocomapi\\data\\quotationrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|solutionrelative:electrocomapi\\data\\quotationrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|c:\\users\\asus vivobook\\onedrive - msft\\higher diploma\\4th sem\\assignments\\soc\\downloads\\st20315142_cse5013_writ1\\gadgethub\\electrocomapi\\electrocomapi\\data\\electrocomdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|solutionrelative:electrocomapi\\data\\electrocomdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|c:\\users\\asus vivobook\\onedrive - msft\\higher diploma\\4th sem\\assignments\\soc\\downloads\\st20315142_cse5013_writ1\\gadgethub\\electrocomapi\\electrocomapi\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|solutionrelative:electrocomapi\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|c:\\users\\asus vivobook\\onedrive - msft\\higher diploma\\4th sem\\assignments\\soc\\downloads\\st20315142_cse5013_writ1\\gadgethub\\electrocomapi\\electrocomapi\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{04D74FAB-E126-466E-A3D3-5CC600E99267}|ElectroComAPI\\ElectroComAPI.csproj|solutionrelative:electrocomapi\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1909115015:0:{83107a3e-496a-485e-b455-16ddb978e55e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1013369848:0:{83107a3e-496a-485e-b455-16ddb978e55e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ProductRepo.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Data\\ProductRepo.cs",
+              "RelativeDocumentMoniker": "ElectroComAPI\\Data\\ProductRepo.cs",
+              "ToolTip": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Data\\ProductRepo.cs",
+              "RelativeToolTip": "ElectroComAPI\\Data\\ProductRepo.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwBUAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T17:16:24.052Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ElectroComDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Data\\ElectroComDBContext.cs",
+              "RelativeDocumentMoniker": "ElectroComAPI\\Data\\ElectroComDBContext.cs",
+              "ToolTip": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Data\\ElectroComDBContext.cs",
+              "RelativeToolTip": "ElectroComAPI\\Data\\ElectroComDBContext.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAAAEQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T17:15:27.461Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "ElectroComAPI\\Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "ElectroComAPI\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAtwBEAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T17:15:23.645Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Model\\Product.cs",
+              "RelativeDocumentMoniker": "ElectroComAPI\\Model\\Product.cs",
+              "ToolTip": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Model\\Product.cs",
+              "RelativeToolTip": "ElectroComAPI\\Model\\Product.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T08:11:29.58Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "ElectroComAPI\\appsettings.json",
+              "ToolTip": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\appsettings.json",
+              "RelativeToolTip": "ElectroComAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-24T06:32:28.413Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Program.cs",
+              "RelativeDocumentMoniker": "ElectroComAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Program.cs",
+              "RelativeToolTip": "ElectroComAPI\\Program.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAIwCcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T06:28:36.421Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "QuotationRepo.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Data\\QuotationRepo.cs",
+              "RelativeDocumentMoniker": "ElectroComAPI\\Data\\QuotationRepo.cs",
+              "ToolTip": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\ElectroComAPI\\ElectroComAPI\\Data\\QuotationRepo.cs",
+              "RelativeToolTip": "ElectroComAPI\\Data\\QuotationRepo.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T06:25:18.182Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

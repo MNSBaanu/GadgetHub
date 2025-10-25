@@ -1,0 +1,591 @@
+@page
+@model GadgetHubWeb.Pages.ProductsModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - GadgetHub</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/css/products.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Auth Script -->
+    <script src="~/js/auth.js"></script>
+</head>
+<body>
+        <!-- Header / Navbar -->
+        <header class="header">
+            <div class="logo">
+                <img src="~/assets/logo.png" alt="GadgetHub Logo" />
+                <span>GadgetHub</span>
+            </div>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav class="nav" id="nav">
+                <a href="/Index">Home</a>
+                <a href="/Products">Products</a>
+                <a href="/Contact">Contact</a>
+            <a href="/Cart" class="cart-link">
+                <i class="fas fa-shopping-cart" style="font-size: 24px; color: #1a1a1a;"></i>
+                <span class="cart-count" id="cartCount" style="display: none;">0</span>
+            </a>
+            <a href="/Login" class="login-link" id="loginLink">
+                <i class="fas fa-user-circle" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+            
+            <!-- User Profile Navigation -->
+            <div class="user-profile-nav" id="userProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/Dashboard" class="user-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="userAvatar">
+                    <span class="avatar-initials" id="avatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">U</span>
+                </a>
+            </div>
+            
+            <!-- Admin Profile Navigation -->
+            <div class="admin-profile-nav" id="adminProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/AdminDashboard" class="admin-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="adminAvatar">
+                    <span class="avatar-initials" id="adminAvatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">A</span>
+                </a>
+            </div>
+            </nav>
+        </header>
+
+    <!-- Products Page Content -->
+    <section class="products-page">
+        <div class="container">
+            <!-- Products Title Section with Search -->
+            <div class="products-title-section">
+                <div class="title-content">
+                    <div class="title-text">
+                        <h1 class="products-title">Discover</h1>
+                        <p class="products-subtitle">The best way to buy the products you love.</p>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-toggle" onclick="toggleSearch()">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="search-input-container" id="searchInputContainer" style="display: none;">
+                            <input type="text" id="searchInput" placeholder="Search Apple products..." onblur="hideSearch()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Images Section -->
+            <div class="category-section">
+                <div class="category-grid">
+                    <div class="category-item active" data-category="all" onclick="filterByCategory('all')">
+                        <div class="category-image">
+                            <img src="/assets/categories/all.png" alt="All" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="category-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                📦
+                            </div>
+                        </div>
+                        <span class="category-label">All</span>
+                    </div>
+                    
+                    <div class="category-item" data-category="iPhone" onclick="filterByCategory('iPhone')">
+                        <div class="category-image">
+                            <img src="/assets/categories/iphone.png" alt="iPhone" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="category-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                📱
+                            </div>
+                        </div>
+                        <span class="category-label">iPhone</span>
+                    </div>
+                    
+                    <div class="category-item" data-category="Mac" onclick="filterByCategory('Mac')">
+                        <div class="category-image">
+                            <img src="/assets/categories/mac.png" alt="Mac" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="category-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                💻
+                            </div>
+                        </div>
+                        <span class="category-label">Mac</span>
+                    </div>
+                    
+                    <div class="category-item" data-category="iPad" onclick="filterByCategory('iPad')">
+                        <div class="category-image">
+                            <img src="/assets/categories/ipad.png" alt="iPad" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="category-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                📱
+                            </div>
+                        </div>
+                        <span class="category-label">iPad</span>
+                    </div>
+                    
+                    <div class="category-item" data-category="Apple Watch" onclick="filterByCategory('Apple Watch')">
+                        <div class="category-image">
+                            <img src="/assets/categories/apple-watch.png" alt="Apple Watch" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="category-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                ⌚
+                            </div>
+                        </div>
+                        <span class="category-label">Apple Watch</span>
+                    </div>
+                    
+                    <div class="category-item" data-category="AirPods" onclick="filterByCategory('AirPods')">
+                        <div class="category-image">
+                            <img src="/assets/categories/airpods.png" alt="AirPods" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="category-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                🎧
+                            </div>
+                        </div>
+                        <span class="category-label">AirPods</span>
+                    </div>
+                    
+                    <div class="category-item" data-category="Apple TV" onclick="filterByCategory('Apple TV')">
+                        <div class="category-image">
+                            <img src="/assets/categories/apple-tv.png" alt="Apple TV" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="category-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                📺
+                            </div>
+                        </div>
+                        <span class="category-label">Apple TV</span>
+                    </div>
+                    
+                    <div class="category-item" data-category="Accessories" onclick="filterByCategory('Accessories')">
+                        <div class="category-image">
+                            <img src="/assets/categories/accessories.png" alt="Accessories" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="category-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                🔌
+                            </div>
+                        </div>
+                        <span class="category-label">Accessories</span>
+                    </div>
+                       </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here via JavaScript -->
+                <div class="loading-placeholder">
+                    <p>Loading products...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GadgetHub</h3>
+                <p>Your gateway to the latest technology. Discover, compare, and shop the best gadgets from trusted distributors.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/Products">Products</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About Us</a></li>
+                    <li><a href="/Support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+        <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+        <p>&copy; 2025 GadgetHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <script>
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+            setupEventListeners();
+            updateCartCounter();
+            // Update navigation based on login status
+            updateNavigation();
+        });
+
+        // Function to load products from API
+        async function loadProducts(category = 'all') {
+            try {
+                // Fetch from GadgetHub API which compares prices across all distributors
+                const response = await fetch(`https://localhost:7091/api/product?category=${category}`);
+                
+                if (response.ok) {
+                    const bestProducts = await response.json();
+                    displayProducts(bestProducts);
+                } else {
+                    console.error('Failed to fetch products from GadgetHub API');
+                    displayNoProducts();
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+                displayNoProducts();
+            }
+        }
+
+
+        // Function to display products
+        function displayProducts(products) {
+            const grid = document.getElementById('productsGrid');
+            
+            if (products && products.length > 0) {
+                grid.innerHTML = products.map(product => `
+                    <div class="product-card" 
+                         data-name="${product.name}" 
+                         data-price="${product.price}" 
+                         data-category="${product.category}"
+                         data-product-id="${product.productId}"
+                         data-stock="${product.stock}"
+                         data-delivery-time="${product.deliveryTime}"
+                         onclick="goToProductDetails(${product.productId})">
+                        <div class="product-image">
+                            <img src="${product.imageUrl}" alt="${product.name}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="product-placeholder" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); align-items: center; justify-content: center; color: #6c757d; font-size: 1.2rem; font-weight: 600;">
+                                ${product.name}
+                            </div>
+                            <button class="wishlist-btn" onclick="event.stopPropagation(); toggleWishlist(${product.productId}, '${product.name}', ${product.price}, '${product.imageUrl}', '${product.distributorName || 'GadgetHub'}')" title="Add to Wishlist">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name}</h3>
+                            <p class="price">LKR ${product.price.toLocaleString()}</p>
+                            <p class="description">${product.description}</p>
+                            <p class="category">${product.category}</p>
+                            <p class="delivery">Delivery: ${product.deliveryTime} days</p>
+                            <p class="stock">Stock: ${product.stock} available</p>
+                            <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.productId})">Add to Cart</button>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Update wishlist buttons after products are loaded
+                setTimeout(() => {
+                    updateAllWishlistButtons();
+                }, 100);
+            } else {
+                displayNoProducts();
+            }
+        }
+
+        // Function to display no products message
+        function displayNoProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = `
+                <div class="no-products">
+                    <h3>No Products Available</h3>
+                    <p>We're currently updating our product catalog. Please check back soon!</p>
+                    <p>If this issue persists, please contact our support team.</p>
+                </div>
+            `;
+        }
+
+        // Function to setup event listeners for search
+        function setupEventListeners() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', filterProducts);
+        }
+
+        // Function to toggle search input
+        function toggleSearch() {
+            const searchContainer = document.getElementById('searchInputContainer');
+            const searchInput = document.getElementById('searchInput');
+            
+            if (searchContainer.style.display === 'none') {
+                searchContainer.style.display = 'block';
+                searchInput.focus();
+            } else {
+                searchContainer.style.display = 'none';
+            }
+        }
+
+        // Function to hide search input
+        function hideSearch() {
+            setTimeout(() => {
+                const searchContainer = document.getElementById('searchInputContainer');
+                searchContainer.style.display = 'none';
+            }, 200);
+        }
+
+        // Function to filter by category (called when category images are clicked)
+        function filterByCategory(category) {
+                // Clear search when changing category
+            document.getElementById('searchInput').value = '';
+            loadProducts(category);
+            
+            // Update active category visual state
+            updateActiveCategory(category);
+        }
+
+        // Function to update active category visual state
+        function updateActiveCategory(activeCategory) {
+            const categoryItems = document.querySelectorAll('.category-item');
+            categoryItems.forEach(item => {
+                if (item.dataset.category === activeCategory) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Function to filter products (search only - category filtering is handled by API)
+        function filterProducts() {
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            const productCards = document.querySelectorAll('.product-card');
+
+            productCards.forEach(card => {
+                const productName = card.querySelector('h3').textContent.toLowerCase();
+                const productDescription = card.querySelector('.description').textContent.toLowerCase();
+
+                let isMatch = true;
+
+                if (searchValue && !productName.includes(searchValue) && !productDescription.includes(searchValue)) {
+                    isMatch = false;
+                }
+
+                card.style.display = isMatch ? 'flex' : 'none';
+            });
+        }
+
+        // Function to navigate to product details page
+        function goToProductDetails(productId) {
+            window.location.href = `/ProductDetails?id=${productId}`;
+        }
+
+
+
+        // Function to add product to cart
+        function addToCart(productId, quantity = 1) {
+            // Get product data from the clicked product card
+            const productCard = event.target.closest('.product-card');
+            const productName = productCard.dataset.name;
+            const productPrice = parseFloat(productCard.dataset.price);
+            const productCategory = productCard.dataset.category;
+            
+            // Get product image
+            const productImage = productCard.querySelector('.product-image img').src;
+            
+            // Get product description from the card
+            const productDescription = productCard.querySelector('.description').textContent;
+            
+            // Create cart item object
+            const cartItem = {
+                id: productId,
+                name: productName,
+                price: productPrice,
+                category: productCategory,
+                description: productDescription,
+                image: productImage,
+                quantity: quantity
+            };
+            
+            // Get existing cart items from localStorage
+            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            
+            // Check if product already exists in cart
+            const existingItemIndex = cartItems.findIndex(item => 
+                item.id === productId
+            );
+            
+            if (existingItemIndex > -1) {
+                // Update quantity if item already exists
+                cartItems[existingItemIndex].quantity += quantity;
+            } else {
+                // Add new item to cart
+                cartItems.push(cartItem);
+            }
+            
+            // Save updated cart to localStorage
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            
+            // Update cart counter
+            updateCartCounter();
+            
+            // Redirect to cart page
+            window.location.href = '/Cart';
+        }
+
+        // Function to update cart counter
+        function updateCartCounter() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.getElementById('cartCount');
+            
+            if (totalItems > 0) {
+                cartCount.textContent = totalItems;
+                cartCount.style.display = 'inline-block';
+            } else {
+                cartCount.style.display = 'none';
+            }
+        }
+
+        // Wishlist functionality
+        function toggleWishlist(productId, productName, productPrice, productImage, distributorName = 'GadgetHub') {
+            try {
+                // Get current wishlist
+                const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+                
+                // Check if item already in wishlist
+                const existingItem = wishlistItems.find(item => item.id === productId);
+                
+                if (existingItem) {
+                    // Remove from wishlist
+                    const updatedWishlist = wishlistItems.filter(item => item.id !== productId);
+                    localStorage.setItem('wishlistItems', JSON.stringify(updatedWishlist));
+                    
+                    // Update button appearance
+                    updateWishlistButton(productId, false);
+                } else {
+                    // Add to wishlist
+                    wishlistItems.push({
+                        id: productId,
+                        name: productName,
+                        price: productPrice,
+                        image: productImage,
+                        distributorName: distributorName,
+                        addedDate: new Date().toISOString()
+                    });
+                    
+                    localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+                    
+                    // Update button appearance
+                    updateWishlistButton(productId, true);
+                }
+                
+                console.log('Wishlist updated:', productName);
+            } catch (error) {
+                console.error('Error updating wishlist:', error);
+            }
+        }
+
+        function updateWishlistButton(productId, isInWishlist) {
+            const button = document.querySelector(`[onclick*="toggleWishlist(${productId}"]`);
+            if (button) {
+                if (isInWishlist) {
+                    button.classList.add('in-wishlist');
+                    button.title = 'Remove from Wishlist';
+                } else {
+                    button.classList.remove('in-wishlist');
+                    button.title = 'Add to Wishlist';
+                }
+            }
+        }
+
+        function isInWishlist(productId) {
+            const wishlistItems = JSON.parse(localStorage.getItem('wishlistItems')) || [];
+            return wishlistItems.some(item => item.id === productId);
+        }
+
+
+        // Update wishlist buttons on page load
+        function updateAllWishlistButtons() {
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                const productId = parseInt(card.dataset.productId);
+                const inWishlist = isInWishlist(productId);
+                updateWishlistButton(productId, inWishlist);
+            });
+        }
+
+
+
+        // Hamburger menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+
+            // Close menu when clicking on a link
+            nav.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!hamburger.contains(e.target) && !nav.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+        });
+
+        // Update profile icon to round profile image for admin
+        function updateProfileIcon() {
+            const profileLink = document.querySelector('.login-link');
+            if (profileLink) {
+                const img = profileLink.querySelector('img');
+                if (img) {
+                    // Check if admin is logged in
+                    const adminSession = localStorage.getItem('adminSession');
+                    if (adminSession) {
+                        // Create a round profile image with admin initials
+                        const adminUser = JSON.parse(localStorage.getItem('adminUser')) || {};
+                        const adminName = adminUser.name || 'Admin';
+                        const initials = adminName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                        
+                        // Create a round profile image
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 32;
+                        canvas.height = 32;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Draw round background
+                        ctx.fillStyle = '#8b5cf6'; // Purple color for admin
+                        ctx.beginPath();
+                        ctx.arc(16, 16, 16, 0, 2 * Math.PI);
+                        ctx.fill();
+                        
+                        // Draw initials
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = 'bold 12px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(initials, 16, 16);
+                        
+                        // Replace the image with the canvas
+                        img.src = canvas.toDataURL();
+                        img.alt = 'Admin Profile';
+                        img.style.borderRadius = '50%';
+                        img.style.border = '2px solid #8b5cf6';
+                        
+                        // Update link to go to admin dashboard
+                        profileLink.href = '/AdminDashboard';
+                        profileLink.title = 'Admin Profile';
+                    }
+                }
+            }
+        }
+
+        // Initialize profile icon on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProfileIcon();
+        });
+    </script>
+</body>
+</html>

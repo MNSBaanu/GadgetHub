@@ -1,0 +1,325 @@
+@page
+@model GadgetHubWeb.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login - GadgetHub";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/login.css" />
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="logo">
+            <img src="~/assets/logo.png" alt="GadgetHub Logo" />
+            <span>GadgetHub</span>
+        </div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav" id="nav">
+            <a href="/Index">Home</a>
+            <a href="/Products">Products</a>
+            <a href="/Contact">Contact</a>
+            <a href="/Cart" class="cart-link">
+                <i class="fas fa-shopping-cart" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+            <a href="/Login" class="login-link">
+                <i class="fas fa-user-circle" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+        </nav>
+    </header>
+
+    <!-- Login Page Content -->
+    <div class="login-page">
+        <div class="container">
+            <div class="auth-container">
+                <!-- Login Form -->
+                <div class="auth-form-container" id="loginForm">
+                    <div class="auth-header">
+                        <h1>Welcome Back</h1>
+                        <p>Sign in to your GadgetHub account</p>
+                    </div>
+                    
+                    <form class="auth-form" id="loginFormElement">
+                        <div class="form-group">
+                            <label for="loginEmail">Email Address</label>
+                            <input type="email" id="loginEmail" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" name="password" required>
+                        </div>
+                        
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="rememberMe" name="rememberMe">
+                                <span class="checkmark"></span>
+                                Remember me
+                            </label>
+                        </div>
+                        
+                        <!-- Error Message Display -->
+                        <div id="errorMessage" class="error-message" style="display: none;">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span id="errorText"></span>
+                        </div>
+                        
+                        <!-- Success Message Display -->
+                        <div id="successMessage" class="success-message" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="successText"></span>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Sign In</button>
+                        
+                        <div class="auth-links">
+                            <a href="#" class="forgot-password">Forgot your password?</a>
+                        </div>
+                    </form>
+                    
+                    <div class="divider">
+                        <span>or</span>
+                    </div>
+                    
+                    <button type="button" class="btn-google" onclick="signInWithGoogle()">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Continue with Google
+                    </button>
+                    
+                    <div class="auth-switch">
+                        <p>Don't have an account? <a href="/Register">Create Account</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GadgetHub</h3>
+                <p>Your gateway to the latest technology. Discover, compare, and shop the best gadgets from trusted distributors.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/Products">Products</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About Us</a></li>
+                    <li><a href="/Support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GadgetHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+
+            // Close menu when clicking on a link
+            nav.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!hamburger.contains(e.target) && !nav.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+        });
+
+        // Helper functions for showing messages
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const successDiv = document.getElementById('successMessage');
+            
+            // Hide success message if showing
+            successDiv.style.display = 'none';
+            
+            // Show error message
+            errorText.textContent = message;
+            errorDiv.style.display = 'flex';
+            
+            // Scroll to error message
+            errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function showSuccess(message) {
+            const successDiv = document.getElementById('successMessage');
+            const successText = document.getElementById('successText');
+            const errorDiv = document.getElementById('errorMessage');
+            
+            // Hide error message if showing
+            errorDiv.style.display = 'none';
+            
+            // Show success message
+            successText.textContent = message;
+            successDiv.style.display = 'flex';
+        }
+        
+        function hideMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Form submission handler
+        document.getElementById('loginFormElement').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Hide any previous messages
+            hideMessages();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Signing in...';
+            submitBtn.disabled = true;
+            
+            // Check if admin credentials first
+            if (data.email === 'admin@gadgethub.com' && data.password === 'admin123') {
+                console.log('🔐 Attempting admin login...');
+                // Handle admin login
+                fetch('/api/simple-admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: data.email,
+                        password: data.password
+                    })
+                })
+                .then(response => {
+                    console.log('Admin login response status:', response.status);
+                    return response.json();
+                })
+                .then(result => {
+                    console.log('Admin login result:', result);
+                    if (result.success) {
+                        // Store admin session data
+                        localStorage.setItem('adminSession', result.sessionId);
+                        localStorage.setItem('adminUser', JSON.stringify(result.admin));
+                        
+                        // Show success message
+                        showSuccess('Admin login successful! Redirecting to admin dashboard...');
+                        submitBtn.textContent = 'Login Successful!';
+                        submitBtn.style.backgroundColor = '#4CAF50';
+                        
+                        // Redirect to admin dashboard
+                        setTimeout(() => {
+                            window.location.href = '/AdminDashboard';
+                        }, 1000);
+                    } else {
+                        showError('Admin login failed: ' + result.message);
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Admin login error:', error);
+                    showError('Admin login failed. Please try again.');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
+            } else {
+                // Handle regular user login
+                fetch('https://localhost:7091/api/Auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: data.email,
+                        password: data.password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Store session data
+                        localStorage.setItem('sessionId', data.sessionId);
+                        localStorage.setItem('userData', JSON.stringify(data.user));
+                        
+                        // Clear session cache to ensure fresh validation
+                        if (typeof clearSessionCache === 'function') {
+                            clearSessionCache();
+                        }
+                        
+                        // Show success message
+                        showSuccess('Login successful! Redirecting to dashboard...');
+                        submitBtn.textContent = 'Login Successful!';
+                        submitBtn.style.backgroundColor = '#4CAF50';
+                        
+                        // Redirect to dashboard
+                        setTimeout(() => {
+                            window.location.href = '/Dashboard';
+                        }, 1000);
+                    } else {
+                        showError('Login failed: ' + data.message);
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Login error:', error);
+                    showError('Login failed. Please try again.');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
+            }
+        });
+
+        // Google sign-in function
+        function signInWithGoogle() {
+            alert('Google sign-in functionality will be implemented in the next phase. Thank you for your interest!');
+        }
+    </script>
+</body>
+</html>
+

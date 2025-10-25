@@ -1,0 +1,69 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\GadgetCentralAPI\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F281A0E7-E0F0-4B63-9D74-3EA0C7031FC0}|GadgetCentralAPI\\GadgetCentralAPI.csproj|c:\\users\\asus vivobook\\onedrive - msft\\higher diploma\\4th sem\\assignments\\soc\\downloads\\st20315142_cse5013_writ1\\gadgethub\\gadgetcentralapi\\gadgetcentralapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F281A0E7-E0F0-4B63-9D74-3EA0C7031FC0}|GadgetCentralAPI\\GadgetCentralAPI.csproj|solutionrelative:gadgetcentralapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F281A0E7-E0F0-4B63-9D74-3EA0C7031FC0}|GadgetCentralAPI\\GadgetCentralAPI.csproj|c:\\users\\asus vivobook\\onedrive - msft\\higher diploma\\4th sem\\assignments\\soc\\downloads\\st20315142_cse5013_writ1\\gadgethub\\gadgetcentralapi\\gadgetcentralapi\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F281A0E7-E0F0-4B63-9D74-3EA0C7031FC0}|GadgetCentralAPI\\GadgetCentralAPI.csproj|solutionrelative:gadgetcentralapi\\model\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1909115015:0:{83107a3e-496a-485e-b455-16ddb978e55e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1013369848:0:{83107a3e-496a-485e-b455-16ddb978e55e}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\GadgetCentralAPI\\GadgetCentralAPI\\Model\\Product.cs",
+              "RelativeDocumentMoniker": "GadgetCentralAPI\\Model\\Product.cs",
+              "ToolTip": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\GadgetCentralAPI\\GadgetCentralAPI\\Model\\Product.cs",
+              "RelativeToolTip": "GadgetCentralAPI\\Model\\Product.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T08:19:25.282Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\GadgetCentralAPI\\GadgetCentralAPI\\Program.cs",
+              "RelativeDocumentMoniker": "GadgetCentralAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\ASUS Vivobook\\OneDrive - MSFT\\Higher Diploma\\4TH SEM\\Assignments\\SOC\\Downloads\\st20315142_CSE5013_WRIT1\\GadgetHub\\GadgetCentralAPI\\GadgetCentralAPI\\Program.cs",
+              "RelativeToolTip": "GadgetCentralAPI\\Program.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAIwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-24T06:30:33.609Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
