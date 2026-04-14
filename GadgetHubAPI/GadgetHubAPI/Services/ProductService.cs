@@ -36,19 +36,20 @@ namespace GadgetHubAPI.Services
                     .GroupBy(p => p.ProductId)
                     .Select(group => SelectBestProductFromGroup(group.ToList()))
                     .Where(p => p != null)
-                    .OrderBy(p => p!.Score)
+                    .Select(p => p!)
+                    .OrderBy(p => p.Score)
                     .ToList();
 
                 // Ensure balanced distribution by mixing products from different distributors
-                bestProducts = EnsureBalancedDistribution(bestProducts.Where(p => p != null).Cast<ProductComparisonDTO>().ToList());
+                bestProducts = EnsureBalancedDistribution(bestProducts);
 
                 // Filter by category if not "all"
                 if (category != "all")
                 {
-                    bestProducts = bestProducts.Where(p => p?.Category?.Equals(category, StringComparison.OrdinalIgnoreCase) == true).ToList();
+                    bestProducts = bestProducts.Where(p => p.Category?.Equals(category, StringComparison.OrdinalIgnoreCase) == true).ToList();
                 }
 
-                return bestProducts.Where(p => p != null).Cast<ProductComparisonDTO>().ToList();
+                return bestProducts;
             }
             catch (Exception ex)
             {
