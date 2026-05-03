@@ -30,12 +30,12 @@ This solution implements a Service-Oriented Architecture (SOA) with the followin
 - **ElectroCom API** - Distributor service with competitive pricing and fast delivery
 - **TechWorld API** - Premium distributor with quality-focused pricing
 - **GadgetCentral API** - Budget-friendly distributor with volume discounts
-- **GadgetHub Web** - Modern web client with clean, responsive design
+- **GadgetHub Web** - Modern web client built with Next.js
 
 ### Database Architecture
 - **GadgetHubDB** - Main database for orders, customers, and quotation comparisons
 - **ElectroComDB** - ElectroCom's product inventory and quotations
-- **TechWorldDB** - TechWorld's product inventory and quotations  
+- **TechWorldDB** - TechWorld's product inventory and quotations
 - **GadgetCentralDB** - GadgetCentral's product inventory and quotations
 
 ## Features
@@ -56,206 +56,174 @@ This solution implements a Service-Oriented Architecture (SOA) with the followin
 ## Technology Stack
 
 ### Backend
-- **.NET 8.0** - Core framework
-- **ASP.NET Core Web API** - RESTful API services
-- **Entity Framework Core 9.0.9** - ORM for database operations
-- **SQL Server** - Database management system
-- **AutoMapper 15.0.0** - Object-to-object mapping
-- **Swagger/OpenAPI** - API documentation
+- **Node.js** - Runtime environment
+- **Express.js** - RESTful API framework
+- **Prisma ORM** - Database access and schema management
+- **PostgreSQL** - Database (hosted on [Neon](https://neon.tech))
 
 ### Frontend
-- **ASP.NET Core Razor Pages** - Server-side rendering
+- **Next.js** - React framework with server-side rendering
 - **Modern CSS3** - Custom styling with CSS Grid and Flexbox
-- **Vanilla JavaScript** - Interactive functionality
 - **Responsive Design** - Mobile-first approach
 
+### Hosting
+- **Vercel** - Frontend (GadgetHub Web / Next.js)
+- **Railway / Render** - Backend APIs (Node.js + Express)
+- **Neon** - PostgreSQL databases (free tier, 4 databases)
+
 ### Development Tools
-- **Visual Studio 2022** - IDE
-- **SQL Server Management Studio** - Database management
+- **VS Code** - IDE
+- **Prisma Studio** - Database management GUI
+- **Postman / Thunder Client** - API testing
 
 ## Prerequisites
 
 Before running the application, ensure you have:
 
-1. **Visual Studio 2022** with the following workloads:
-   - ASP.NET and web development
-   - .NET Desktop Development
-   - Data Storage and Processing
+1. **Node.js 18+** - [Download here](https://nodejs.org)
+2. **npm or yarn**
+3. **PostgreSQL** - or a free [Neon](https://neon.tech) account for cloud DB
+4. **Git**
 
-2. **SQL Server** (LocalDB or Express)
-   - Server: `LAPTOP-KK271TP3\\LOCALHOST` 
-   - Or update connection strings in `appsettings.json` files
+## Environment Variables
 
-3. **.NET 8.0 SDK**
+Each service requires a `.env` file. Create one in each project folder:
 
-## Database Configuration
-
-The application uses SQL Server with Windows Authentication by default. Connection strings are configured in each project's `appsettings.json`:
-
-```json
-{
-  "ConnectionStrings": {
-    "GadgetHubDB": "Server=LAPTOP-KK271TP3\\LOCALHOST;Database=GadgetHubDB;Trusted_Connection=true;TrustServerCertificate=true;",
-    "ElectroComDB": "Server=LAPTOP-KK271TP3\\LOCALHOST;Database=ElectroComDB;Trusted_Connection=true;TrustServerCertificate=true;",
-    "TechWorldDB": "Server=LAPTOP-KK271TP3\\LOCALHOST;Database=TechWorldDB;Trusted_Connection=true;TrustServerCertificate=true;",
-    "GadgetCentralDB": "Server=LAPTOP-KK271TP3\\LOCALHOST;Database=GadgetCentralDB;Trusted_Connection=true;TrustServerCertificate=true;"
-  }
-}
+### Distributor APIs (ElectroCom, TechWorld, GadgetCentral)
+```env
+DATABASE_URL="postgresql://user:password@host/dbname"
+PORT=4001
 ```
 
+### GadgetHub API (main orchestrator)
+```env
+DATABASE_URL="postgresql://user:password@host/gadgethubdb"
+PORT=4000
+ELECTROCOM_API_URL=http://localhost:4001
+TECHWORLD_API_URL=http://localhost:4002
+GADGETCENTRAL_API_URL=http://localhost:4003
+```
 
-## How to Run the Code
+### GadgetHub Web (Next.js)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:4000
+```
 
-### 1. Database Setup
+## Database Setup
 
-You have two options for setting up the databases:
-
-#### Option A: Create New Databases
-Create the databases in SQL Server:
-
+### Option A: Local PostgreSQL
+Create the databases locally:
 ```sql
--- Create databases
-CREATE DATABASE GadgetHubDB;
-CREATE DATABASE ElectroComDB;
-CREATE DATABASE TechWorldDB;
-CREATE DATABASE GadgetCentralDB;
+CREATE DATABASE gadgethubdb;
+CREATE DATABASE electrocomdb;
+CREATE DATABASE techWorlddb;
+CREATE DATABASE gadgetcentraldb;
 ```
 
-#### Option B: Attach Provided Database Files
-If you have the database files (.mdf and .ldf files), attach them using SQL Server Management Studio:
-
-1. **Open SQL Server Management Studio**
-2. **Right-click on "Databases"** → **Attach**
-3. **Click "Add"** and browse to your database files
-4. **Attach the following databases from the Database folder:**
-   - Database/GadgetHubDB.mdf / Database/GadgetHubDB.ldf
-   - Database/ElectroComDB.mdf / Database/ElectroComDB.ldf
-   - Database/TechWorldDB.mdf / Database/TechWorldDB.ldf
-   - Database/GadgetCentralDB.mdf / Database/GadgetCentralDB.ldf
-
-> **Note:** If you attach the provided databases, you can skip the migration step (Step 2) as the databases will already contain the required tables and data.
-
-### 2. Run Database Migrations
-
-**Skip this step if you attached the provided database files (Option B above).**
-
-Navigate to each API project and run migrations:
-
+Then run Prisma migrations in each service folder:
 ```bash
-# GadgetHub API
-cd GadgetHubAPI/GadgetHubAPI
-dotnet ef database update
-
-# ElectroCom API
-cd ElectroComAPI/ElectroComAPI
-dotnet ef database update
-
-# TechWorld API
-cd TechWorldAPI/TechWorldAPI
-dotnet ef database update
-
-# GadgetCentral API
-cd GadgetCentralAPI/GadgetCentralAPI
-dotnet ef database update
+npx prisma migrate dev --name init
 ```
 
-### 3. Start the Services
+### Option B: Neon (Recommended for cloud)
+1. Create a free account at [neon.tech](https://neon.tech)
+2. Create 4 databases (one per service)
+3. Copy each connection string into the corresponding `.env` file
+4. Run `npx prisma migrate deploy` in each service folder
 
-Start the services in the following order:
+## How to Run Locally
 
-#### Option A: Using Visual Studio
-1. Open the solution in Visual Studio 2022
-2. Set multiple startup projects:
-   - GadgetHubAPI
-   - ElectroComAPI
-   - TechWorldAPI
-   - GadgetCentralAPI
-   - GadgetHubWeb
-3. Press F5 to start all services
-
-#### Option B: Using Command Line
+### 1. Install dependencies in each service
 ```bash
-# Terminal 1 - GadgetHub API (Port 7091)
-cd GadgetHubAPI/GadgetHubAPI
-dotnet run --launch-profile https
+# Run this in each folder: GadgetHubAPI, ElectroComAPI, TechWorldAPI, GadgetCentralAPI, GadgetHubWeb
+npm install
+```
 
-# Terminal 2 - ElectroCom API (Port 7077)
-cd ElectroComAPI/ElectroComAPI
-dotnet run --urls="https://localhost:7077"
+### 2. Run database migrations
+```bash
+# Run in each API folder
+npx prisma migrate dev
+```
 
-# Terminal 3 - TechWorld API (Port 7102)
-cd TechWorldAPI/TechWorldAPI
-dotnet run --urls="https://localhost:7102"
+### 3. Start the services
 
-# Terminal 4 - GadgetCentral API (Port 7007)
-cd GadgetCentralAPI/GadgetCentralAPI
-dotnet run --urls="https://localhost:7007"
+Open a terminal for each service:
 
-# Terminal 5 - GadgetHub Web (Port 7324)
-cd GadgetHubWeb/GadgetHubWeb
-dotnet run
+```bash
+# Terminal 1 - ElectroCom API (Port 4001)
+cd ElectroComAPI
+npm run dev
+
+# Terminal 2 - TechWorld API (Port 4002)
+cd TechWorldAPI
+npm run dev
+
+# Terminal 3 - GadgetCentral API (Port 4003)
+cd GadgetCentralAPI
+npm run dev
+
+# Terminal 4 - GadgetHub API (Port 4000)
+cd GadgetHubAPI
+npm run dev
+
+# Terminal 5 - GadgetHub Web (Port 3000)
+cd GadgetHubWeb
+npm run dev
 ```
 
 ### 4. Access the Application
 
-- **GadgetHub Web**: https://localhost:7324
-- **GadgetHub API**: https://localhost:7091/swagger
-- **ElectroCom API**: https://localhost:7077/swagger
-- **TechWorld API**: https://localhost:7102/swagger
-- **GadgetCentral API**: https://localhost:7007/swagger
+- **GadgetHub Web**: http://localhost:3000
+- **GadgetHub API**: http://localhost:4000
+- **ElectroCom API**: http://localhost:4001
+- **TechWorld API**: http://localhost:4002
+- **GadgetCentral API**: http://localhost:4003
 
+## Deployment
 
+### Frontend — Vercel
+1. Push your code to GitHub
+2. Go to [vercel.com](https://vercel.com) and import the `GadgetHubWeb` folder
+3. Set environment variables in the Vercel dashboard
+4. Deploy — Vercel handles everything automatically
 
+### Backend APIs — Railway or Render
+1. Go to [railway.app](https://railway.app) or [render.com](https://render.com)
+2. Create a new Web Service and connect your GitHub repo
+3. Set the root directory to the specific API folder (e.g. `ElectroComAPI`)
+4. Add environment variables
+5. Deploy
 
-### Port Configuration
+> Repeat for each of the 4 APIs. Each gets its own service on Railway/Render.
 
-The services are configured to run on the following ports:
-- GadgetHub API: 7091(HTTPS)
-- ElectroCom API: 7077 (HTTPS)
-- TechWorld API: 7102 (HTTPS)
-- GadgetCentral API: 7007 (HTTPS)
-- GadgetHub Web: 7324 (HTTPS)
-
-## Troubleshooting
-
-### SSL Certificate Issues
-```bash
-dotnet dev-certs https --trust
-```
-
-### Database Connection Issues
-- Ensure SQL Server is running
-- Check connection strings match your SQL Server instance
-- Verify database permissions
-
-### Port Conflicts
-- If ports are in use, update `launchSettings.json` in each project
-- Or use different ports in the command line: `dotnet run --urls="https://localhost:NEW_PORT"`
+### Databases — Neon
+1. Create a project at [neon.tech](https://neon.tech)
+2. Create a database for each service
+3. Use the provided connection strings in your deployment environment variables
 
 ## Project Structure
 
 ```
 GadgetHub/
-├── GadgetHubAPI/           # Main orchestrator API
-│   ├── Controllers/        # API controllers
-│   ├── Data/              # Database context and repositories
-│   ├── DTO/               # Data transfer objects
-│   ├── Model/             # Entity models
-│   ├── Profiles/          # AutoMapper profiles
-│   └── Services/          # Business logic services
-├── ElectroComAPI/         # ElectroCom distributor API
-├── TechWorldAPI/          # TechWorld distributor API
-├── GadgetCentralAPI/      # GadgetCentral distributor API
-├── GadgetHubWeb/          # Web client application
-│   ├── Pages/             # Razor pages
-│   ├── wwwroot/           # Static files (CSS, JS)
-│   └── Shared/            # Shared layouts and components
+├── GadgetHubAPI/           # Main orchestrator API (Express)
+│   ├── controllers/        # Route handlers
+│   ├── prisma/             # Prisma schema and migrations
+│   ├── routes/             # Express routers
+│   ├── services/           # Business logic
+│   └── index.js            # Entry point
+├── ElectroComAPI/          # ElectroCom distributor API (Express)
+├── TechWorldAPI/           # TechWorld distributor API (Express)
+├── GadgetCentralAPI/       # GadgetCentral distributor API (Express)
+└── GadgetHubWeb/           # Frontend (Next.js)
+    ├── app/                # Next.js app router pages
+    ├── components/         # Reusable React components
+    └── public/             # Static assets
 ```
 
 ## Workflow
 
 ### Order Processing Flow
-1. **Customer Places Order** - Customer selects products and places order through web interface
+1. **Customer Places Order** - Customer selects products and places order through the web interface
 2. **Quotation Request** - GadgetHub API requests quotations from all three distributors
 3. **Distributor Response** - Each distributor responds with pricing and availability
 4. **Comparison & Selection** - System compares all quotations and selects the best option
@@ -267,26 +235,19 @@ GadgetHub/
 - **TechWorld**: Premium pricing with loyalty discounts (10% for 20+ items, 5% for 10+ items)
 - **GadgetCentral**: Budget-friendly with volume discounts (15% for 50+ items, 10% for 25+ items)
 
-## Design Philosophy
-
-The web interface follows modern design principles:
-- **Clean Interface**: Minimalist design with focus on typography and whitespace
-- **Card-based Layout**: Product display using card components for better organization
-- **Modern Web Standards**: CSS Grid, Flexbox, and responsive design principles
-
 ## Future Enhancements
 
-1. **Authentication & Authorization** - User login and role-based access
-2. **Payment Integration** - Stripe, PayPal, or other payment processors
-3. **Email Notifications** - Order confirmations and status updates
+1. **Authentication & Authorization** - JWT-based auth with role management
+2. **Payment Integration** - Stripe or PayPal
+3. **Email Notifications** - Order confirmations and status updates via Resend or Nodemailer
 4. **Inventory Management** - Real-time stock updates
 5. **Analytics Dashboard** - Business intelligence and reporting
-6. **Mobile App** - Native mobile application
-7. **API Rate Limiting** - Protect against abuse
+6. **Mobile App** - React Native application
+7. **API Rate Limiting** - express-rate-limit for abuse protection
 8. **Caching** - Redis for improved performance
-9. **Logging** - Structured logging with Serilog
-10. **Testing** - Unit and integration tests
+9. **Logging** - Structured logging with Winston or Pino
+10. **Testing** - Jest + Supertest for unit and integration tests
 
 ## Support
 
-For technical support or questions about this implementation, please refer to the code comments and API documentation available through the Swagger UI endpoints.
+For technical support or questions about this implementation, refer to the API route files and Prisma schema in each service folder.
