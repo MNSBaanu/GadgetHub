@@ -1,3 +1,6 @@
+# Visual Studio solution files (keep locally, not needed in repo)
+*.sln
+
 # Visual Studio local settings
 .vs/
 
@@ -17,3 +20,4 @@ Database/Backup/*.bak
 # OS files
 .DS_Store
 Thumbs.db
+
