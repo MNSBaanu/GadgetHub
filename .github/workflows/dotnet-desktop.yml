@@ -23,37 +23,13 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Install .NET Core
+    - name: Install .NET
       uses: actions/setup-dotnet@v5.2.0
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore ElectroComAPI
-      run: dotnet restore ElectroComAPI/ElectroComAPI.sln
+    - name: Restore
+      run: dotnet restore GadgetHub.sln
 
-    - name: Build ElectroComAPI
-      run: dotnet build ElectroComAPI/ElectroComAPI.sln --configuration ${{ matrix.configuration }} --no-restore
-
-    - name: Restore GadgetCentralAPI
-      run: dotnet restore GadgetCentralAPI/GadgetCentralAPI.sln
-
-    - name: Build GadgetCentralAPI
-      run: dotnet build GadgetCentralAPI/GadgetCentralAPI.sln --configuration ${{ matrix.configuration }} --no-restore
-
-    - name: Restore GadgetHubAPI
-      run: dotnet restore GadgetHubAPI/GadgetHubAPI.sln
-
-    - name: Build GadgetHubAPI
-      run: dotnet build GadgetHubAPI/GadgetHubAPI.sln --configuration ${{ matrix.configuration }} --no-restore
-
-    - name: Restore GadgetHubWeb
-      run: dotnet restore GadgetHubWeb/GadgetHubWeb.sln
-
-    - name: Build GadgetHubWeb
-      run: dotnet build GadgetHubWeb/GadgetHubWeb.sln --configuration ${{ matrix.configuration }} --no-restore
-
-    - name: Restore TechWorldAPI
-      run: dotnet restore TechWorldAPI/TechWorldAPI.sln
-
-    - name: Build TechWorldAPI
-      run: dotnet build TechWorldAPI/TechWorldAPI.sln --configuration ${{ matrix.configuration }} --no-restore
+    - name: Build
+      run: dotnet build GadgetHub.sln --configuration ${{ matrix.configuration }} --no-restore
