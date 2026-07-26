@@ -5,8 +5,7 @@ using GadgetHubWeb.Models;
 namespace GadgetHubWeb.Controllers
 {
     [ApiController]
-    // Separate route so it does not clash with embedded API CustomerController (api/Customer)
-    [Route("api/web-customer")]
+    [Route("api/customer")]
     public class CustomerController : ControllerBase
     {
         private readonly AuthService _authService;

@@ -13,18 +13,12 @@ namespace GadgetHubWeb.Controllers
         private readonly GadgetHubDBContext _context;
         private readonly HttpClient _httpClient;
         private readonly ILogger<OrderController> _logger;
-        private readonly IConfiguration _configuration;
 
-        public OrderController(
-            GadgetHubDBContext context,
-            HttpClient httpClient,
-            ILogger<OrderController> logger,
-            IConfiguration configuration)
+        public OrderController(GadgetHubDBContext context, HttpClient httpClient, ILogger<OrderController> logger)
         {
             _context = context;
             _httpClient = httpClient;
             _logger = logger;
-            _configuration = configuration;
         }
 
         [HttpPost("create")]
@@ -102,12 +96,7 @@ namespace GadgetHubWeb.Controllers
                         Notes = $"Payment Method: {request.PaymentMethod}"
                     };
 
-                    var apiBase = _configuration["ApiBaseUrl"];
-                    if (string.IsNullOrWhiteSpace(apiBase))
-                    {
-                        apiBase = $"{Request.Scheme}://{Request.Host}";
-                    }
-                    var apiResponse = await _httpClient.PostAsJsonAsync($"{apiBase.TrimEnd('/')}/api/Order/create", apiOrderRequest);
+                    var apiResponse = await _httpClient.PostAsJsonAsync("https://localhost:7000/api/Order/create", apiOrderRequest);
                     
                     if (apiResponse.IsSuccessStatusCode)
                     {

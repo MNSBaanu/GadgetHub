@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using GadgetHubAPI.Configuration;
 using GadgetHubAPI.Services;
 using GadgetHubAPI.DTO;
 using GadgetHubAPI.Data;
-using Microsoft.Extensions.Options;
 
 namespace GadgetHubAPI.Controllers
 {
@@ -14,18 +12,15 @@ namespace GadgetHubAPI.Controllers
         private readonly DistributorService _distributorService;
         private readonly QuotationComparisonRepo _quotationComparisonRepo;
         private readonly ILogger<DistributorController> _logger;
-        private readonly DistributorUrls _distributorUrls;
 
         public DistributorController(
             DistributorService distributorService,
             QuotationComparisonRepo quotationComparisonRepo,
-            ILogger<DistributorController> logger,
-            IOptions<DistributorUrls> distributorUrls)
+            ILogger<DistributorController> logger)
         {
             _distributorService = distributorService;
             _quotationComparisonRepo = quotationComparisonRepo;
             _logger = logger;
-            _distributorUrls = distributorUrls.Value;
         }
 
         [HttpGet("list")]
@@ -38,7 +33,7 @@ namespace GadgetHubAPI.Controllers
                     new DistributorInfoDTO
                     {
                         Name = "ElectroCom",
-                        Url = _distributorUrls.ElectroCom,
+                        Url = "https://localhost:7077",
                         Status = "Active",
                         Description = "Electronics and gadgets distributor",
                         ContactInfo = "ElectroCom Support"
@@ -46,7 +41,7 @@ namespace GadgetHubAPI.Controllers
                     new DistributorInfoDTO
                     {
                         Name = "TechWorld",
-                        Url = _distributorUrls.TechWorld,
+                        Url = "https://localhost:7102",
                         Status = "Active",
                         Description = "Technology products distributor",
                         ContactInfo = "TechWorld Support"
@@ -54,7 +49,7 @@ namespace GadgetHubAPI.Controllers
                     new DistributorInfoDTO
                     {
                         Name = "GadgetCentral",
-                        Url = _distributorUrls.GadgetCentral,
+                        Url = "https://localhost:7007",
                         Status = "Active",
                         Description = "Central gadget distribution hub",
                         ContactInfo = "GadgetCentral Support"

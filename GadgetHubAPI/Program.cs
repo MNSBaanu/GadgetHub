@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using GadgetHubAPI.Configuration;
 using GadgetHubAPI.Data;
 using GadgetHubAPI.Services;
 
@@ -9,9 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 var conn = builder.Configuration.GetConnectionString("GadgetHubDB");
 builder.Services.AddDbContext<GadgetHubDBContext>(options => options.UseSqlServer(conn));
 
-builder.Services.Configure<DistributorUrls>(
-    builder.Configuration.GetSection(DistributorUrls.SectionName));
-
 // Repository services
 builder.Services.AddScoped<ProductRepo>();
 builder.Services.AddScoped<CustomerRepo>();
@@ -19,7 +15,6 @@ builder.Services.AddScoped<OrderRepo>();
 builder.Services.AddScoped<QuotationComparisonRepo>();
 
 // HTTP client for distributor services with SSL certificate handling
-builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<DistributorService>(client =>
 {
     client.DefaultRequestHeaders.Add("User-Agent", "GadgetHub-API/1.0");
