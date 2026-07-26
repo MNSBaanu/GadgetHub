@@ -11,8 +11,9 @@ obj/
 # User-specific project settings
 *.csproj.user
 
-# Local development config (may contain secrets/local connection strings)
+# Local / production config (may contain secrets/connection strings)
 appsettings.Development.json
+appsettings.Production.json
 
 # SQL Server raw backup files
 Database/Backup/*.bak
