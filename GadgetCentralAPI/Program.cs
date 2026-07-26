@@ -19,10 +19,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowGadgetHub", policy =>
     {
-        policy.WithOrigins(
-                "https://localhost:7234", "http://localhost:7234",
-                "https://localhost:7091", "http://localhost:7091",
-                "https://gadgethub.runasp.net", "http://gadgethub.runasp.net")
+        policy.WithOrigins("https://localhost:7234", "http://localhost:7234") // GadgetHub Web App
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials()
