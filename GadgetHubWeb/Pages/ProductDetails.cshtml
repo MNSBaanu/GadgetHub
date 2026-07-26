@@ -20,6 +20,7 @@
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="~/js/api-config.js"></script>
 </head>
 <body>
     <!-- Header / Navbar -->
@@ -250,7 +251,7 @@
             
             if (productId) {
                 // Try GadgetHub API first
-                fetch(`https://localhost:7091/api/product/${productId}`)
+                fetch(GH.api('/api/product/' + productId))
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -274,9 +275,9 @@
         // Function to fetch product from distributor APIs
         function fetchFromDistributors(productId) {
             const distributorApis = [
-                'https://localhost:7077/api/product',
-                'https://localhost:7102/api/product', 
-                'https://localhost:7007/api/product'
+                GH.distributors.ElectroCom + '/api/product',
+                GH.distributors.TechWorld + '/api/product', 
+                GH.distributors.GadgetCentral + '/api/product'
             ];
             
             const distributorNames = ['ElectroCom', 'TechWorld', 'GadgetCentral'];

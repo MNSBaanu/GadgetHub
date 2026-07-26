@@ -1,5 +1,7 @@
 using System.Text.Json;
+using GadgetHubAPI.Configuration;
 using GadgetHubAPI.DTO;
+using Microsoft.Extensions.Options;
 
 namespace GadgetHubAPI.Services
 {
@@ -7,11 +9,16 @@ namespace GadgetHubAPI.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<ProductService> _logger;
+        private readonly DistributorUrls _distributorUrls;
 
-        public ProductService(HttpClient httpClient, ILogger<ProductService> logger)
+        public ProductService(
+            HttpClient httpClient,
+            ILogger<ProductService> logger,
+            IOptions<DistributorUrls> distributorUrls)
         {
             _httpClient = httpClient;
             _logger = logger;
+            _distributorUrls = distributorUrls.Value;
         }
 
         public async Task<List<ProductComparisonDTO>> GetBestProductsByCategory(string category = "all")
@@ -63,7 +70,7 @@ namespace GadgetHubAPI.Services
             try
             {
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)); // 30 second timeout
-                var response = await _httpClient.GetAsync($"https://localhost:7077/api/product?category={category}", cts.Token);
+                var response = await _httpClient.GetAsync($"{_distributorUrls.ElectroCom}/api/product?category={category}", cts.Token);
                 
                 if (response.IsSuccessStatusCode)
                 {
@@ -108,7 +115,7 @@ namespace GadgetHubAPI.Services
             try
             {
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)); // 30 second timeout
-                var response = await _httpClient.GetAsync($"https://localhost:7102/api/product?category={category}", cts.Token);
+                var response = await _httpClient.GetAsync($"{_distributorUrls.TechWorld}/api/product?category={category}", cts.Token);
                 
                 if (response.IsSuccessStatusCode)
                 {
@@ -153,7 +160,7 @@ namespace GadgetHubAPI.Services
             try
             {
                 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)); // 30 second timeout
-                var response = await _httpClient.GetAsync($"https://localhost:7007/api/product?category={category}", cts.Token);
+                var response = await _httpClient.GetAsync($"{_distributorUrls.GadgetCentral}/api/product?category={category}", cts.Token);
                 
                 if (response.IsSuccessStatusCode)
                 {

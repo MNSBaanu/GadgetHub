@@ -4,14 +4,17 @@ using GadgetHubWeb.Models;
 namespace GadgetHubWeb.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    // Separate route so it does not clash with embedded API ProductController (api/Product)
+    [Route("api/web-product")]
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(ILogger<ProductController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -21,7 +24,12 @@ namespace GadgetHubWeb.Controllers
             {
                 // Fetch products from GadgetHubAPI which compares prices across all distributors
                 var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:7000/api/product");
+                var apiBase = _configuration["ApiBaseUrl"];
+                if (string.IsNullOrWhiteSpace(apiBase))
+                {
+                    apiBase = $"{Request.Scheme}://{Request.Host}";
+                }
+                var response = await httpClient.GetAsync($"{apiBase.TrimEnd('/')}/api/product");
                 
                 if (response.IsSuccessStatusCode)
                 {

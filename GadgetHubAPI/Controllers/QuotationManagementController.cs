@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using GadgetHubAPI.Configuration;
 using GadgetHubAPI.Services;
 using GadgetHubAPI.DTO;
 using GadgetHubAPI.Data;
 using AutoMapper;
 using System.Text.Json;
+using Microsoft.Extensions.Options;
 
 namespace GadgetHubAPI.Controllers
 {
@@ -17,6 +19,7 @@ namespace GadgetHubAPI.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<QuotationManagementController> _logger;
         private readonly HttpClient _httpClient;
+        private readonly DistributorUrls _distributorUrls;
 
         public QuotationManagementController(
             DistributorService distributorService,
@@ -24,7 +27,8 @@ namespace GadgetHubAPI.Controllers
             OrderProcessingService orderProcessingService,
             IMapper mapper,
             ILogger<QuotationManagementController> logger,
-            HttpClient httpClient)
+            HttpClient httpClient,
+            IOptions<DistributorUrls> distributorUrls)
         {
             _distributorService = distributorService;
             _quotationComparisonRepo = quotationComparisonRepo;
@@ -32,6 +36,7 @@ namespace GadgetHubAPI.Controllers
             _mapper = mapper;
             _logger = logger;
             _httpClient = httpClient;
+            _distributorUrls = distributorUrls.Value;
         }
 
         [HttpGet("pending-orders")]
@@ -774,13 +779,7 @@ namespace GadgetHubAPI.Controllers
 
         private string GetDistributorUrl(string distributorName)
         {
-            return distributorName switch
-            {
-                "ElectroCom" => "https://localhost:7077",
-                "TechWorld" => "https://localhost:7102",
-                "GadgetCentral" => "https://localhost:7007",
-                _ => throw new ArgumentException($"Unknown distributor: {distributorName}")
-            };
+            return _distributorUrls.GetUrl(distributorName);
         }
 
         private async Task<bool> PlaceOrderWithDistributor(Model.Order order, Model.QuotationComparison quotation, string distributorName)

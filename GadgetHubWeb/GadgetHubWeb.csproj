@@ -22,6 +22,25 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
 	</ItemGroup>
 
+	<!-- Embed GadgetHubAPI into Web for single-site hosting. API project stays runnable alone. -->
+	<!-- Exclude API AdminController to avoid conflict with Web api/admin routes. -->
+	<ItemGroup>
+		<Compile Include="..\GadgetHubAPI\Configuration\**\*.cs" Link="IntegratedApi\Configuration\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="..\GadgetHubAPI\Controllers\AuthController.cs" Link="IntegratedApi\Controllers\AuthController.cs" />
+		<Compile Include="..\GadgetHubAPI\Controllers\CustomerController.cs" Link="IntegratedApi\Controllers\CustomerController.cs" />
+		<Compile Include="..\GadgetHubAPI\Controllers\DatabaseController.cs" Link="IntegratedApi\Controllers\DatabaseController.cs" />
+		<Compile Include="..\GadgetHubAPI\Controllers\DistributorController.cs" Link="IntegratedApi\Controllers\DistributorController.cs" />
+		<Compile Include="..\GadgetHubAPI\Controllers\OrderController.cs" Link="IntegratedApi\Controllers\OrderController.cs" />
+		<Compile Include="..\GadgetHubAPI\Controllers\ProductController.cs" Link="IntegratedApi\Controllers\ProductController.cs" />
+		<Compile Include="..\GadgetHubAPI\Controllers\QuotationController.cs" Link="IntegratedApi\Controllers\QuotationController.cs" />
+		<Compile Include="..\GadgetHubAPI\Controllers\QuotationManagementController.cs" Link="IntegratedApi\Controllers\QuotationManagementController.cs" />
+		<Compile Include="..\GadgetHubAPI\Data\**\*.cs" Link="IntegratedApi\Data\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="..\GadgetHubAPI\DTO\**\*.cs" Link="IntegratedApi\DTO\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="..\GadgetHubAPI\Model\**\*.cs" Link="IntegratedApi\Model\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="..\GadgetHubAPI\Profiles\**\*.cs" Link="IntegratedApi\Profiles\%(RecursiveDir)%(Filename)%(Extension)" />
+		<Compile Include="..\GadgetHubAPI\Services\**\*.cs" Link="IntegratedApi\Services\%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<Folder Include="Migrations\" />
 	</ItemGroup>

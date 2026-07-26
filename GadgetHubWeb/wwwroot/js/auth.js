@@ -26,7 +26,7 @@ async function isUserLoggedIn() {
     }
     
     try {
-        const response = await fetch('https://localhost:7091/api/Auth/validate-session', {
+        const response = await fetch(GH.api('/api/Auth/validate-session'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ function clearSessionCache() {
 function logout() {
     const sessionId = localStorage.getItem('sessionId');
     if (sessionId) {
-        fetch('https://localhost:7091/api/Auth/logout', {
+        fetch(GH.api('/api/Auth/logout'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
