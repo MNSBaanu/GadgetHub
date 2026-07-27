@@ -21,9 +21,9 @@ namespace GadgetHubAPI.Configuration
             {
                 return new ServiceUrlsOptions
                 {
-                    ElectroCom = "https://gadgethub-electrocom.runasp.net",
-                    TechWorld = "https://gadgethub-techworld.runasp.net",
-                    GadgetCentral = "https://gadgethub-gadgetcentral.runasp.net"
+                    ElectroCom = "http://gadgethub-electrocom.runasp.net",
+                    TechWorld = "http://gadgethub-techworld.runasp.net",
+                    GadgetCentral = "http://gadgethub-gadgetcentral.runasp.net"
                 };
             }
 

@@ -17,22 +17,22 @@ namespace GadgetHubWeb.Services
 
         public string GadgetHubApi => Resolve(
             "ServiceUrls:GadgetHubApi",
-            "https://gadgethub-gadgethub.runasp.net",
+            "http://gadgethub-gadgethub.runasp.net",
             "http://localhost:7091");
 
         public string ElectroCom => Resolve(
             "ServiceUrls:ElectroCom",
-            "https://gadgethub-electrocom.runasp.net",
+            "http://gadgethub-electrocom.runasp.net",
             "http://localhost:7077");
 
         public string TechWorld => Resolve(
             "ServiceUrls:TechWorld",
-            "https://gadgethub-techworld.runasp.net",
+            "http://gadgethub-techworld.runasp.net",
             "http://localhost:7102");
 
         public string GadgetCentral => Resolve(
             "ServiceUrls:GadgetCentral",
-            "https://gadgethub-gadgetcentral.runasp.net",
+            "http://gadgethub-gadgetcentral.runasp.net",
             "http://localhost:7007");
 
         private string Resolve(string configKey, string productionUrl, string localUrl)
