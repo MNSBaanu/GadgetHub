@@ -15,8 +15,8 @@ obj/
 appsettings.Development.json
 appsettings.Production.json
 
-# SQL Server raw backup files
-Database/Backup/*.bak
+# Database dumps / scripts (local only — keep off public GitHub)
+Database/
 
 # MonsterASP / Web Deploy credentials (never commit)
 publishSettings/
