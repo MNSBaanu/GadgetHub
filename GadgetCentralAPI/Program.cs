@@ -20,7 +20,9 @@ var corsOrigins = new List<string>
     "http://localhost:7234",
     "https://localhost:7234",
     "http://gadgethub.runasp.net",
-    "http://gadgethub-gadgethub.runasp.net"
+    "https://gadgethub.runasp.net",
+    "http://gadgethub-gadgethub.runasp.net",
+    "https://gadgethub-gadgethub.runasp.net"
 };
 corsOrigins.AddRange(builder.Configuration.GetSection("CorsOrigins").Get<string[]>() ?? Array.Empty<string>());
 
