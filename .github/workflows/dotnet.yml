@@ -77,7 +77,7 @@ jobs:
         run: |
           if [ -z "$DEPLOY_PASSWORD" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "Secret ${{ matrix.password_secret }} is not set — skipping ${{ matrix.name }}."
+            echo "Secret ${{ matrix.password_secret }} is not set - skipping ${{ matrix.name }}."
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi

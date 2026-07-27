@@ -1,6 +1,10 @@
 # GadgetHub
 
-A Service-Oriented Architecture (SOA) e-commerce platform for gadgets. The system connects to three distributors — ElectroCom, TechWorld, and GadgetCentral — and automatically compares prices to get the best deal for customers.
+![GadgetHub across devices](docs/banner.png)
+
+A Service-Oriented Architecture (SOA) e-commerce platform for gadgets. The system connects to three distributors - ElectroCom, TechWorld, and GadgetCentral - and automatically compares prices to get the best deal for customers.
+
+![GadgetHub - your ultimate Apple destination](docs/hero.png)
 
 ## Tech Stack
 
@@ -12,11 +16,15 @@ A Service-Oriented Architecture (SOA) e-commerce platform for gadgets. The syste
 
 | Service | Description |
 |---|---|
-| GadgetHubAPI | Main API — orders, customers, quotation comparison |
+| GadgetHubAPI | Main API - orders, customers, quotation comparison |
 | ElectroComAPI | Distributor API |
 | TechWorldAPI | Distributor API |
 | GadgetCentralAPI | Distributor API |
 | GadgetHubWeb | Customer-facing web app |
+
+## Platform Showcase
+
+![GadgetHub platform showcase](docs/showcase.png)
 
 ## Credentials
 
