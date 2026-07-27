@@ -1,6 +1,3 @@
-# Visual Studio solution files (keep locally, not needed in repo)
-*.sln
-
 # Visual Studio local settings
 .vs/
 
