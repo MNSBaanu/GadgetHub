@@ -11,7 +11,6 @@
 
 A Service-Oriented Architecture (SOA) e-commerce platform for gadgets. The system connects to three distributors - **ElectroCom**, **TechWorld**, and **GadgetCentral** - and automatically compares prices to get the best deal for customers.
 
-![GadgetHub - your ultimate Apple destination](docs/hero.png)
 
 ## Features
 
@@ -19,6 +18,8 @@ A Service-Oriented Architecture (SOA) e-commerce platform for gadgets. The syste
 - Customer storefront with cart, wishlist, and checkout
 - Admin dashboard for orders, products, and customers
 - Quotation-based order processing
+
+![GadgetHub - your ultimate Apple destination](docs/hero.png)
 
 ## Tech Stack
 
@@ -40,9 +41,7 @@ A Service-Oriented Architecture (SOA) e-commerce platform for gadgets. The syste
 | TechWorldAPI | Distributor API |
 | GadgetCentralAPI | Distributor API |
 
-## Platform Showcase
 
-![GadgetHub platform showcase](docs/showcase.png)
 
 ## Prerequisites
 
@@ -65,6 +64,10 @@ dotnet run --project GadgetHubWeb
 ```
 
 4. Open the web app URL shown in the `GadgetHubWeb` console (typically `https://localhost:7xxx`).
+
+## Platform Showcase
+
+![GadgetHub platform showcase](docs/showcase.png)
 
 ## Demo Credentials
 
@@ -117,4 +120,4 @@ Contributions are welcome. Please follow these steps:
 
 ---
 
-**Implemented by [MNSBaanu](https://github.com/MNSBaanu)**
+![Implemented by MNSBaanu](docs/Footer.png)
