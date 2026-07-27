@@ -14,15 +14,28 @@ obj/
 # Local / production config (may contain secrets/connection strings)
 appsettings.Development.json
 appsettings.Production.json
+appsettings.*.local.json
+secrets.json
+
+# Env / certs / keys
+.env
+.env.*
+*.pfx
+*.pem
+*.key
 
 # Database dumps / scripts (local only — keep off public GitHub)
 Database/
 
-# MonsterASP / Web Deploy credentials (never commit)
+# MonsterASP / Web Deploy credentials & profiles (never commit)
 publishSettings/
+*.PublishSettings
+**/Properties/PublishProfiles/*.pubxml
 **/Properties/PublishProfiles/*.pubxml.user
+
+# Netlify / tooling caches
+.netlify/
 
 # OS files
 .DS_Store
 Thumbs.db
-
