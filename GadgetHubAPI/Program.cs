@@ -1,8 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using GadgetHubAPI.Data;
 using GadgetHubAPI.Services;
+using GadgetHubAPI.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<ServiceUrlsOptions>(
+    builder.Configuration.GetSection(ServiceUrlsOptions.SectionName));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ServiceUrlResolver>();
+builder.Services.AddScoped(sp => sp.GetRequiredService<ServiceUrlResolver>().GetUrls());
 
 // Database connection
 var conn = builder.Configuration.GetConnectionString("GadgetHubDB");

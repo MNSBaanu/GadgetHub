@@ -603,7 +603,7 @@
                 
                 if (customerId) {
                     const timestamp = new Date().getTime();
-                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const response = await fetch(`@ServiceUrls.GadgetHubApi/api/Order/customer/${customerId}?t=${timestamp}`);
                     const result = await response.json();
                     if (result && Array.isArray(result)) {
                         lastOrderCount = result.length;
@@ -641,7 +641,7 @@
                 
                 if (customerId) {
                     const timestamp = new Date().getTime();
-                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const response = await fetch(`@ServiceUrls.GadgetHubApi/api/Order/customer/${customerId}?t=${timestamp}`);
                     const result = await response.json();
 
                     if (result && Array.isArray(result) && result.length !== lastOrderCount) {
@@ -663,7 +663,7 @@
 
                 if (customerId) {
                     const timestamp = new Date().getTime();
-                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const response = await fetch(`@ServiceUrls.GadgetHubApi/api/Order/customer/${customerId}?t=${timestamp}`);
                     const result = await response.json();
 
                     if (result && Array.isArray(result) && result.length > 0) {
@@ -748,7 +748,7 @@
                 if (customerId) {
                     
                     try {
-                        const testResponse = await fetch(`https://localhost:7091/api/Order/all`);
+                        const testResponse = await fetch(`@ServiceUrls.GadgetHubApi/api/Order/all`);
                         if (!testResponse.ok) {
                             throw new Error('API is not accessible');
                         }
@@ -757,7 +757,7 @@
                     }
                     
                     const timestamp = new Date().getTime();
-                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const response = await fetch(`@ServiceUrls.GadgetHubApi/api/Order/customer/${customerId}?t=${timestamp}`);
                     
                     if (!response.ok) {
                         console.error('API request failed:', response.status, response.statusText);
@@ -906,7 +906,7 @@
                     console.log('Loading all orders for customer ID:', customerId);
                     
                     const timestamp = new Date().getTime();
-                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const response = await fetch(`@ServiceUrls.GadgetHubApi/api/Order/customer/${customerId}?t=${timestamp}`);
                     
                     if (!response.ok) {
                         throw new Error(`API request failed: ${response.status} ${response.statusText}`);
@@ -1025,7 +1025,7 @@
                     return;
                 }
 
-                const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}`);
+                const response = await fetch(`@ServiceUrls.GadgetHubApi/api/Order/customer/${customerId}`);
                 const orders = await response.json();
                 
                 displayNotifications(orders);
@@ -1634,7 +1634,7 @@
                 
                 if (customerId) {
                     const timestamp = new Date().getTime();
-                    const response = await fetch(`https://localhost:7091/api/Order/customer/${customerId}?t=${timestamp}`);
+                    const response = await fetch(`@ServiceUrls.GadgetHubApi/api/Order/customer/${customerId}?t=${timestamp}`);
                     const result = await response.json();
                     if (result && Array.isArray(result)) {
                         ordersCount = result.length;
@@ -1902,7 +1902,7 @@
 
             try {
                 // First check for customer notifications (order confirmations)
-                const notificationResponse = await fetch(`https://localhost:7091/api/QuotationManagement/customer-notifications/${orderNumber}`);
+                const notificationResponse = await fetch(`@ServiceUrls.GadgetHubApi/api/QuotationManagement/customer-notifications/${orderNumber}`);
                 let hasNotifications = false;
                 
                 if (notificationResponse.ok) {
@@ -1913,7 +1913,7 @@
                 }
 
                 // Then get order tracking details
-                const response = await fetch(`https://localhost:7091/api/QuotationManagement/order-tracking/${orderNumber}`);
+                const response = await fetch(`@ServiceUrls.GadgetHubApi/api/QuotationManagement/order-tracking/${orderNumber}`);
                 
                 if (response.ok) {
                     const data = await response.json();
@@ -2080,6 +2080,7 @@
         }
     </script>
 
+    <script src="/api-config.js"></script>
     <script src="~/js/auth.js?v=@DateTime.Now.Ticks"></script>
 
     <style>

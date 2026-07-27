@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GadgetHubWeb.Models;
 using GadgetHubWeb.Data;
+using GadgetHubWeb.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
@@ -13,12 +14,18 @@ namespace GadgetHubWeb.Controllers
         private readonly GadgetHubDBContext _context;
         private readonly HttpClient _httpClient;
         private readonly ILogger<OrderController> _logger;
+        private readonly ServiceUrlResolver _serviceUrls;
 
-        public OrderController(GadgetHubDBContext context, HttpClient httpClient, ILogger<OrderController> logger)
+        public OrderController(
+            GadgetHubDBContext context,
+            HttpClient httpClient,
+            ILogger<OrderController> logger,
+            ServiceUrlResolver serviceUrls)
         {
             _context = context;
             _httpClient = httpClient;
             _logger = logger;
+            _serviceUrls = serviceUrls;
         }
 
         [HttpPost("create")]
@@ -96,7 +103,7 @@ namespace GadgetHubWeb.Controllers
                         Notes = $"Payment Method: {request.PaymentMethod}"
                     };
 
-                    var apiResponse = await _httpClient.PostAsJsonAsync("https://localhost:7000/api/Order/create", apiOrderRequest);
+                    var apiResponse = await _httpClient.PostAsJsonAsync($"{_serviceUrls.GadgetHubApi}/api/Order/create", apiOrderRequest);
                     
                     if (apiResponse.IsSuccessStatusCode)
                     {

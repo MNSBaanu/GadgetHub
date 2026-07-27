@@ -1,5 +1,6 @@
 using GadgetHubAPI.DTO;
 using GadgetHubAPI.Data;
+using GadgetHubAPI.Configuration;
 using AutoMapper;
 
 namespace GadgetHubAPI.Services
@@ -13,6 +14,7 @@ namespace GadgetHubAPI.Services
         private readonly DistributorService _distributorService;
         private readonly IMapper _mapper;
         private readonly ILogger<OrderProcessingService> _logger;
+        private readonly ServiceUrlsOptions _serviceUrls;
 
         public OrderProcessingService(
             HttpClient httpClient,
@@ -21,7 +23,8 @@ namespace GadgetHubAPI.Services
             NotificationService notificationService,
             DistributorService distributorService,
             IMapper mapper,
-            ILogger<OrderProcessingService> logger)
+            ILogger<OrderProcessingService> logger,
+            ServiceUrlsOptions serviceUrls)
         {
             _httpClient = httpClient;
             _orderRepo = orderRepo;
@@ -30,6 +33,7 @@ namespace GadgetHubAPI.Services
             _distributorService = distributorService;
             _mapper = mapper;
             _logger = logger;
+            _serviceUrls = serviceUrls;
         }
 
         public async Task<OrderReadDTO> ProcessOrderWithDistributors(OrderCreateDTO orderRequest)
@@ -481,16 +485,7 @@ namespace GadgetHubAPI.Services
             }
         }
 
-        private string GetDistributorUrl(string distributorName)
-        {
-            return distributorName switch
-            {
-                "ElectroCom" => "https://localhost:7077",
-                "TechWorld" => "https://localhost:7102",
-                "GadgetCentral" => "https://localhost:7007",
-                _ => throw new ArgumentException($"Unknown distributor: {distributorName}")
-            };
-        }
+        private string GetDistributorUrl(string distributorName) => _serviceUrls.GetDistributorUrl(distributorName);
 
         private void SetDefaultPricesAndDates(Model.Order order)
         {

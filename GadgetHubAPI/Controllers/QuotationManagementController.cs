@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using GadgetHubAPI.Services;
 using GadgetHubAPI.DTO;
 using GadgetHubAPI.Data;
+using GadgetHubAPI.Configuration;
 using AutoMapper;
 using System.Text.Json;
 
@@ -17,6 +18,7 @@ namespace GadgetHubAPI.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<QuotationManagementController> _logger;
         private readonly HttpClient _httpClient;
+        private readonly ServiceUrlsOptions _serviceUrls;
 
         public QuotationManagementController(
             DistributorService distributorService,
@@ -24,7 +26,8 @@ namespace GadgetHubAPI.Controllers
             OrderProcessingService orderProcessingService,
             IMapper mapper,
             ILogger<QuotationManagementController> logger,
-            HttpClient httpClient)
+            HttpClient httpClient,
+            ServiceUrlsOptions serviceUrls)
         {
             _distributorService = distributorService;
             _quotationComparisonRepo = quotationComparisonRepo;
@@ -32,6 +35,7 @@ namespace GadgetHubAPI.Controllers
             _mapper = mapper;
             _logger = logger;
             _httpClient = httpClient;
+            _serviceUrls = serviceUrls;
         }
 
         [HttpGet("pending-orders")]
@@ -772,16 +776,7 @@ namespace GadgetHubAPI.Controllers
             }
         }
 
-        private string GetDistributorUrl(string distributorName)
-        {
-            return distributorName switch
-            {
-                "ElectroCom" => "https://localhost:7077",
-                "TechWorld" => "https://localhost:7102",
-                "GadgetCentral" => "https://localhost:7007",
-                _ => throw new ArgumentException($"Unknown distributor: {distributorName}")
-            };
-        }
+        private string GetDistributorUrl(string distributorName) => _serviceUrls.GetDistributorUrl(distributorName);
 
         private async Task<bool> PlaceOrderWithDistributor(Model.Order order, Model.QuotationComparison quotation, string distributorName)
         {

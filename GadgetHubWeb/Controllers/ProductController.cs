@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using GadgetHubWeb.Models;
+using GadgetHubWeb.Services;
 
 namespace GadgetHubWeb.Controllers
 {
@@ -8,10 +9,17 @@ namespace GadgetHubWeb.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ServiceUrlResolver _serviceUrls;
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(
+            ILogger<ProductController> logger,
+            IHttpClientFactory httpClientFactory,
+            ServiceUrlResolver serviceUrls)
         {
             _logger = logger;
+            _httpClientFactory = httpClientFactory;
+            _serviceUrls = serviceUrls;
         }
 
         [HttpGet]
@@ -20,8 +28,8 @@ namespace GadgetHubWeb.Controllers
             try
             {
                 // Fetch products from GadgetHubAPI which compares prices across all distributors
-                var httpClient = new HttpClient();
-                var response = await httpClient.GetAsync("https://localhost:7000/api/product");
+                var httpClient = _httpClientFactory.CreateClient();
+                var response = await httpClient.GetAsync($"{_serviceUrls.GadgetHubApi}/api/product");
                 
                 if (response.IsSuccessStatusCode)
                 {

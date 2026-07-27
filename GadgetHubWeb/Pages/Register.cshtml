@@ -258,7 +258,7 @@
             submitBtn.disabled = true;
             
             // Call register API
-            fetch('https://localhost:7091/api/Auth/register', {
+            fetch('@ServiceUrls.GadgetHubApi/api/Auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

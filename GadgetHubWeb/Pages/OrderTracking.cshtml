@@ -128,7 +128,7 @@ async function trackOrder() {
 
     try {
         // First check for customer notifications (distributor order IDs)
-        const notificationResponse = await fetch(`https://localhost:7091/api/QuotationManagement/customer-notifications/${orderNumber}`);
+        const notificationResponse = await fetch(`@ServiceUrls.GadgetHubApi/api/QuotationManagement/customer-notifications/${orderNumber}`);
         let hasNotifications = false;
         
         if (notificationResponse.ok) {
@@ -142,7 +142,7 @@ async function trackOrder() {
         }
 
         // Then get order tracking details
-        const response = await fetch(`https://localhost:7091/api/QuotationManagement/order-tracking/${orderNumber}`);
+        const response = await fetch(`@ServiceUrls.GadgetHubApi/api/QuotationManagement/order-tracking/${orderNumber}`);
         
         if (response.ok) {
             const data = await response.json();

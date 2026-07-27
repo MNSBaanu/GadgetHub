@@ -269,7 +269,7 @@
                 });
             } else {
                 // Handle regular user login
-                fetch('https://localhost:7091/api/Auth/login', {
+                fetch('@ServiceUrls.GadgetHubApi/api/Auth/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

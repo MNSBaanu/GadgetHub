@@ -20,6 +20,8 @@ builder.Services.AddHttpClient();
 
 // Add AuthService
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ServiceUrlResolver>();
 
 var app = builder.Build();
 
@@ -46,6 +48,12 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+
+app.MapGet("/api-config.js", (ServiceUrlResolver serviceUrls) =>
+{
+    var api = serviceUrls.GadgetHubApi;
+    return Results.Content($"window.GADGETHUB_API_URL='{api}';", "application/javascript");
+});
 
 // Initialize database - SIMPLE APPROACH
 using (var scope = app.Services.CreateScope())

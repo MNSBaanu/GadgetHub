@@ -1,5 +1,7 @@
 // Authentication utilities for all pages
 
+const API_BASE_URL = window.GADGETHUB_API_URL || 'http://localhost:7091';
+
 // Session validation cache to avoid too many API calls
 // Use window object to prevent redeclaration errors
 if (!window.sessionValidationCache) {
@@ -26,7 +28,7 @@ async function isUserLoggedIn() {
     }
     
     try {
-        const response = await fetch('https://localhost:7091/api/Auth/validate-session', {
+        const response = await fetch(`${API_BASE_URL}/api/Auth/validate-session`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -197,7 +199,7 @@ function clearSessionCache() {
 function logout() {
     const sessionId = localStorage.getItem('sessionId');
     if (sessionId) {
-        fetch('https://localhost:7091/api/Auth/logout', {
+        fetch(`${API_BASE_URL}/api/Auth/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

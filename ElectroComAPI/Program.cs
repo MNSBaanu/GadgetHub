@@ -19,12 +19,22 @@ builder.Services.AddScoped<QuotationRepo>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // CORS configuration
+var corsOrigins = new List<string>
+{
+    "http://localhost:7234",
+    "https://localhost:7234",
+    "http://localhost:7091",
+    "https://localhost:7091",
+    "http://gadgethub.runasp.net",
+    "http://gadgethub-gadgethub.runasp.net"
+};
+corsOrigins.AddRange(builder.Configuration.GetSection("CorsOrigins").Get<string[]>() ?? Array.Empty<string>());
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowGadgetHub", policy =>
     {
-        policy.WithOrigins("https://localhost:7234", "http://localhost:7234", // GadgetHub Web App
-                          "https://localhost:7091", "http://localhost:7091") // GadgetHub API
+        policy.WithOrigins(corsOrigins.Distinct().ToArray())
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials()

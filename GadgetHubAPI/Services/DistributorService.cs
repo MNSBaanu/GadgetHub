@@ -1,4 +1,5 @@
 using GadgetHubAPI.DTO;
+using GadgetHubAPI.Configuration;
 using System.Text.Json;
 using System;
 using System.Threading.Tasks;
@@ -9,11 +10,16 @@ namespace GadgetHubAPI.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<DistributorService> _logger;
+        private readonly ServiceUrlsOptions _serviceUrls;
 
-        public DistributorService(HttpClient httpClient, ILogger<DistributorService> logger)
+        public DistributorService(
+            HttpClient httpClient,
+            ILogger<DistributorService> logger,
+            ServiceUrlsOptions serviceUrls)
         {
             _httpClient = httpClient;
             _logger = logger;
+            _serviceUrls = serviceUrls;
         }
 
         public async Task<DistributorTestResultDTO> TestConnection(string distributorUrl)
@@ -92,7 +98,7 @@ namespace GadgetHubAPI.Services
                     try
                     {
                         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)); // 30 second timeout
-                        var response = await _httpClient.PostAsJsonAsync("https://localhost:7077/api/Quotation/request", request, cts.Token);
+                        var response = await _httpClient.PostAsJsonAsync($"{_serviceUrls.ElectroCom}/api/Quotation/request", request, cts.Token);
                         
                         if (response.IsSuccessStatusCode)
                         {
@@ -138,7 +144,7 @@ namespace GadgetHubAPI.Services
                     try
                     {
                         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)); // 30 second timeout
-                        var response = await _httpClient.PostAsJsonAsync("https://localhost:7102/api/Quotation/request", request, cts.Token);
+                        var response = await _httpClient.PostAsJsonAsync($"{_serviceUrls.TechWorld}/api/Quotation/request", request, cts.Token);
                         
                         if (response.IsSuccessStatusCode)
                         {
@@ -184,7 +190,7 @@ namespace GadgetHubAPI.Services
                     try
                     {
                         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30)); // 30 second timeout
-                        var response = await _httpClient.PostAsJsonAsync("https://localhost:7007/api/Quotation/request", request, cts.Token);
+                        var response = await _httpClient.PostAsJsonAsync($"{_serviceUrls.GadgetCentral}/api/Quotation/request", request, cts.Token);
                         
                         if (response.IsSuccessStatusCode)
                         {

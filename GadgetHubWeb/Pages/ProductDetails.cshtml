@@ -250,7 +250,7 @@
             
             if (productId) {
                 // Try GadgetHub API first
-                fetch(`https://localhost:7091/api/product/${productId}`)
+                fetch(`@ServiceUrls.GadgetHubApi/api/product/${productId}`)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -274,9 +274,9 @@
         // Function to fetch product from distributor APIs
         function fetchFromDistributors(productId) {
             const distributorApis = [
-                'https://localhost:7077/api/product',
-                'https://localhost:7102/api/product', 
-                'https://localhost:7007/api/product'
+                '@ServiceUrls.ElectroCom/api/product',
+                '@ServiceUrls.TechWorld/api/product',
+                '@ServiceUrls.GadgetCentral/api/product'
             ];
             
             const distributorNames = ['ElectroCom', 'TechWorld', 'GadgetCentral'];
