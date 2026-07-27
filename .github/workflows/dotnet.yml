@@ -1,0 +1,106 @@
+name: GadgetHub CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  DOTNET_VERSION: "8.0.x"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5.2.0
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore GadgetHub.sln
+
+      - name: Build
+        run: dotnet build GadgetHub.sln --configuration Release --no-restore
+
+  deploy:
+    name: Deploy ${{ matrix.name }}
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: GadgetHubWeb
+            csproj: GadgetHubWeb/GadgetHubWeb.csproj
+            site: site81597
+            password_secret: MSDEPLOY_PASSWORD_WEB
+          - name: GadgetHubAPI
+            csproj: GadgetHubAPI/GadgetHubAPI.csproj
+            site: site81632
+            password_secret: MSDEPLOY_PASSWORD_API
+          - name: ElectroComAPI
+            csproj: ElectroComAPI/ElectroComAPI.csproj
+            site: site81626
+            password_secret: MSDEPLOY_PASSWORD_ELECTROCOM
+          - name: TechWorldAPI
+            csproj: TechWorldAPI/TechWorldAPI.csproj
+            site: site81628
+            password_secret: MSDEPLOY_PASSWORD_TECHWORLD
+          - name: GadgetCentralAPI
+            csproj: GadgetCentralAPI/GadgetCentralAPI.csproj
+            site: site81630
+            password_secret: MSDEPLOY_PASSWORD_GADGETCENTRAL
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.1
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5.2.0
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Check deploy password
+        id: auth
+        env:
+          DEPLOY_PASSWORD: ${{ secrets[matrix.password_secret] }}
+        shell: bash
+        run: |
+          if [ -z "$DEPLOY_PASSWORD" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "Secret ${{ matrix.password_secret }} is not set — skipping ${{ matrix.name }}."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish to MonsterASP (MSDeploy)
+        if: steps.auth.outputs.skip == 'false'
+        env:
+          DEPLOY_PASSWORD: ${{ secrets[matrix.password_secret] }}
+        shell: pwsh
+        run: |
+          $site = "${{ matrix.site }}"
+          $serviceUrl = "https://$site.siteasp.net:8172/msdeploy.axd?site=$site"
+
+          dotnet publish "${{ matrix.csproj }}" `
+            --configuration Release `
+            /p:WebPublishMethod=MSDeploy `
+            /p:MSDeployPublishMethod=WMSVC `
+            /p:PublishProvider=AzureWebSite `
+            /p:MSDeployServiceURL=$serviceUrl `
+            /p:DeployIisAppPath=$site `
+            /p:UserName=$site `
+            /p:Password=$env:DEPLOY_PASSWORD `
+            /p:AuthType=Basic `
+            /p:AllowUntrustedCertificate=true `
+            /p:EnableMSDeployAppOffline=true `
+            /p:SkipExtraFilesOnServer=true
