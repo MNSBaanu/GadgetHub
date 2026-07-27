@@ -18,6 +18,10 @@ appsettings.Production.json
 # SQL Server raw backup files
 Database/Backup/*.bak
 
+# MonsterASP / Web Deploy credentials (never commit)
+publishSettings/
+**/Properties/PublishProfiles/*.pubxml.user
+
 # OS files
 .DS_Store
 Thumbs.db
