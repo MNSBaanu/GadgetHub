@@ -21,7 +21,7 @@ secrets.json
 *.pem
 *.key
 
-# Database dumps / scripts (local only — keep off public GitHub)
+# Database dumps / scripts (local only - keep off public GitHub)
 Database/
 
 # MonsterASP / Web Deploy credentials & profiles (never commit)

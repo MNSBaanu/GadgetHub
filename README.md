@@ -1,10 +1,17 @@
 # GadgetHub
 
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Web%20API-512BD4?logo=dotnet&logoColor=white)
+![Razor Pages](https://img.shields.io/badge/Razor%20Pages-Frontend-512BD4?logo=dotnet&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-13-239120?logo=csharp&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-Database-CC2927?logo=microsoftsqlserver&logoColor=white)
+![SOA](https://img.shields.io/badge/Architecture-SOA-0A66C2)
+![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?logo=swagger&logoColor=black)
+
 ![GadgetHub across devices](docs/banner.png)
 
-A Service-Oriented Architecture (SOA) e-commerce platform for gadgets. The system connects to three distributors — **ElectroCom**, **TechWorld**, and **GadgetCentral** — and automatically compares prices to get the best deal for customers.
+A Service-Oriented Architecture (SOA) e-commerce platform for gadgets. The system connects to three distributors - **ElectroCom**, **TechWorld**, and **GadgetCentral** - and automatically compares prices to get the best deal for customers.
 
-![GadgetHub — your ultimate Apple destination](docs/hero.png)
+![GadgetHub - your ultimate Apple destination](docs/hero.png)
 
 ## Features
 
@@ -23,10 +30,12 @@ A Service-Oriented Architecture (SOA) e-commerce platform for gadgets. The syste
 
 ## Architecture
 
+![GadgetHub - Complete System View](docs/complete-architecture.png)
+
 | Service | Description |
 | --- | --- |
 | GadgetHubWeb | Customer-facing web app |
-| GadgetHubAPI | Main API — orders, customers, quotation comparison |
+| GadgetHubAPI | Main API - orders, customers, quotation comparison |
 | ElectroComAPI | Distributor API |
 | TechWorldAPI | Distributor API |
 | GadgetCentralAPI | Distributor API |
@@ -72,7 +81,7 @@ Contributions are welcome. Please follow these steps:
 2. **Clone** your fork:
 
    ```bash
-   git clone https://github.com/<your-username>/GadgetHub.git
+   git clone https://github.com/MNSBaanu/GadgetHub.git
    cd GadgetHub
    ```
 
@@ -104,9 +113,7 @@ Contributions are welcome. Please follow these steps:
 ### Guidelines
 
 - Keep PRs focused on a single change.
-- Do not commit secrets (`publishSettings/`, `*.pubxml.user`, production connection strings, `.env` files).
 - Follow existing code style and project structure.
-- Update the README if your change affects setup or usage.
 
 ---
 
