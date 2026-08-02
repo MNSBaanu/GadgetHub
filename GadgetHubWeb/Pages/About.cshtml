@@ -1,0 +1,214 @@
+@page
+@model GadgetHubWeb.Pages.AboutModel
+@{
+    ViewData["Title"] = "About Us";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - GadgetHub</title>
+    <link rel="icon" type="image/x-icon" href="~/assets/favicon.ico" />
+    <link rel="stylesheet" href="~/css/about.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="/api-config.js"></script>
+    <script src="~/js/auth.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="~/assets/logo.png" alt="GadgetHub Logo" />
+            <span>GadgetHub</span>
+        </div>
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav class="nav" id="nav">
+            <a href="/Index">Home</a>
+            <a href="/Products">Products</a>
+            <a href="/About" class="active">About Us</a>
+            <a href="/Contact">Contact</a>
+            <a href="/Cart" class="cart-link">
+                <i class="fas fa-shopping-cart" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+            <a href="/Login" class="login-link" id="loginLink">
+                <i class="fas fa-user-circle" style="font-size: 24px; color: #1a1a1a;"></i>
+            </a>
+            <div class="user-profile-nav" id="userProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/Dashboard" class="user-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="userAvatar">
+                    <span class="avatar-initials" id="avatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">U</span>
+                </a>
+            </div>
+            <div class="admin-profile-nav" id="adminProfileNav" style="display: none; align-items: center; gap: 0.75rem; margin-left: 0.5rem;">
+                <a href="/AdminDashboard" class="admin-avatar-link" style="text-decoration: none; display: flex !important; width: 32px; height: 32px; background: #1a1a1a; border-radius: 50%; align-items: center; justify-content: center; border: 2px solid #1a1a1a; transition: all 0.3s ease; cursor: pointer;" id="adminAvatar">
+                    <span class="avatar-initials" id="adminAvatarInitials" style="color: white; font-size: 0.75rem; font-weight: 700; font-family: 'Inter', sans-serif;">A</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="about-page">
+        <section class="about-banner">
+            <div class="about-banner-inner">
+                <p class="about-label">Who we are</p>
+                <h1>GadgetHub brings authentic Apple products to Sri Lanka through one comparison-driven storefront.</h1>
+            </div>
+        </section>
+
+        <section class="about-split">
+            <div class="about-split-media">
+                <img src="/assets/products/about.png" alt="GadgetHub storefront" />
+            </div>
+            <div class="about-split-copy">
+                <h2>Built around better Apple deals</h2>
+                <p>
+                    Instead of browsing several shops yourself, GadgetHub checks offers across our distributor
+                    network and surfaces competitive pricing for genuine Apple devices — iPhone, Mac, iPad,
+                    Apple Watch, and accessories.
+                </p>
+                <p>
+                    Quality, security, and reliable fulfilment stay at the centre of every order we place
+                    with our partners.
+                </p>
+            </div>
+        </section>
+
+        <section class="about-process">
+            <div class="about-process-inner">
+                <h2>How shopping with us works</h2>
+                <ol class="process-list">
+                    <li>
+                        <span class="process-num">01</span>
+                        <div>
+                            <h3>Browse Apple products</h3>
+                            <p>Explore the latest devices and accessories in one place.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="process-num">02</span>
+                        <div>
+                            <h3>We compare distributor offers</h3>
+                            <p>Prices are checked across ElectroCom, TechWorld, and GadgetCentral automatically.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="process-num">03</span>
+                        <div>
+                            <h3>You get the stronger deal</h3>
+                            <p>Order with confidence — authentic stock, protected checkout, and partner delivery.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="about-network">
+            <div class="about-network-inner">
+                <div class="about-network-intro">
+                    <h2>Our distributor network</h2>
+                    <p>Three established partners power availability and pricing on the platform.</p>
+                </div>
+                <ul class="network-list">
+                    <li><strong>ElectroCom</strong> — competitive pricing and stock coverage</li>
+                    <li><strong>TechWorld</strong> — product range matched to demand</li>
+                    <li><strong>GadgetCentral</strong> — authentic fulfilment support</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="about-location">
+            <div class="about-location-inner">
+                <div class="location-copy">
+                    <h2>Based in Kandy</h2>
+                    <p>Visit or reach the team during business hours — the same details you’ll find on Contact.</p>
+                    <div class="location-actions">
+                        <a href="/Products" class="btn">Shop Products</a>
+                        <a href="/Contact" class="btn btn-secondary">Contact Us</a>
+                    </div>
+                </div>
+                <dl class="location-details">
+                    <div>
+                        <dt>Address</dt>
+                        <dd>123 Dalada Veediya<br>Kandy, Sri Lanka</dd>
+                    </div>
+                    <div>
+                        <dt>Email</dt>
+                        <dd>support@gadgethub.lk<br>info@gadgethub.lk</dd>
+                    </div>
+                    <div>
+                        <dt>Phone</dt>
+                        <dd>+94 81 234 5678<br>+94 77 123 4567</dd>
+                    </div>
+                    <div>
+                        <dt>Hours</dt>
+                        <dd>Mon – Fri: 9:00 AM – 6:00 PM<br>Sat: 9:00 AM – 4:00 PM</dd>
+                    </div>
+                </dl>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>GadgetHub</h3>
+                <p>Your gateway to the latest Apple products. Discover, compare, and shop authentic Apple devices from trusted distributors.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/Products">Products</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About Us</a></li>
+                    <li><a href="/Support">Support</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect With Us</h4>
+                <div class="socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 GadgetHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const nav = document.getElementById('nav');
+
+            hamburger.addEventListener('click', function() {
+                hamburger.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+
+            nav.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!hamburger.contains(e.target) && !nav.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    nav.classList.remove('active');
+                }
+            });
+
+            updateNavigation();
+        });
+    </script>
+</body>
+</html>
